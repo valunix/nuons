@@ -1,0 +1,32 @@
+# Rider
+.idea/
+*.sln.iml
+
+# VSCode
+.vscode/
+
+# Visual Studio
+.vs/
+
+# .NET build output
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# NuGet
+*.nupkg
+
+# Build results
+*.dll
+*.exe
+
+# Verify Snapshot Testing
+**/__snapshots__/
+*.received.*
+
+# User-specific files
+*.userprefs
+*.user.config

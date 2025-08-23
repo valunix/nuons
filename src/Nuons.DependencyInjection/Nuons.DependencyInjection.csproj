@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+		<IsPackable>true</IsPackable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="Nuons.DependencyInjection.Tests" />
+		<InternalsVisibleTo Include="Nuons.DependencyInjection.Analyzers.Tests" />
+		<InternalsVisibleTo Include="Nuons.DependencyInjection.Generators.Tests" />
+	</ItemGroup>
+
+</Project>

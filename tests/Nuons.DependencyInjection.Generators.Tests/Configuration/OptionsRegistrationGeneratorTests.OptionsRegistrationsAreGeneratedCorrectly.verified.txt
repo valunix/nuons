@@ -1,0 +1,12 @@
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Nuons.DependencyInjection.Extensions;
+
+public static class OptionsRegistrationOptionsRegistrationGeneratorFixtureTestAssembly
+{
+	public static void ConfigureOptions(IServiceCollection services, IConfiguration configuration)
+	{
+		services.Configure<Nuons.DependencyInjection.Generators.Tests.Samples.SampleOptions>(configuration.GetSection("SampleOptions"));
+	}
+}

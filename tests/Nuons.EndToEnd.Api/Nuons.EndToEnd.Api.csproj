@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.8" />
+        <PackageReference Include="Nuons" Version="0.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Nuons.EndToEnd.SingletonFeature.Domain\Nuons.EndToEnd.SingletonFeature.Domain.csproj" />
+      <ProjectReference Include="..\Nuons.EndToEnd.SingletonFeature.Infrastructure\Nuons.EndToEnd.SingletonFeature.Infrastructure.csproj" />
+      <ProjectReference Include="..\Nuons.EndToEnd.TransientFeature.Domain\Nuons.EndToEnd.TransientFeature.Domain.csproj" />
+      <ProjectReference Include="..\Nuons.EndToEnd.TransientFeature.Infrastructure\Nuons.EndToEnd.TransientFeature.Infrastructure.csproj" />
+      <ProjectReference Include="..\Nuons.EndToEnd.ScopedFeature.Domain\Nuons.EndToEnd.ScopedFeature.Domain.csproj" />
+      <ProjectReference Include="..\Nuons.EndToEnd.ScopedFeature.Infrastructure\Nuons.EndToEnd.ScopedFeature.Infrastructure.csproj" />
+      <ProjectReference Include="..\Nuons.EndToEnd.ServiceFeature.Domain\Nuons.EndToEnd.ServiceFeature.Domain.csproj" />
+      <ProjectReference Include="..\Nuons.EndToEnd.ServiceFeature.Infrastructure\Nuons.EndToEnd.ServiceFeature.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>

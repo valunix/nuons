@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>Nuons</RootNamespace>
+		<LangVersion>latest</LangVersion>
+		<IsPackable>true</IsPackable>
+		<PackageId>Nuons</PackageId>
+		<Authors>Nikola Ljubisic</Authors>
+		<PackageVersion>0.1.0</PackageVersion>
+		<Title>Nuons</Title>
+		<PackageIcon>nuons_icon_64x64.png</PackageIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Nuons.DependencyInjection.Analyzers\Nuons.DependencyInjection.Analyzers.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\Nuons.DependencyInjection.Generators\Nuons.DependencyInjection.Generators.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\Nuons.DependencyInjection\Nuons.DependencyInjection.csproj" Pack="true" PrivateAssets="all" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\Nuons.DependencyInjection.Analyzers\bin\$(Configuration)\netstandard2.0\Nuons.DependencyInjection.Analyzers.dll"
+			  Pack="true" PackagePath="analyzers/dotnet/cs/" Visible="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\Nuons.DependencyInjection.Generators\bin\$(Configuration)\netstandard2.0\Nuons.DependencyInjection.Generators.dll"
+			  Pack="true" PackagePath="analyzers/dotnet/cs/" Visible="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\Nuons.DependencyInjection\bin\Release\netstandard2.0\Nuons.DependencyInjection.dll"
+			  Pack="true" PackagePath="lib/netstandard2.0/" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\Nuons.DependencyInjection\bin\Release\netstandard2.0\Nuons.DependencyInjection.dll"
+			  Pack="true" PackagePath="analyzers/dotnet/cs/" Visible="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="nuons_icon_64x64.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+</Project>

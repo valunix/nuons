@@ -1,0 +1,16 @@
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Nuons.DependencyInjection.Extensions;
+
+public static class CombinedRegistrationCombinedRegistrationGeneratorFixtureTestAssembly
+{
+	public static void RegisterServices(IServiceCollection services, IConfiguration configuration)
+	{
+		ServiceRegistrationCombinedRegistrationGeneratorFixtureTestAssembly.RegisterServices(services);
+		SingletonRegistrationCombinedRegistrationGeneratorFixtureTestAssembly.RegisterServices(services);
+		ScopedRegistrationCombinedRegistrationGeneratorFixtureTestAssembly.RegisterServices(services);
+		TransientRegistrationCombinedRegistrationGeneratorFixtureTestAssembly.RegisterServices(services);
+		OptionsRegistrationCombinedRegistrationGeneratorFixtureTestAssembly.ConfigureOptions(services, configuration);
+	}
+}

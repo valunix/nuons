@@ -1,0 +1,12 @@
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace Nuons.DependencyInjection.Extensions;
+
+public static class ScopedRegistrationScopedRegistrationGeneratorFixtureTestAssembly
+{
+	public static void RegisterServices(IServiceCollection services)
+	{
+		services.AddScoped<Nuons.DependencyInjection.Generators.Tests.Samples.IScopedService, Nuons.DependencyInjection.Generators.Tests.Samples.ScopedService>();
+		services.AddScoped<Nuons.DependencyInjection.Generators.Tests.Samples.ServiceWithOptions, Nuons.DependencyInjection.Generators.Tests.Samples.ServiceWithOptions>();
+	}
+}

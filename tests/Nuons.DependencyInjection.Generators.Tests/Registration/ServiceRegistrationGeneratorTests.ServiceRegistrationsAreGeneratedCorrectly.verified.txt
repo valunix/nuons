@@ -1,0 +1,11 @@
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace Nuons.DependencyInjection.Extensions;
+
+public static class ServiceRegistrationServiceRegistrationGeneratorFixtureTestAssembly
+{
+	public static void RegisterServices(IServiceCollection services)
+	{
+		services.AddTransient<Nuons.DependencyInjection.Generators.Tests.Samples.ILifetimeService, Nuons.DependencyInjection.Generators.Tests.Samples.LifetimeService>();
+	}
+}
