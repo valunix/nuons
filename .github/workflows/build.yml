@@ -5,6 +5,7 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -18,17 +19,12 @@ jobs:
       with:
         dotnet-version: 9.0.x
         dotnet-quality: ga
+
+    - name: Restore
+      run: dotnet restore ./Nuons.sln
+
     - name: Build
-      run: |
-        dotnet build --configuration Release ./src/Nuons/Nuons.csproj
-        dotnet build --configuration Release ./src/Nuons.DependencyInjection/Nuons.DependencyInjection.csproj
-        dotnet build --configuration Release ./src/Nuons.DependencyInjection.Analyzers/Nuons.DependencyInjection.Analyzers.csproj
-        dotnet build --configuration Release ./src/Nuons.DependencyInjection.Generators/Nuons.DependencyInjection.Generators.csproj
-        dotnet build --configuration Release ./tests/Nuons.DependencyInjection.Analyzers.Tests/Nuons.DependencyInjection.Analyzers.Tests.csproj
-        dotnet build --configuration Release ./tests/Nuons.DependencyInjection.Generators.Tests/Nuons.DependencyInjection.Generators.Tests.csproj
-        dotnet build --configuration Release ./tests/Nuons.DependencyInjection.Tests/Nuons.DependencyInjection.Tests.csproj
+      run: dotnet build --no-restore ./Nuons.sln
+
     - name: Test
-      run: |
-        dotnet test --no-build --configuration Release ./tests/Nuons.DependencyInjection.Analyzers.Tests/Nuons.DependencyInjection.Analyzers.Tests.csproj
-        dotnet test --no-build --configuration Release ./tests/Nuons.DependencyInjection.Generators.Tests/Nuons.DependencyInjection.Generators.Tests.csproj
-        dotnet test --no-build --configuration Release ./tests/Nuons.DependencyInjection.Tests/Nuons.DependencyInjection.Tests.csproj
+      run: dotnet test --no-build --verbosity normal ./Nuons.sln
