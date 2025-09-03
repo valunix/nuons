@@ -27,4 +27,15 @@ jobs:
       run: dotnet build --no-restore ./Nuons.sln
 
     - name: Test
-      run: dotnet test --no-build --verbosity normal ./Nuons.sln
+      run: dotnet test --no-build Nuons.sln -- --coverage --coverage-output-format cobertura --coverage-output coverage.cobertura.xml
+
+    - name: Install ReportGenerator
+      run: dotnet tool install -g dotnet-reportgenerator-globaltool
+
+    - name: Generate code coverage report
+      run: reportgenerator -reports:"**/coverage.cobertura.xml" -targetdir:"artifacts/code-coverage" -reporttypes:"TextSummary"
+
+    - name: Add code coverage summary
+      run: |
+        echo "## Code Coverage Summary" >> $GITHUB_STEP_SUMMARY
+        grep -E "Line coverage|Branch coverage|Method coverage|Full method coverage" artifacts/code-coverage/Summary.txt >> $GITHUB_STEP_SUMMARY

@@ -30,3 +30,5 @@ obj/
 # User-specific files
 *.userprefs
 *.user.config
+
+artifacts/
