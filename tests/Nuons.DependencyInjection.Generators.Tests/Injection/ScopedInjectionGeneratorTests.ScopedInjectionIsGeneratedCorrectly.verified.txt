@@ -12,8 +12,8 @@ internal partial class ServiceWithOptions
 {
 	public ServiceWithOptions(
 		Nuons.DependencyInjection.Generators.Tests.Samples.ISingletonService singletonField,
-		IOptions<Nuons.DependencyInjection.Generators.Tests.Samples.SampleOptions> options,
-		IOptions<Nuons.DependencyInjection.Generators.Tests.Samples.SampleOptions> sampleOptions)
+		Microsoft.Extensions.Options.IOptions<Nuons.DependencyInjection.Generators.Tests.Samples.SampleOptions> options,
+		Microsoft.Extensions.Options.IOptions<Nuons.DependencyInjection.Generators.Tests.Samples.SampleOptions> sampleOptions)
 	{
 		this.singletonField = singletonField;
 		this.options = options;

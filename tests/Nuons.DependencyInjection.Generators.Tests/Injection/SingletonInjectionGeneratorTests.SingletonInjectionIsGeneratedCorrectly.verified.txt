@@ -2,7 +2,7 @@
 internal partial class SingletonService
 {
 	public SingletonService(
-		IOptions<Nuons.DependencyInjection.Generators.Tests.Samples.SampleOptions> options)
+		Microsoft.Extensions.Options.IOptions<Nuons.DependencyInjection.Generators.Tests.Samples.SampleOptions> options)
 	{
 		this.options = options.Value;
 	}

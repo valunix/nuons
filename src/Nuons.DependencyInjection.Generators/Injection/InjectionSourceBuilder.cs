@@ -19,7 +19,7 @@ internal class InjectionSourceBuilder
 	{
 		if (field.IsOptionsValue)
 		{
-			parameters.Add($"IOptions<{field.Type}> {field.Name}");
+			parameters.Add($"Microsoft.Extensions.Options.IOptions<{field.Type}> {field.Name}");
 			assignments.Add($"this.{field.Name} = {field.Name}.Value;");
 		}
 		else

@@ -3,6 +3,7 @@ using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
+using Microsoft.Extensions.Options;
 
 namespace Nuons.DependencyInjection.Generators.Tests;
 
@@ -40,6 +41,7 @@ public abstract class GeneratorFixture : IDisposable
 				MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
 				MetadataReference.CreateFromFile(netStandardPath),
 				MetadataReference.CreateFromFile(systemRuntimePath),
+				MetadataReference.CreateFromFile(typeof(Options).Assembly.Location),
 				MetadataReference.CreateFromFile(attributeAssemblyPath),
 			],
 			new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
