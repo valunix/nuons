@@ -9,7 +9,6 @@
 		<IsPackable>true</IsPackable>
 		<PackageId>Nuons</PackageId>
 		<Authors>Nikola Ljubisic</Authors>
-		<PackageVersion>0.1.0</PackageVersion>
 		<Title>Nuons</Title>
 		<PackageIcon>nuons_icon_64x64.png</PackageIcon>
 		<PackageProjectUrl>https://github.com/valunix/nuons</PackageProjectUrl>
