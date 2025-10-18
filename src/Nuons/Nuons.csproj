@@ -16,7 +16,7 @@
 		<RepositoryUrl>https://github.com/valunix/nuons</RepositoryUrl>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageReadmeFile>nuget-package-readme.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -59,7 +59,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="..\..\README.md">
+		<None Include="..\..\nuget-package-readme.md">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
