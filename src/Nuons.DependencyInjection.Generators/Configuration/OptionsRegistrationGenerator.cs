@@ -5,9 +5,9 @@ using Microsoft.CodeAnalysis.Text;
 namespace Nuons.DependencyInjection.Generators.Configuration;
 
 [Generator]
-internal class OptionsRegistrationGenerator : IIncrementalGenerator
+internal class OptionsRegistrationGenerator : NuonGenerator<OptionsRegistrationIncrement>
 {
-	public void Initialize(IncrementalGeneratorInitializationContext context)
+	protected override IncrementalValueProvider<OptionsRegistrationIncrement> CreateIncrementProvider(IncrementalGeneratorInitializationContext context)
 	{
 		var assemblyNameProvider = context.CompilationProvider
 			.Select((compilation, _) => compilation.AssemblyName);
@@ -23,7 +23,7 @@ internal class OptionsRegistrationGenerator : IIncrementalGenerator
 		var optionsIncrementProvider = assemblyNameProvider.Combine(optionsProvider)
 			.Select((combined, _) => new OptionsRegistrationIncrement(combined.Left, combined.Right));
 
-		context.RegisterSourceOutput(optionsIncrementProvider, GenerateSources);
+		return optionsIncrementProvider;
 	}
 
 	private OptionsRegistration? ExtractOptionDefinitions(GeneratorAttributeSyntaxContext context, CancellationToken token)
@@ -53,7 +53,7 @@ internal class OptionsRegistrationGenerator : IIncrementalGenerator
 		return new OptionsRegistration(sectionArg, symbol.ToFullName());
 	}
 
-	private void GenerateSources(SourceProductionContext context, OptionsRegistrationIncrement increment)
+	protected override void GenerateSources(SourceProductionContext context, OptionsRegistrationIncrement increment)
 	{
 		if (increment.AssemblyName is null || !increment.Registrations.Any())
 		{
