@@ -2,6 +2,15 @@ name: Publish to NuGet
 
 on:
   workflow_dispatch:
+    inputs:
+      officialPublish:
+        description: 'Publish as official release (true/false)'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: read
+  id-token: write    # needed to request OIDC token
 
 jobs:
   publish:
@@ -11,19 +20,51 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # needed to access tags
+          fetch-depth: 0    # needed to access tags
+
+      - name: Get version from latest tag
+        id: get_version
+        run: |
+          TAGS=$(git tag --points-at HEAD | grep '^nuons-version=' || true)
+          if [ -z "$TAGS" ]; then
+            echo "No tag starting with 'nuons-version=' found on current commit"
+            exit 1
+          fi
+
+          TAG=$(echo "$TAGS" | head -n 1)
+          BASE_VERSION=${TAG#nuons-version=}
+          echo "Found version tag: $TAG -> base version: $BASE_VERSION"
+
+          OFFICIAL="${{ github.event.inputs.officialPublish }}"
+          if [ "$OFFICIAL" = "true" ]; then
+            FINAL_VERSION="$BASE_VERSION"
+          else
+            FINAL_VERSION="$BASE_VERSION-alpha.${{ github.run_number }}"
+          fi
+
+          echo "Using version: $FINAL_VERSION"
+          echo "version=$FINAL_VERSION" >> $GITHUB_OUTPUT
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.0.x'
+          dotnet-quality: ga
 
-      - name: Get version from latest tag
-        id: get_version
-        run: |
-          # Get the most recent tag reachable from HEAD
-          TAG=$(git describe --tags --abbrev=0)
-          echo "Tag to use: $TAG"
-          VERSION=${TAG#v}
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "tag=$TAG" >> $GITHUB_OUTPUT
+      - name: Restore
+        run: dotnet restore ./Nuons.sln
+
+      - name: Build
+        run: dotnet build ./Nuons.sln --configuration Release --no-restore 
+
+      - name: Pack
+        run: dotnet pack ./src/Nuons/Nuons.csproj --configuration Release --no-build -p:PackageVersion=${{ steps.get_version.outputs.version }} -o ./artifacts/nuons-package
+
+      - name: NuGet login
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      - name: Push to NuGet
+        run: dotnet nuget push "./artifacts/nuons-package/*.nupkg" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json
