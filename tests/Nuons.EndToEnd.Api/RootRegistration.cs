@@ -1,4 +1,4 @@
-﻿using Nuons.DependencyInjection;
+using Nuons.DependencyInjection;
 
 namespace Nuons.EndToEnd.Api;
 
@@ -9,6 +9,4 @@ namespace Nuons.EndToEnd.Api;
 	typeof(SingletonFeature.Infrastructure.AssemblyMarker),
 	typeof(AssemblyMarker)
 )]
-public partial class RootRegistration
-{
-}
+public partial class RootRegistration;

@@ -1,3 +1,3 @@
-﻿namespace Nuons.EndToEnd.ScopedFeature.Infrastructure;
+namespace Nuons.EndToEnd.ScopedFeature.Infrastructure;
 
-public class AssemblyMarker { }
+public static class AssemblyMarker;

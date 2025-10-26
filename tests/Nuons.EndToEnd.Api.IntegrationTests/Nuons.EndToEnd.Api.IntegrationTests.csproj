@@ -1,33 +1,33 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <OutputType>Exe</OutputType>
-        <RootNamespace>Nuons.EndToEnd.Api.IntegrationTests</RootNamespace>
-        <TargetFramework>net9.0</TargetFramework>
-        <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
-        <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
-    </PropertyGroup>
+	<PropertyGroup>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<OutputType>Exe</OutputType>
+		<RootNamespace>Nuons.EndToEnd.Api.IntegrationTests</RootNamespace>
+		<TargetFramework>net9.0</TargetFramework>
+		<TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+		<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+	</PropertyGroup>
 
-    <ItemGroup>
-        <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
-    </ItemGroup>
+	<ItemGroup>
+		<Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
 
-    <ItemGroup>
-        <Using Include="Xunit" />
-        <Using Include="Shouldly" />
-    </ItemGroup>
+	<ItemGroup>
+		<Using Include="Xunit" />
+		<Using Include="Shouldly" />
+	</ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.8" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
-        <PackageReference Include="Shouldly" Version="4.3.0" />
-        <PackageReference Include="xunit.v3" Version="3.0.1" />
-    </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.8" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+		<PackageReference Include="Shouldly" Version="4.3.0" />
+		<PackageReference Include="xunit.v3" Version="3.0.1" />
+	</ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Nuons.EndToEnd.Api\Nuons.EndToEnd.Api.csproj" />
-    </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Nuons.EndToEnd.Api\Nuons.EndToEnd.Api.csproj" />
+	</ItemGroup>
 
 </Project>
