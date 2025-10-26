@@ -1,0 +1,11 @@
+namespace Nuons.DependencyInjection.Generators.Tests.Samples;
+internal partial class InjectedConstructorService
+{
+	public InjectedConstructorService(
+		Nuons.DependencyInjection.Generators.Tests.Samples.ISingletonService singletonField,
+		Microsoft.Extensions.Options.IOptions<Nuons.DependencyInjection.Generators.Tests.Samples.SampleOptions> sampleOptions)
+	{
+		this.singletonField = singletonField;
+		this.sampleOptions = sampleOptions.Value;
+	}
+}

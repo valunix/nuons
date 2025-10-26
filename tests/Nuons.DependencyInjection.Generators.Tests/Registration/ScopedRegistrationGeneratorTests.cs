@@ -1,19 +1,10 @@
 namespace Nuons.DependencyInjection.Generators.Tests.Registration;
 
-public class ScopedRegistrationGeneratorTests : GeneratorTests, IClassFixture<ScopedRegistrationGeneratorFixture>
+public class ScopedRegistrationGeneratorTests(ITestOutputHelper output, ScopedRegistrationGeneratorFixture fixture)
+	: GeneratorTests, IClassFixture<ScopedRegistrationGeneratorFixture>
 {
-	private readonly ITestOutputHelper output;
-	private readonly ScopedRegistrationGeneratorFixture fixture;
-
-	public ScopedRegistrationGeneratorTests(ITestOutputHelper output, ScopedRegistrationGeneratorFixture fixture)
-	{
-		this.output = output;
-		this.fixture = fixture;
-	}
-
 	[Fact(Skip = "For debugging during dev only")]
-	public void DevRunGenerator() =>
-		RunGenerator(output, fixture);
+	public void DevRunGenerator() => RunGenerator(output, fixture);
 
 	[Fact]
 	public Task ScopedRegistrationsAreGeneratedCorrectly()
