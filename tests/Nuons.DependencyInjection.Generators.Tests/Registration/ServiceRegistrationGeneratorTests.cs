@@ -1,19 +1,10 @@
 namespace Nuons.DependencyInjection.Generators.Tests.Registration;
 
-public class ServiceRegistrationGeneratorTests : GeneratorTests, IClassFixture<ServiceRegistrationGeneratorFixture>
+public class ServiceRegistrationGeneratorTests(ITestOutputHelper output, ServiceRegistrationGeneratorFixture fixture)
+	: GeneratorTests, IClassFixture<ServiceRegistrationGeneratorFixture>
 {
-	private readonly ITestOutputHelper output;
-	private readonly ServiceRegistrationGeneratorFixture fixture;
-
-	public ServiceRegistrationGeneratorTests(ITestOutputHelper output, ServiceRegistrationGeneratorFixture fixture)
-	{
-		this.output = output;
-		this.fixture = fixture;
-	}
-
 	[Fact(Skip = "For debugging during dev only")]
-	public void DevRunGenerator() =>
-		RunGenerator(output, fixture);
+	public void DevRunGenerator() => RunGenerator(output, fixture);
 
 	[Fact]
 	public Task ServiceRegistrationsAreGeneratedCorrectly()

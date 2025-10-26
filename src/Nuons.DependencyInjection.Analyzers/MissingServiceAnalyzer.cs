@@ -13,10 +13,10 @@ internal class MissingServiceAnalyzer : DiagnosticAnalyzer
 
 	private static readonly DiagnosticDescriptor Rule = new(
 		id: DiagnosticId,
-		title: "Class with fields marked as [Injected] should be marked as service",
+		title: "Class with fields marked as [Injected] should be marked with a service or injected constructor attribute",
 		messageFormat: "Class '{0}' has fields marked as Injected, it should be marked as service!",
 		category: DependencyInjectionAnalyzers.Category,
-		defaultSeverity: DiagnosticSeverity.Warning,
+		defaultSeverity: DiagnosticSeverity.Error,
 		isEnabledByDefault: true);
 	public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 

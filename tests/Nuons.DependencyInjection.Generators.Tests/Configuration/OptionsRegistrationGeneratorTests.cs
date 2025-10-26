@@ -1,19 +1,10 @@
 namespace Nuons.DependencyInjection.Generators.Tests.Configuration;
 
-public class OptionsRegistrationGeneratorTests : GeneratorTests, IClassFixture<OptionsRegistrationGeneratorFixture>
+public class OptionsRegistrationGeneratorTests(ITestOutputHelper output, OptionsRegistrationGeneratorFixture fixture)
+	: GeneratorTests, IClassFixture<OptionsRegistrationGeneratorFixture>
 {
-	private readonly ITestOutputHelper output;
-	private readonly OptionsRegistrationGeneratorFixture fixture;
-
-	public OptionsRegistrationGeneratorTests(ITestOutputHelper output, OptionsRegistrationGeneratorFixture fixture)
-	{
-		this.output = output;
-		this.fixture = fixture;
-	}
-
 	[Fact(Skip = "For debugging during dev only")]
-	public void DevRunGenerator() =>
-		RunGenerator(output, fixture);
+	public void DevRunGenerator() => RunGenerator(output, fixture);
 
 	[Fact]
 	public Task OptionsRegistrationsAreGeneratedCorrectly()

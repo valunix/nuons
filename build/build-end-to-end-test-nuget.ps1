@@ -1,6 +1,6 @@
 $null = New-Item -ItemType Directory -Path "..\artifacts\local-nuget" -Force -ErrorAction SilentlyContinue
 
-$version = "0.1.1"
+$version = "0.0.7"
 $projectFile = "./../src/Nuons/Nuons.csproj"
 
 dotnet clean $projectFile

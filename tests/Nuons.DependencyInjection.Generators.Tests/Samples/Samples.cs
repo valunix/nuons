@@ -60,5 +60,12 @@ internal partial class ServiceWithOptions
 	[InjectedOptions] private readonly SampleOptions sampleOptions;
 }
 
+[InjectedConstructor]
+internal partial class InjectedConstructorService
+{
+	[Injected] private readonly ISingletonService singletonField;
+	[InjectedOptions] private readonly SampleOptions sampleOptions;
+}
+
 [RootRegistration(typeof(Samples))]
 internal partial class RootRegistration;
