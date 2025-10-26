@@ -11,7 +11,7 @@ public class NuonsServiceTests(WebApplicationFactory<Program> webApplicationFact
 	: IClassFixture<WebApplicationFactory<Program>>
 {
 	[Fact]
-	public async Task GetSingletonEndpoint_ReturnsSingletonValue_WhenCalled()
+	public async Task SingletonEndpoint_ReturnsCorrectValue()
 	{
 		// Arrange 
 		using var client = webApplicationFactory.CreateClient();
@@ -27,7 +27,7 @@ public class NuonsServiceTests(WebApplicationFactory<Program> webApplicationFact
 	}
 
 	[Fact]
-	public async Task GetTransientEndpoint_ReturnsTransientValue_WhenCalled()
+	public async Task GetTransientEndpoint_ReturnsCorrectValue()
 	{
 		// Arrange 
 		using var client = webApplicationFactory.CreateClient();
@@ -43,7 +43,7 @@ public class NuonsServiceTests(WebApplicationFactory<Program> webApplicationFact
 	}
 
 	[Fact]
-	public async Task GetScopedEndpoint_ReturnsScopedValue_WhenCalled()
+	public async Task GetScopedEndpoint_ReturnsCorrectValue()
 	{
 		// Arrange 
 		using var client = webApplicationFactory.CreateClient();
@@ -59,7 +59,7 @@ public class NuonsServiceTests(WebApplicationFactory<Program> webApplicationFact
 	}
 
 	[Fact]
-	public async Task GetServiceAttributeEndpoint_ReturnsServiceAttributeValue_WhenCalled()
+	public async Task GetServiceAttributeEndpoint_ReturnsCorrectValue()
 	{
 		// Arrange 
 		using var client = webApplicationFactory.CreateClient();
@@ -72,5 +72,37 @@ public class NuonsServiceTests(WebApplicationFactory<Program> webApplicationFact
 
 		var content = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
 		content.ShouldBe(ServiceAttributeService.Value);
+	}
+
+	[Fact]
+	public async Task GetComplexEndpoint_ReturnsCorrectValue()
+	{
+		// Arrange 
+		using var client = webApplicationFactory.CreateClient();
+
+		// Act
+		using var response = await client.GetAsync(Routes.Complex, TestContext.Current.CancellationToken);
+
+		// Assert
+		response.StatusCode.ShouldBe(HttpStatusCode.OK);
+
+		var content = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+		content.ShouldBe(SingletonService.Value);
+	}
+
+	[Fact]
+	public async Task GetControllerEndpoint_ReturnsCorrectValue()
+	{
+		// Arrange 
+		using var client = webApplicationFactory.CreateClient();
+
+		// Act
+		using var response = await client.GetAsync(Routes.Controller, TestContext.Current.CancellationToken);
+
+		// Assert
+		response.StatusCode.ShouldBe(HttpStatusCode.OK);
+
+		var content = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+		content.ShouldBe(SingletonService.Value);
 	}
 }

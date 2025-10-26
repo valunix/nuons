@@ -6,6 +6,8 @@ using Nuons.EndToEnd.TransientFeature.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllers();
+
 RootRegistration.RegisterServices(builder.Services, builder.Configuration);
 
 var app = builder.Build();
@@ -15,6 +17,8 @@ app.MapGet(Routes.Transient, (ITransientService transientService) => transientSe
 app.MapGet(Routes.Scoped, (IScopedService scopedService) => scopedService.GetValue());
 app.MapGet(Routes.Service, (IServiceAttributeService serviceAttributeService) => serviceAttributeService.GetValue());
 app.MapGet(Routes.Complex, (IComplexService complexService) => complexService.GetValue());
+
+app.MapControllers();
 
 app.Run();
 
