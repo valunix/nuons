@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 
 namespace Nuons.DependencyInjection.Generators.Registration;
 
@@ -32,7 +32,7 @@ internal class RegistrationSourceBuilder
 			registrationsBuilder.AppendLine();
 			registrationsBuilder.Append(registration);
 		});
-		
+
 		var source = $@"using Microsoft.Extensions.DependencyInjection;
 
 namespace Nuons.DependencyInjection.Extensions;

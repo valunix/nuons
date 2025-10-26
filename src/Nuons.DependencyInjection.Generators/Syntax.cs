@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -21,7 +21,7 @@ internal static class Syntax
 	{
 		var namespaceBuilder = new StringBuilder();
 		var currentNamespace = symbol.ContainingNamespace;
-		while(currentNamespace is not null)
+		while (currentNamespace is not null)
 		{
 			namespaceBuilder.Insert(0, currentNamespace.Name);
 			namespaceBuilder.Insert(0, NamespaceSeparator);

@@ -1,4 +1,4 @@
-﻿namespace Nuons.DependencyInjection.Analyzers.Tests;
+namespace Nuons.DependencyInjection.Analyzers.Tests;
 
 public class PartialModifierAnalyzerTests(NuonsAnalyzerFixture fixture) : IClassFixture<NuonsAnalyzerFixture>
 {
@@ -13,7 +13,7 @@ public class [|TestClass|] {}";
 
 		await fixture.VerifyAnalyzerAsync<PartialModifierAnalyzer>(testCode);
 	}
-	
+
 	[Fact]
 	public async Task ClassWithPartialModifier_NoError()
 	{
@@ -25,7 +25,7 @@ public partial class TestClass {}";
 
 		await fixture.VerifyAnalyzerAsync<PartialModifierAnalyzer>(testCode);
 	}
-	
+
 	[Fact]
 	public async Task ClassWithoutServiceAttribute_NoError()
 	{

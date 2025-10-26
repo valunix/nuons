@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -32,7 +32,7 @@ public abstract class GeneratorFixture : IDisposable
 
 		var runtimeDir = RuntimeEnvironment.GetRuntimeDirectory();
 		var systemRuntimePath = Path.Combine(runtimeDir, "System.Runtime.dll");
-		var netStandardPath = Path.Combine(runtimeDir,"netstandard.dll");
+		var netStandardPath = Path.Combine(runtimeDir, "netstandard.dll");
 
 		var compilation = CSharpCompilation.Create(
 			$"{GetType().Name}.TestAssembly",

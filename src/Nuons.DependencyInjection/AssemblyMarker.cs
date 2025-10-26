@@ -1,3 +1,3 @@
-﻿namespace Nuons.DependencyInjection;
+namespace Nuons.DependencyInjection;
 
-internal static class AssemblyMarker {}
+internal static class AssemblyMarker;

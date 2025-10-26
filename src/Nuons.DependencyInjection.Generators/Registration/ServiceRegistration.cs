@@ -1,3 +1,3 @@
-﻿namespace Nuons.DependencyInjection.Generators.Registration;
+namespace Nuons.DependencyInjection.Generators.Registration;
 
 record ServiceRegistration(string ServiceType, string ImplementingType);

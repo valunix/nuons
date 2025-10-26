@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -11,7 +11,7 @@ internal class MissingServiceAnalyzer : DiagnosticAnalyzer
 {
 	public const string DiagnosticId = "NU002";
 
-	private static readonly DiagnosticDescriptor Rule = new (
+	private static readonly DiagnosticDescriptor Rule = new(
 		id: DiagnosticId,
 		title: "Class with fields marked as [Injected] should be marked as service",
 		messageFormat: "Class '{0}' has fields marked as Injected, it should be marked as service!",
@@ -38,7 +38,7 @@ internal class MissingServiceAnalyzer : DiagnosticAnalyzer
 		{
 			return;
 		}
-		
+
 		if (context.ContainingSymbol is not INamedTypeSymbol symbol)
 		{
 			return;
@@ -46,7 +46,7 @@ internal class MissingServiceAnalyzer : DiagnosticAnalyzer
 
 		var hasRegistrationAttribute = symbol.GetAttributes()
 			.Any(attribute => nuonAnalyzerContext.ServiceAttributes.Contains(attribute.AttributeClass, SymbolEqualityComparer.Default));
-		
+
 		if (hasRegistrationAttribute)
 		{
 			return;
@@ -56,12 +56,12 @@ internal class MissingServiceAnalyzer : DiagnosticAnalyzer
 			.Where(member => member.Kind == SymbolKind.Field)
 			.SelectMany(member => member.GetAttributes())
 			.Any(attribute => nuonAnalyzerContext.InjectedAttributes.Contains(attribute.AttributeClass, SymbolEqualityComparer.Default));
-		
+
 		if (!hasInjectionAttribute)
 		{
 			return;
 		}
-		
+
 		var diagnostic = Diagnostic.Create(Rule, classDeclaration.Identifier.GetLocation(), symbol.Name);
 		context.ReportDiagnostic(diagnostic);
 	}

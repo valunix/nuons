@@ -1,6 +1,4 @@
-﻿using System;
 using System.Collections.Immutable;
-using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
@@ -17,7 +15,7 @@ internal class RootRegistrationGenerator : IIncrementalGenerator
 				Syntax.IsClassNode,
 				ExtractRegistration
 			);
-				
+
 		context.RegisterSourceOutput(incrementProvider, GenerateSources);
 	}
 
@@ -76,7 +74,7 @@ internal class RootRegistrationGenerator : IIncrementalGenerator
 		var sourceBuilder = new RootRegistrationSourceBuilder(increment);
 		var source = sourceBuilder.Build();
 		var sourceText = SourceText.From(source, Encoding.UTF8);
-		
+
 		context.AddSource(Sources.GeneratedNameHint(increment.ClassName), sourceText);
 	}
 }

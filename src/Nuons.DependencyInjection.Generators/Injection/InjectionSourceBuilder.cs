@@ -1,4 +1,4 @@
-﻿namespace Nuons.DependencyInjection.Generators.Injection;
+namespace Nuons.DependencyInjection.Generators.Injection;
 
 internal class InjectionSourceBuilder
 {

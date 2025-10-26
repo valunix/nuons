@@ -1,4 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Nuons.DependencyInjection.Generators.Configuration;
 
 namespace Nuons.DependencyInjection.Generators.Tests.Configuration;

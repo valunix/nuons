@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 
@@ -44,7 +44,7 @@ internal abstract class RegistrationGenerator<T> : IIncrementalGenerator
 		}
 
 		var constructorArguments = attribute.ConstructorArguments;
-		if(constructorArguments.Length is not 1)
+		if (constructorArguments.Length is not 1)
 		{
 			return null;
 		}

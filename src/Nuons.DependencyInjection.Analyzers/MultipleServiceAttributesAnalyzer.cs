@@ -49,7 +49,7 @@ internal class MultipleServiceAttributesAnalyzer : DiagnosticAnalyzer
 		}
 
 		var serviceAttributes = symbol.GetAttributes()
-			.Where(attribute => attribute.AttributeClass is not null 
+			.Where(attribute => attribute.AttributeClass is not null
 				&& nuonAnalyzerContext.ServiceAttributes.Contains(attribute.AttributeClass, SymbolEqualityComparer.Default))
 			.ToList();
 

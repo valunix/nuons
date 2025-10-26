@@ -1,6 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 
 namespace Nuons.DependencyInjection.Generators.Injection;
 
 [Generator]
-internal class TransientInjectionGenerator : InjectionGenerator<TransientAttribute> {}
+internal class TransientInjectionGenerator : InjectionGenerator<TransientAttribute>;
