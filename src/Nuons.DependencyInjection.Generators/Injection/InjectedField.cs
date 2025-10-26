@@ -1,3 +1,3 @@
-﻿namespace Nuons.DependencyInjection.Generators.Injection;
+namespace Nuons.DependencyInjection.Generators.Injection;
 
-internal record InjectedField (string Type, string Name, bool IsOptionsValue);
+internal record InjectedField(string Type, string Name, bool IsOptionsValue);

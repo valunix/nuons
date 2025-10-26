@@ -4,30 +4,30 @@ namespace Nuons.DependencyInjection.Tests;
 
 public class InjectedOptionsAttributeTests
 {
-    [Fact]
-    public void InjectedOptionsAttribute_HasCorrectAttributeUsage()
-    {
-        // Arrange
-        var attributeType = typeof(InjectedOptionsAttribute);
+	[Fact]
+	public void InjectedOptionsAttribute_HasCorrectAttributeUsage()
+	{
+		// Arrange
+		var attributeType = typeof(InjectedOptionsAttribute);
 
-        // Act
-        var attributeUsage = attributeType.GetCustomAttribute<AttributeUsageAttribute>();
+		// Act
+		var attributeUsage = attributeType.GetCustomAttribute<AttributeUsageAttribute>();
 
-        // Assert
-        attributeUsage.ShouldNotBeNull();
-        attributeUsage.ValidOn.ShouldBe(AttributeTargets.Field);
-        attributeUsage.AllowMultiple.ShouldBeFalse();
-        attributeUsage.Inherited.ShouldBeFalse();
-    }
-    
-    [Fact]
-    public void InjectedOptionsAttribute_CanBeInstantiated()
-    {
-        // Arrange
-        // Act
-        var attribute = new InjectedOptionsAttribute();
+		// Assert
+		attributeUsage.ShouldNotBeNull();
+		attributeUsage.ValidOn.ShouldBe(AttributeTargets.Field);
+		attributeUsage.AllowMultiple.ShouldBeFalse();
+		attributeUsage.Inherited.ShouldBeFalse();
+	}
 
-        // Assert
-        attribute.ShouldNotBeNull();
-    }
-} 
+	[Fact]
+	public void InjectedOptionsAttribute_CanBeInstantiated()
+	{
+		// Arrange
+		// Act
+		var attribute = new InjectedOptionsAttribute();
+
+		// Assert
+		attribute.ShouldNotBeNull();
+	}
+}

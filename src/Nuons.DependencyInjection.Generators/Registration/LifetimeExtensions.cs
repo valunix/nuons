@@ -1,4 +1,4 @@
-﻿namespace Nuons.DependencyInjection.Generators.Registration;
+namespace Nuons.DependencyInjection.Generators.Registration;
 
 public static class LifetimeExtensions
 {

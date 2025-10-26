@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 
@@ -78,7 +78,7 @@ internal abstract class InjectionGenerator<T> : IIncrementalGenerator
 			Accessibility.Internal => "internal",
 			Accessibility.Public => "public",
 			_ => string.Empty,
-		};	
+		};
 	}
 
 	private void GenerateSources(SourceProductionContext context, InjectionIncrement increment)

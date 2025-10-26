@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Options;
 
 namespace Nuons.DependencyInjection.Generators.Tests.Samples;
 
@@ -61,4 +61,4 @@ internal partial class ServiceWithOptions
 }
 
 [RootRegistration(typeof(Samples))]
-internal partial class RootRegistration { }
+internal partial class RootRegistration;

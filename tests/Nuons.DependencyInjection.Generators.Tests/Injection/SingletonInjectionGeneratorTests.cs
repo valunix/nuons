@@ -1,4 +1,4 @@
-﻿namespace Nuons.DependencyInjection.Generators.Tests.Injection;
+namespace Nuons.DependencyInjection.Generators.Tests.Injection;
 
 public class SingletonInjectionGeneratorTests : GeneratorTests, IClassFixture<SingletonInjectionGeneratorFixture>
 {

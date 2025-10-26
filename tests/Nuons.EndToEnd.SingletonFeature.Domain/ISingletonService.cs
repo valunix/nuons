@@ -1,6 +1,6 @@
-﻿namespace Nuons.EndToEnd.SingletonFeature.Domain;
+namespace Nuons.EndToEnd.SingletonFeature.Domain;
 
 public interface ISingletonService
 {
-    string GetValue();
+	string GetValue();
 }

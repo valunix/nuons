@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -11,7 +11,7 @@ internal class PartialModifierAnalyzer : DiagnosticAnalyzer
 {
 	public const string DiagnosticId = "NU001";
 
-	private static readonly DiagnosticDescriptor Rule = new (
+	private static readonly DiagnosticDescriptor Rule = new(
 		id: DiagnosticId,
 		title: "Class with [Target] must be partial",
 		messageFormat: "Class '{0}' is marked as service registration but is not partial",
@@ -24,7 +24,6 @@ internal class PartialModifierAnalyzer : DiagnosticAnalyzer
 	{
 		context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
 		context.EnableConcurrentExecution();
-
 
 		context.RegisterCompilationStartAction(startContext =>
 		{
@@ -39,7 +38,7 @@ internal class PartialModifierAnalyzer : DiagnosticAnalyzer
 		{
 			return;
 		}
-		
+
 		if (context.ContainingSymbol is not { } symbol)
 		{
 			return;
@@ -56,7 +55,7 @@ internal class PartialModifierAnalyzer : DiagnosticAnalyzer
 		{
 			return;
 		}
-		
+
 		var diagnostic = Diagnostic.Create(Rule, classDeclaration.Identifier.GetLocation(), symbol.Name);
 		context.ReportDiagnostic(diagnostic);
 	}

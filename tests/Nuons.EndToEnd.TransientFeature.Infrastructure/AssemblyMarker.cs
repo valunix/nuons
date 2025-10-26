@@ -1,3 +1,3 @@
-﻿namespace Nuons.EndToEnd.TransientFeature.Infrastructure;
+namespace Nuons.EndToEnd.TransientFeature.Infrastructure;
 
-public class AssemblyMarker { }
+public static class AssemblyMarker;

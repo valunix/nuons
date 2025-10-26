@@ -1,4 +1,4 @@
-﻿namespace Nuons.DependencyInjection.Generators.Tests.Configuration;
+namespace Nuons.DependencyInjection.Generators.Tests.Configuration;
 
 public class OptionsRegistrationGeneratorTests : GeneratorTests, IClassFixture<OptionsRegistrationGeneratorFixture>
 {

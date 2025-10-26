@@ -1,4 +1,4 @@
-﻿namespace Nuons.DependencyInjection.Analyzers.Tests;
+namespace Nuons.DependencyInjection.Analyzers.Tests;
 
 public class MissingServiceAnalyzerTests(NuonsAnalyzerFixture fixture) : IClassFixture<NuonsAnalyzerFixture>
 {
@@ -16,7 +16,7 @@ internal class [|TestClass|]
 
 		await fixture.VerifyAnalyzerAsync<MissingServiceAnalyzer>(testCode);
 	}
-	
+
 	[Fact]
 	public async Task AttributePresent_NoWarning()
 	{
@@ -32,7 +32,7 @@ internal class TestClass
 
 		await fixture.VerifyAnalyzerAsync<MissingServiceAnalyzer>(testCode);
 	}
-	
+
 	[Fact]
 	public async Task ClassWithoutInjectedField_NoWarning()
 	{

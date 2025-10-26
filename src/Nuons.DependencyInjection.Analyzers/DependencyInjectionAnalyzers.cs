@@ -1,4 +1,4 @@
-﻿namespace Nuons.DependencyInjection.Analyzers;
+namespace Nuons.DependencyInjection.Analyzers;
 
 internal static class DependencyInjectionAnalyzers
 {

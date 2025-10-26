@@ -1,4 +1,4 @@
-﻿namespace Nuons.DependencyInjection.Generators.Registration;
+namespace Nuons.DependencyInjection.Generators.Registration;
 
 internal record CombinedRegistrationsIncrement
 {
@@ -8,6 +8,6 @@ internal record CombinedRegistrationsIncrement
 	public bool Scoped { get; set; }
 	public bool Singleton { get; set; }
 	public bool Options { get; set; }
-	
+
 	public bool HasRegistrations => Service || Transient || Scoped || Singleton;
 }

@@ -1,4 +1,4 @@
-﻿using Nuons.DependencyInjection;
+using Nuons.DependencyInjection;
 using Nuons.EndToEnd.SingletonFeature.Domain;
 
 namespace Nuons.EndToEnd.SingletonFeature.Infrastructure;
@@ -6,7 +6,7 @@ namespace Nuons.EndToEnd.SingletonFeature.Infrastructure;
 [Singleton(typeof(ISingletonService))]
 internal partial class SingletonService : ISingletonService
 {
-    public const string Value = "SingletonValue";
-        
-    public string GetValue() => Value;
+	public const string Value = "SingletonValue";
+
+	public string GetValue() => Value;
 }

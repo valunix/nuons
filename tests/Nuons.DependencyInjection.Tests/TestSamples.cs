@@ -19,12 +19,12 @@ public class TestOptions { }
 
 public class TestConsumer
 {
-    [Injected]
-    public readonly ITestService scopedService;
+	[Injected]
+	public readonly ITestService scopedService;
 
-    [Injected]
-    public readonly ITestService transientService;
+	[Injected]
+	public readonly ITestService transientService;
 
-    [InjectedOptions]
-    public readonly TestOptions options;
-} 
+	[InjectedOptions]
+	public readonly TestOptions options;
+}

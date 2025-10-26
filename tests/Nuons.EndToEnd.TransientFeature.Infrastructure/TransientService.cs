@@ -6,7 +6,7 @@ namespace Nuons.EndToEnd.TransientFeature.Infrastructure;
 [Transient(typeof(ITransientService))]
 internal partial class TransientService : ITransientService
 {
-    public const string Value = "TransientValue";
-        
-    public string GetValue() => Value;
-} 
+	public const string Value = "TransientValue";
+
+	public string GetValue() => Value;
+}

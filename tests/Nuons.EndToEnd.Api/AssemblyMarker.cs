@@ -1,3 +1,3 @@
-﻿namespace Nuons.EndToEnd.Api;
+namespace Nuons.EndToEnd.Api;
 
-public class AssemblyMarker { }
+public static class AssemblyMarker;

@@ -1,3 +1,3 @@
-﻿namespace Nuons.EndToEnd.ServiceFeature.Infrastructure;
+namespace Nuons.EndToEnd.ServiceFeature.Infrastructure;
 
-public class AssemblyMarker { }
+public static class AssemblyMarker;
