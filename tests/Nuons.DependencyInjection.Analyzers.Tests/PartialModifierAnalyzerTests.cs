@@ -8,7 +8,7 @@ public class PartialModifierAnalyzerTests(NuonsAnalyzerFixture fixture) : IClass
 		const string testCode = @"
 using Nuons.DependencyInjection;
 
-[Scoped(typeof(TestClass))]
+[Scoped]
 public class [|TestClass|] {}";
 
 		await fixture.VerifyAnalyzerAsync<PartialModifierAnalyzer>(testCode);
@@ -20,7 +20,7 @@ public class [|TestClass|] {}";
 		const string testCode = @"
 using Nuons.DependencyInjection;
 
-[Scoped(typeof(TestClass))]
+[Scoped]
 public partial class TestClass {}";
 
 		await fixture.VerifyAnalyzerAsync<PartialModifierAnalyzer>(testCode);

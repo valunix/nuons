@@ -25,7 +25,7 @@ public class ScopedAttributeTests
 	{
 		// Arrange
 		// Act
-		var attribute = new ScopedAttribute(typeof(ITestService));
+		var attribute = new ScopedAttribute();
 
 		// Assert
 		attribute.ShouldNotBeNull();

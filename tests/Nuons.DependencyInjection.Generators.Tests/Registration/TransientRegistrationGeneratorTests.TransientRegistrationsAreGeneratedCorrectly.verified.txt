@@ -7,5 +7,6 @@ public static class TransientRegistrationTransientRegistrationGeneratorFixtureTe
 	public static void RegisterServices(IServiceCollection services)
 	{
 		services.AddTransient<Nuons.DependencyInjection.Generators.Tests.Samples.ITransientService, Nuons.DependencyInjection.Generators.Tests.Samples.TransientService>();
+		services.AddTransient<Nuons.DependencyInjection.Generators.Tests.Samples.ITransientService, Nuons.DependencyInjection.Generators.Tests.Samples.TransientServiceGeneric>();
 	}
 }

@@ -12,24 +12,42 @@ public static class Samples
 
 public interface ISingletonService;
 
-[Singleton(typeof(ISingletonService))]
+[Singleton]
 internal partial class SingletonService : ISingletonService
+{
+	[InjectedOptions] private readonly SampleOptions options;
+}
+
+[Singleton<ISingletonService>]
+internal partial class SingletonServiceGeneric : ISingletonService
 {
 	[InjectedOptions] private readonly SampleOptions options;
 }
 
 public interface IScopedService;
 
-[Scoped(typeof(IScopedService))]
+[Scoped]
 internal partial class ScopedService : IScopedService
+{
+	[Injected] private readonly ISingletonService singletonField;
+}
+
+[Scoped<IScopedService>]
+internal partial class ScopedServiceGeneric : IScopedService
 {
 	[Injected] private readonly ISingletonService singletonField;
 }
 
 public interface ITransientService;
 
-[Transient(typeof(ITransientService))]
+[Transient]
 internal partial class TransientService : ITransientService
+{
+	[Injected] private readonly IScopedService scopedField;
+}
+
+[Transient<ITransientService>]
+internal partial class TransientServiceGeneric : ITransientService
 {
 	[Injected] private readonly IScopedService scopedField;
 }
@@ -50,7 +68,7 @@ internal partial class LifetimeService : ILifetimeService
 [Options(nameof(SampleOptions))]
 internal class SampleOptions;
 
-[Scoped(typeof(ServiceWithOptions))]
+[Scoped]
 internal partial class ServiceWithOptions
 {
 	[Injected] private readonly ISingletonService singletonField;

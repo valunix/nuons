@@ -7,5 +7,6 @@ public static class SingletonRegistrationSingletonRegistrationGeneratorFixtureTe
 	public static void RegisterServices(IServiceCollection services)
 	{
 		services.AddSingleton<Nuons.DependencyInjection.Generators.Tests.Samples.ISingletonService, Nuons.DependencyInjection.Generators.Tests.Samples.SingletonService>();
+		services.AddSingleton<Nuons.DependencyInjection.Generators.Tests.Samples.ISingletonService, Nuons.DependencyInjection.Generators.Tests.Samples.SingletonServiceGeneric>();
 	}
 }
