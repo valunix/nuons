@@ -3,10 +3,10 @@ using Nuons.EndToEnd.ScopedFeature.Domain;
 
 namespace Nuons.EndToEnd.ScopedFeature.Infrastructure;
 
-[Scoped]
-internal partial class ScopedService : IScopedService
+[Scoped<IScopedGenericService>]
+internal partial class ScopedGenericService : IScopedGenericService
 {
-	public const string Value = "ScopedValue";
+	public const string Value = "ScopedGenericValue";
 
 	public string GetValue() => Value;
 }
