@@ -3,10 +3,10 @@ using Nuons.EndToEnd.SingletonFeature.Domain;
 
 namespace Nuons.EndToEnd.SingletonFeature.Infrastructure;
 
-[Singleton]
-internal partial class SingletonService : ISingletonService
+[Singleton<ISingletonGenericService>]
+internal partial class SingletonGenericService : ISingletonGenericService
 {
-	public const string Value = "SingletonValue";
+	public const string Value = "SingletonGenericValue";
 
 	public string GetValue() => Value;
 }

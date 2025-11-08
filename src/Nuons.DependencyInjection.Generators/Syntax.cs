@@ -6,6 +6,8 @@ namespace Nuons.DependencyInjection.Generators;
 
 internal static class Syntax
 {
+	public const string SingleGenericTypeSuffix = "`1";
+
 	private const char NamespaceSeparator = '.';
 
 	public static bool IsClassNode(SyntaxNode node, CancellationToken _) => node is ClassDeclarationSyntax;

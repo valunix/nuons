@@ -8,5 +8,6 @@ public static class ScopedRegistrationScopedRegistrationGeneratorFixtureTestAsse
 	{
 		services.AddScoped<Nuons.DependencyInjection.Generators.Tests.Samples.IScopedService, Nuons.DependencyInjection.Generators.Tests.Samples.ScopedService>();
 		services.AddScoped<Nuons.DependencyInjection.Generators.Tests.Samples.ServiceWithOptions, Nuons.DependencyInjection.Generators.Tests.Samples.ServiceWithOptions>();
+		services.AddScoped<Nuons.DependencyInjection.Generators.Tests.Samples.IScopedService, Nuons.DependencyInjection.Generators.Tests.Samples.ScopedServiceGeneric>();
 	}
 }

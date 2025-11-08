@@ -25,7 +25,7 @@ public class SingletonAttributeTests
 	{
 		// Arrange
 		// Act
-		var attribute = new SingletonAttribute(typeof(ITestService));
+		var attribute = new SingletonAttribute();
 
 		// Assert
 		attribute.ShouldNotBeNull();

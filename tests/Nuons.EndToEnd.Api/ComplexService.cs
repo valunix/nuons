@@ -3,7 +3,7 @@ using Nuons.EndToEnd.SingletonFeature.Domain;
 
 namespace Nuons.EndToEnd.Api;
 
-[Transient(typeof(IComplexService))]
+[Transient]
 internal partial class ComplexService : IComplexService
 {
 	[Injected]

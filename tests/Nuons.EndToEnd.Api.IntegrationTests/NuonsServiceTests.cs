@@ -27,6 +27,22 @@ public class NuonsServiceTests(WebApplicationFactory<Program> webApplicationFact
 	}
 
 	[Fact]
+	public async Task SingletonGenericEndpoint_ReturnsCorrectValue()
+	{
+		// Arrange 
+		using var client = webApplicationFactory.CreateClient();
+
+		// Act
+		using var response = await client.GetAsync(Routes.SingletonGeneric, TestContext.Current.CancellationToken);
+
+		// Assert
+		response.StatusCode.ShouldBe(HttpStatusCode.OK);
+
+		var content = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+		content.ShouldBe(SingletonGenericService.Value);
+	}
+
+	[Fact]
 	public async Task GetTransientEndpoint_ReturnsCorrectValue()
 	{
 		// Arrange 
@@ -43,6 +59,22 @@ public class NuonsServiceTests(WebApplicationFactory<Program> webApplicationFact
 	}
 
 	[Fact]
+	public async Task GetTransientGenericEndpoint_ReturnsCorrectValue()
+	{
+		// Arrange 
+		using var client = webApplicationFactory.CreateClient();
+
+		// Act
+		using var response = await client.GetAsync(Routes.TransientGeneric, TestContext.Current.CancellationToken);
+
+		// Assert
+		response.StatusCode.ShouldBe(HttpStatusCode.OK);
+
+		var content = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+		content.ShouldBe(TransientGenericService.Value);
+	}
+
+	[Fact]
 	public async Task GetScopedEndpoint_ReturnsCorrectValue()
 	{
 		// Arrange 
@@ -56,6 +88,22 @@ public class NuonsServiceTests(WebApplicationFactory<Program> webApplicationFact
 
 		var content = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
 		content.ShouldBe(ScopedService.Value);
+	}
+
+	[Fact]
+	public async Task GetScopedGenericEndpoint_ReturnsCorrectValue()
+	{
+		// Arrange 
+		using var client = webApplicationFactory.CreateClient();
+
+		// Act
+		using var response = await client.GetAsync(Routes.ScopedGeneric, TestContext.Current.CancellationToken);
+
+		// Assert
+		response.StatusCode.ShouldBe(HttpStatusCode.OK);
+
+		var content = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+		content.ShouldBe(ScopedGenericService.Value);
 	}
 
 	[Fact]

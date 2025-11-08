@@ -2,13 +2,13 @@ namespace Nuons.DependencyInjection.Tests;
 
 public interface ITestService { }
 
-[Singleton(typeof(ITestService))]
+[Singleton]
 public class SingletonTestService : ITestService { }
 
-[Scoped(typeof(ITestService))]
+[Scoped]
 public class ScopedTestService : ITestService { }
 
-[Transient(typeof(ITestService))]
+[Transient]
 public class TransientTestService : ITestService { }
 
 [Service(Lifetime.Scoped, typeof(ITestService))]

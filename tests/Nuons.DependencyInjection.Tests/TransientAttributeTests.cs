@@ -25,7 +25,7 @@ public class TransientAttributeTests
 	{
 		// Arrange
 		// Act
-		var attribute = new TransientAttribute(typeof(ITestService));
+		var attribute = new TransientAttribute();
 
 		// Assert
 		attribute.ShouldNotBeNull();

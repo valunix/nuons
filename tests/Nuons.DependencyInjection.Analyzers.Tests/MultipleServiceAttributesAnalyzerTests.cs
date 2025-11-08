@@ -10,8 +10,8 @@ using Nuons.DependencyInjection;
 
 internal interface ITestService {}
 
-[Singleton(typeof(ITestService))]
-[Scoped(typeof(ITestService))]
+[Singleton]
+[Scoped]
 internal class [|TestService|] : ITestService {}";
 
 		await fixture.VerifyAnalyzerAsync<MultipleServiceAttributesAnalyzer>(testCode);
@@ -25,7 +25,7 @@ using Nuons.DependencyInjection;
 
 internal interface ITestService {}
 
-[Singleton(typeof(ITestService))]
+[Singleton]
 internal class TestService : ITestService {}";
 
 		await fixture.VerifyAnalyzerAsync<MultipleServiceAttributesAnalyzer>(testCode);
@@ -50,7 +50,7 @@ using Nuons.DependencyInjection;
 
 internal interface ITestService {}
 
-[Singleton(typeof(ITestService))]
+[Singleton]
 [Obsolete]
 internal class TestService : ITestService{}";
 

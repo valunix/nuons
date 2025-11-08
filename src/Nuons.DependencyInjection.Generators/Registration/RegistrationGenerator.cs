@@ -4,16 +4,9 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace Nuons.DependencyInjection.Generators.Registration;
 
-internal abstract class RegistrationGenerator<T> : IIncrementalGenerator
+internal abstract class RegistrationGenerator<T>(Lifetime lifetime) : IIncrementalGenerator
 	where T : Attribute
 {
-	private readonly Lifetime lifetime;
-
-	protected RegistrationGenerator(Lifetime lifetime)
-	{
-		this.lifetime = lifetime;
-	}
-
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{
 		var assemblyNameProvider = context.CompilationProvider
@@ -27,7 +20,20 @@ internal abstract class RegistrationGenerator<T> : IIncrementalGenerator
 			.Where(registration => registration is not null)
 			.Collect();
 
-		var combinedProvider = assemblyNameProvider.Combine(serviceRegistrationsProvider)
+		var genericServiceRegistrationsProvider = context.SyntaxProvider.ForAttributeWithMetadataName(
+			typeof(T).FullName + Syntax.SingleGenericTypeSuffix,
+			Syntax.IsClassNode,
+			ExtractGenericRegistration
+		)
+			.Where(registration => registration is not null)
+			.Collect();
+
+		var allRegistrations = serviceRegistrationsProvider
+			.Combine(genericServiceRegistrationsProvider)
+			.SelectMany((pair, _) => pair.Left.AddRange(pair.Right))
+			.Collect();
+
+		var combinedProvider = assemblyNameProvider.Combine(allRegistrations)
 			.Select((pair, _) => new RegistrationIncrement(pair.Left, pair.Right));
 
 		context.RegisterSourceOutput(combinedProvider, GenerateSources);
@@ -35,7 +41,10 @@ internal abstract class RegistrationGenerator<T> : IIncrementalGenerator
 
 	private ServiceRegistration? ExtractRegistration(GeneratorAttributeSyntaxContext context, CancellationToken token)
 	{
-		if (context.TargetSymbol is not INamedTypeSymbol symbol) return null;
+		if (context.TargetSymbol is not INamedTypeSymbol symbol)
+		{
+			return null;
+		}
 
 		var attribute = symbol.FirstOrDefaultAttribute<T>();
 		if (attribute is null)
@@ -43,19 +52,51 @@ internal abstract class RegistrationGenerator<T> : IIncrementalGenerator
 			return null;
 		}
 
-		var constructorArguments = attribute.ConstructorArguments;
-		if (constructorArguments.Length is not 1)
+		INamedTypeSymbol serviceTypeSymbol;
+		if (symbol.Interfaces.Length == 1)
+		{
+			serviceTypeSymbol = symbol.Interfaces[0];
+		}
+		else
+		{
+			serviceTypeSymbol = symbol;
+		}
+
+		var serviceType = serviceTypeSymbol.ToFullName();
+		var implementationType = symbol.ToFullName();
+
+		return new ServiceRegistration(serviceType, implementationType);
+	}
+
+	private ServiceRegistration? ExtractGenericRegistration(GeneratorAttributeSyntaxContext context, CancellationToken token)
+	{
+		if (context.TargetSymbol is not INamedTypeSymbol symbol)
 		{
 			return null;
 		}
 
-		if (constructorArguments[0].Value is not INamedTypeSymbol typeArgument)
+		var attribute = symbol.FirstOrDefaultAttribute<T>();
+		if (attribute is null)
 		{
 			return null;
 		}
 
-		var serviceType = typeArgument.ToFullName();
-		return new ServiceRegistration(serviceType, symbol.ToFullName());
+		var attributeClass = attribute.AttributeClass;
+		if (attributeClass is null || attributeClass.TypeArguments.Length != 1)
+		{
+			return null;
+		}
+
+		var typeArgument = attributeClass.TypeArguments[0];
+		if (typeArgument is not INamedTypeSymbol namedType)
+		{
+			return null;
+		}
+
+		var serviceType = namedType.ToFullName();
+		var implementationType = symbol.ToFullName();
+
+		return new ServiceRegistration(serviceType, implementationType);
 	}
 
 	private void GenerateSources(SourceProductionContext context, RegistrationIncrement increment)
