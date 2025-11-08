@@ -53,9 +53,9 @@ internal abstract class RegistrationGenerator<T>(Lifetime lifetime) : IIncrement
 		}
 
 		INamedTypeSymbol serviceTypeSymbol;
-		if (symbol.AllInterfaces.Length == 1)
+		if (symbol.Interfaces.Length == 1)
 		{
-			serviceTypeSymbol = symbol.AllInterfaces[0];
+			serviceTypeSymbol = symbol.Interfaces[0];
 		}
 		else
 		{

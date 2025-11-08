@@ -87,3 +87,10 @@ internal partial class InjectedConstructorService
 
 [RootRegistration(typeof(Samples))]
 internal partial class RootRegistration;
+
+internal interface IBase;
+internal interface ITarget;
+[Singleton]
+internal partial class MultipleInterfacesIndirect : ITarget;
+[Singleton]
+internal partial class MultipleInterfacesDirect : ITarget, IBase;
