@@ -9,7 +9,7 @@ public class PartialModifierAnalyzerTests(NuonsAnalyzerFixture fixture) : IClass
 using Nuons.DependencyInjection;
 
 [Scoped]
-public class [|TestClass|] {}";
+public class [|TestClass|];";
 
 		await fixture.VerifyAnalyzerAsync<PartialModifierAnalyzer>(testCode);
 	}
@@ -21,7 +21,7 @@ public class [|TestClass|] {}";
 using Nuons.DependencyInjection;
 
 [Scoped]
-public partial class TestClass {}";
+public partial class TestClass;";
 
 		await fixture.VerifyAnalyzerAsync<PartialModifierAnalyzer>(testCode);
 	}
@@ -32,7 +32,7 @@ public partial class TestClass {}";
 		const string testCode = @"
 using Nuons.DependencyInjection;
 
-public class TestClass {}";
+public class TestClass;";
 
 		await fixture.VerifyAnalyzerAsync<PartialModifierAnalyzer>(testCode);
 	}

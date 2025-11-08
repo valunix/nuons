@@ -2,8 +2,16 @@ using Microsoft.CodeAnalysis;
 
 namespace Nuons.DependencyInjection.Analyzers;
 
+// TODO lazy loading, avoid duplication
 internal class NuonAnalyzerContext(Compilation compilation)
 {
+	public INamedTypeSymbol[] ParameterlessServiceAttributes { get; init; } =
+	[
+		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.SingletonAttribute")!,
+		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.ScopedAttribute")!,
+		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.TransientAttribute")!,
+	];
+
 	public INamedTypeSymbol[] ServiceAttributes { get; init; } =
 	[
 		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.ServiceAttribute")!,

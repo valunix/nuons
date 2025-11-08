@@ -8,11 +8,11 @@ public class MultipleServiceAttributesAnalyzerTests(NuonsAnalyzerFixture fixture
 		const string testCode = @"
 using Nuons.DependencyInjection;
 
-internal interface ITestService {}
+internal interface ITestService;
 
 [Singleton]
 [Scoped]
-internal class [|TestService|] : ITestService {}";
+internal class [|TestService|] : ITestService;";
 
 		await fixture.VerifyAnalyzerAsync<MultipleServiceAttributesAnalyzer>(testCode);
 	}
@@ -23,10 +23,10 @@ internal class [|TestService|] : ITestService {}";
 		const string testCode = @"
 using Nuons.DependencyInjection;
 
-internal interface ITestService {}
+internal interface ITestService;
 
 [Singleton]
-internal class TestService : ITestService {}";
+internal class TestService : ITestService;";
 
 		await fixture.VerifyAnalyzerAsync<MultipleServiceAttributesAnalyzer>(testCode);
 	}
@@ -35,8 +35,8 @@ internal class TestService : ITestService {}";
 	public async Task ClassWithNoServiceAttributes_NoError()
 	{
 		const string testCode = @"
-internal interface ITestService {}
-internal class TestService : ITestService {}";
+internal interface ITestService;
+internal class TestService : ITestService;";
 
 		await fixture.VerifyAnalyzerAsync<MultipleServiceAttributesAnalyzer>(testCode);
 	}
@@ -48,11 +48,11 @@ internal class TestService : ITestService {}";
 using System;
 using Nuons.DependencyInjection;
 
-internal interface ITestService {}
+internal interface ITestService;
 
 [Singleton]
 [Obsolete]
-internal class TestService : ITestService{}";
+internal class TestService : ITestService;";
 
 		await fixture.VerifyAnalyzerAsync<MultipleServiceAttributesAnalyzer>(testCode);
 	}
