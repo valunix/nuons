@@ -89,7 +89,7 @@ internal partial class InjectedConstructorService
 internal partial class RootRegistration;
 
 internal interface IBase;
-internal interface ITarget;
+internal interface ITarget : IBase;
 [Singleton]
 internal partial class MultipleInterfacesIndirect : ITarget;
 [Singleton]
