@@ -6,7 +6,10 @@ A lightweight open-source library for .NET that cuts down boilerplate and speeds
 Nuons Dependency Injection provides a set of attributes and source generators to simplify dependency injection in .NET apps. Here are some samples to get you productive in minutes.
 
 ### 1) Register services using attributes
-Use one of the lifetime attributes on your implementation type, specifying the interface (or base type) to register for.
+Use one of the lifetime attributes on your implementation type. The generator supports:
+- Parameterless attributes (if a class directly implements exactly one interface, it will be registered for that interface, otherwise it will fallback to class itself).
+- Generic attributes to explicitly specify the service interface to register.
+
 ```csharp
 using Nuons.DependencyInjection;
 
@@ -15,15 +18,38 @@ public interface IGreetingService
     string Greet(string name);
 }
 
-[Transient(typeof(IGreetingService))]
+// Parameterless: registers GreetingService as IGreetingService (inferred)
+[Transient]
 public partial class GreetingService : IGreetingService
 {
     public string Greet(string name) => $"Hello, {name}!";
 }
 
-// Other lifetimes:
-// [Scoped(typeof(IGreetingService))]
-// [Singleton(typeof(IGreetingService))]
+// Generic: explicitly registers as IGreetingService
+[Transient<IGreetingService>]
+public partial class GreetingServiceGeneric : IGreetingService
+{
+    public string Greet(string name) => $"Hello, {name}!";
+}
+
+// Other lifetimes work the same way:
+// [Scoped]
+// [Scoped<IGreetingService>]
+// [Singleton]
+// [Singleton<IGreetingService>]
+```
+
+Selecting the interface when a class implements multiple interfaces
+```csharp
+using Nuons.DependencyInjection;
+
+internal interface ITarget;
+internal interface ISomeOtherInterface;
+
+// When a class implements multiple interfaces, use the generic attribute
+// to specify which interface should be registered in DI.
+[Singleton<ITarget>]
+public partial class MultipleInterfacesDirect : ITarget, ISomeOtherInterface;
 ```
 
 ### 2) Inject services into your classes
@@ -31,7 +57,7 @@ Nuons supports clean field injection by simply marking fields with `[Injected]`.
 ```csharp
 using Nuons.DependencyInjection;
 
-[Singleton(typeof(GreetingConsumer))]
+[Singleton]
 public partial class GreetingConsumer
 {
     [Injected] private readonly IGreetingService greetings;
@@ -51,7 +77,7 @@ public class MyAppOptions
     public string Title { get; set; } = "";
 }
 
-[Singleton(typeof(Dashboard))]
+[Singleton]
 public partial class Dashboard
 {
     [Injected] private readonly IOptions<MyAppOptions> optionsWrapped;
