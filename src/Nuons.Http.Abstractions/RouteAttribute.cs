@@ -1,11 +1,11 @@
 using System.Diagnostics;
 using Nuons.Core.Abstractions;
 
-namespace Nuons.DependencyInjection;
+namespace Nuons.Http.Abstractions;
 
 [Conditional(Constants.CodeGenerationCondition)]
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public class RootRegistrationAttribute : Attribute
+public class RouteAttribute : Attribute
 {
-	public RootRegistrationAttribute(params Type[] assemblyMarkerTypes) { }
+	public RouteAttribute(string? route = null) { }
 }

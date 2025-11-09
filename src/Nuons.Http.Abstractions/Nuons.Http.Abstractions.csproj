@@ -9,12 +9,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<InternalsVisibleTo Include="Nuons.DependencyInjection.Tests" />
-		<InternalsVisibleTo Include="Nuons.DependencyInjection.Analyzers.Tests" />
-		<InternalsVisibleTo Include="Nuons.DependencyInjection.Generators.Tests" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <ProjectReference Include="..\Nuons.Core.Abstractions\Nuons.Core.Abstractions.csproj" />
 	</ItemGroup>
 

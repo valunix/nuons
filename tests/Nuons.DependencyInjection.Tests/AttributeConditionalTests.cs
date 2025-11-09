@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Reflection;
+using Nuons.Core.Abstractions;
 
 namespace Nuons.DependencyInjection.Tests;
 

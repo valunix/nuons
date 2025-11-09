@@ -2,9 +2,9 @@ using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Nuons.DependencyInjection.Generators;
+namespace Nuons.Core.Generators;
 
-internal static class Syntax
+public static class Syntax
 {
 	public const string SingleGenericTypeSuffix = "`1";
 

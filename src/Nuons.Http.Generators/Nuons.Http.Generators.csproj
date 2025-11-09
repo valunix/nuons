@@ -20,11 +20,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Nuons.Core.Generators\Nuons.Core.Generators.csproj" />
-		<ProjectReference Include="..\Nuons.DependencyInjection\Nuons.DependencyInjection.csproj" PrivateAssets="all" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<InternalsVisibleTo Include="Nuons.DependencyInjection.Generators.Tests" />
+		<ProjectReference Include="..\Nuons.Http.Abstractions\Nuons.Http.Abstractions.csproj" />
 	</ItemGroup>
 
 </Project>
