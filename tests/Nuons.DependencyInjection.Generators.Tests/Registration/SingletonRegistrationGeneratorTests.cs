@@ -1,15 +1,18 @@
+using Nuons.Core.Tests;
+using Nuons.DependencyInjection.Generators.Registration;
+
 namespace Nuons.DependencyInjection.Generators.Tests.Registration;
 
-public class SingletonRegistrationGeneratorTests(ITestOutputHelper output, SingletonRegistrationGeneratorFixture fixture)
-	: GeneratorTests, IClassFixture<SingletonRegistrationGeneratorFixture>
+public class SingletonRegistrationGeneratorTests(ITestOutputHelper output, NuonGeneratorFixture fixture)
+	: IClassFixture<NuonGeneratorFixture>
 {
 	[Fact(Skip = "For debugging during dev only")]
-	public void DevRunGenerator() => RunGenerator(output, fixture);
+	public void DevRunGenerator() => fixture.RunGenerator<SingletonRegistrationGenerator>(output);
 
 	[Fact]
 	public Task SingletonRegistrationsAreGeneratedCorrectly()
 	{
-		var sources = GenerateSources(fixture);
+		var sources = fixture.GenerateSources<SingletonRegistrationGenerator>();
 		return Verify(sources);
 	}
 }

@@ -11,5 +11,6 @@ public partial class ControllerExample : ControllerBase
 	[Injected]
 	private readonly IComplexService service;
 
+	[HttpGet]
 	public IActionResult Get() => Ok(service.GetValue());
 }

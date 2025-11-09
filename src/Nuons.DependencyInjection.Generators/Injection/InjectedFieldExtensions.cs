@@ -1,4 +1,5 @@
 using Microsoft.CodeAnalysis;
+using Nuons.Core.Generators;
 
 namespace Nuons.DependencyInjection.Generators.Injection;
 

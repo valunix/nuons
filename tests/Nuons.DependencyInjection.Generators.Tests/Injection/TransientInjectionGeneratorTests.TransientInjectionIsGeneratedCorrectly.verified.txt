@@ -1,8 +1,8 @@
-﻿namespace Nuons.DependencyInjection.Generators.Tests.Samples;
+﻿namespace Nuons.DependencyInjection.Generators.Tests;
 internal partial class TransientService
 {
 	public TransientService(
-		Nuons.DependencyInjection.Generators.Tests.Samples.IScopedService scopedField)
+		Nuons.DependencyInjection.Generators.Tests.IScopedService scopedField)
 	{
 		this.scopedField = scopedField;
 	}

@@ -14,4 +14,8 @@
 		<InternalsVisibleTo Include="Nuons.DependencyInjection.Generators.Tests" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="..\Nuons.Core.Abstractions\Nuons.Core.Abstractions.csproj" />
+	</ItemGroup>
+
 </Project>

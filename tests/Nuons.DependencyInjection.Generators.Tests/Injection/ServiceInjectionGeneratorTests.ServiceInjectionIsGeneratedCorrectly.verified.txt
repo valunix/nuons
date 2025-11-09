@@ -1,10 +1,10 @@
-﻿namespace Nuons.DependencyInjection.Generators.Tests.Samples;
+﻿namespace Nuons.DependencyInjection.Generators.Tests;
 internal partial class LifetimeService
 {
 	public LifetimeService(
-		Nuons.DependencyInjection.Generators.Tests.Samples.ISingletonService singletonField,
-		Nuons.DependencyInjection.Generators.Tests.Samples.IScopedService scopedField,
-		Nuons.DependencyInjection.Generators.Tests.Samples.ITransientService transientField)
+		Nuons.DependencyInjection.Generators.Tests.ISingletonService singletonField,
+		Nuons.DependencyInjection.Generators.Tests.IScopedService scopedField,
+		Nuons.DependencyInjection.Generators.Tests.ITransientService transientField)
 	{
 		this.singletonField = singletonField;
 		this.scopedField = scopedField;

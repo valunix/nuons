@@ -2,12 +2,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using Nuons.DependencyInjection.Extensions;
 
-namespace Nuons.DependencyInjection.Generators.Tests.Samples;
+namespace Nuons.DependencyInjection.Generators.Tests;
 
 public partial class RootRegistration
 {
 	public static void RegisterServices(IServiceCollection services, IConfiguration configuration)
 	{
-		CombinedRegistrationRootRegistrationGeneratorFixtureTestAssembly.RegisterServices(services, configuration);
+		CombinedRegistrationNuonGeneratorFixtureTestAssembly.RegisterServices(services, configuration);
 	}
 }

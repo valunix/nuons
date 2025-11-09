@@ -17,6 +17,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.DependencyInjection.G
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.DependencyInjection.Generators.Tests", "tests\Nuons.DependencyInjection.Generators.Tests\Nuons.DependencyInjection.Generators.Tests.csproj", "{CD9D2C78-63B0-43B4-ABBE-3783082C6E1C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Http.Abstractions", "src\Nuons.Http.Abstractions\Nuons.Http.Abstractions.csproj", "{52DD982D-5DF3-46CC-AAEF-B6D2B3825A9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Http.Generators", "src\Nuons.Http.Generators\Nuons.Http.Generators.csproj", "{AEABC2F5-A7CE-446F-809F-AB8ECA985306}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Core.Abstractions", "src\Nuons.Core.Abstractions\Nuons.Core.Abstractions.csproj", "{3EE7DA57-73C4-4AB3-BF63-DD764BE0C210}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Core.Generators", "src\Nuons.Core.Generators\Nuons.Core.Generators.csproj", "{D13B506B-47D3-4203-9E1B-257507D1F12E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Core.Tests", "tests\Nuons.Core.Tests\Nuons.Core.Tests.csproj", "{DE1764E4-F82C-40C4-89EC-72876B2506DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Http.Generators.Tests", "tests\Nuons.Http.Generators.Tests\Nuons.Http.Generators.Tests.csproj", "{FDD93947-4B1A-4376-9A7F-FE97B9FA497C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +63,30 @@ Global
 		{CD9D2C78-63B0-43B4-ABBE-3783082C6E1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD9D2C78-63B0-43B4-ABBE-3783082C6E1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD9D2C78-63B0-43B4-ABBE-3783082C6E1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52DD982D-5DF3-46CC-AAEF-B6D2B3825A9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52DD982D-5DF3-46CC-AAEF-B6D2B3825A9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52DD982D-5DF3-46CC-AAEF-B6D2B3825A9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52DD982D-5DF3-46CC-AAEF-B6D2B3825A9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEABC2F5-A7CE-446F-809F-AB8ECA985306}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEABC2F5-A7CE-446F-809F-AB8ECA985306}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEABC2F5-A7CE-446F-809F-AB8ECA985306}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEABC2F5-A7CE-446F-809F-AB8ECA985306}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EE7DA57-73C4-4AB3-BF63-DD764BE0C210}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EE7DA57-73C4-4AB3-BF63-DD764BE0C210}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EE7DA57-73C4-4AB3-BF63-DD764BE0C210}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EE7DA57-73C4-4AB3-BF63-DD764BE0C210}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D13B506B-47D3-4203-9E1B-257507D1F12E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D13B506B-47D3-4203-9E1B-257507D1F12E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D13B506B-47D3-4203-9E1B-257507D1F12E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D13B506B-47D3-4203-9E1B-257507D1F12E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE1764E4-F82C-40C4-89EC-72876B2506DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE1764E4-F82C-40C4-89EC-72876B2506DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE1764E4-F82C-40C4-89EC-72876B2506DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE1764E4-F82C-40C4-89EC-72876B2506DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDD93947-4B1A-4376-9A7F-FE97B9FA497C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDD93947-4B1A-4376-9A7F-FE97B9FA497C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDD93947-4B1A-4376-9A7F-FE97B9FA497C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDD93947-4B1A-4376-9A7F-FE97B9FA497C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
