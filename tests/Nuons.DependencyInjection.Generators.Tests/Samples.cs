@@ -1,14 +1,6 @@
 using Microsoft.Extensions.Options;
 
-namespace Nuons.DependencyInjection.Generators.Tests.Samples;
-
-public static class Samples
-{
-	public const string Path = "../../../Samples/Samples.cs";
-
-	public static string Load() =>
-		File.ReadAllText(Path);
-}
+namespace Nuons.DependencyInjection.Generators.Tests;
 
 public interface ISingletonService;
 
@@ -85,7 +77,7 @@ internal partial class InjectedConstructorService
 	[InjectedOptions] private readonly SampleOptions sampleOptions;
 }
 
-[RootRegistration(typeof(Samples))]
+[RootRegistration(typeof(RootRegistration))]
 internal partial class RootRegistration;
 
 internal interface IBase;

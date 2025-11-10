@@ -3,14 +3,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Nuons.DependencyInjection.Extensions;
 
-public static class CombinedRegistrationCombinedRegistrationGeneratorFixtureTestAssembly
+public static class CombinedRegistrationNuonGeneratorFixtureTestAssembly
 {
 	public static void RegisterServices(IServiceCollection services, IConfiguration configuration)
 	{
-		ServiceRegistrationCombinedRegistrationGeneratorFixtureTestAssembly.RegisterServices(services);
-		SingletonRegistrationCombinedRegistrationGeneratorFixtureTestAssembly.RegisterServices(services);
-		ScopedRegistrationCombinedRegistrationGeneratorFixtureTestAssembly.RegisterServices(services);
-		TransientRegistrationCombinedRegistrationGeneratorFixtureTestAssembly.RegisterServices(services);
-		OptionsRegistrationCombinedRegistrationGeneratorFixtureTestAssembly.ConfigureOptions(services, configuration);
+		ServiceRegistrationNuonGeneratorFixtureTestAssembly.RegisterServices(services);
+		SingletonRegistrationNuonGeneratorFixtureTestAssembly.RegisterServices(services);
+		ScopedRegistrationNuonGeneratorFixtureTestAssembly.RegisterServices(services);
+		TransientRegistrationNuonGeneratorFixtureTestAssembly.RegisterServices(services);
+		OptionsRegistrationNuonGeneratorFixtureTestAssembly.ConfigureOptions(services, configuration);
 	}
 }

@@ -1,15 +1,18 @@
+using Nuons.Core.Tests;
+using Nuons.DependencyInjection.Generators.Configuration;
+
 namespace Nuons.DependencyInjection.Generators.Tests.Configuration;
 
-public class OptionsRegistrationGeneratorTests(ITestOutputHelper output, OptionsRegistrationGeneratorFixture fixture)
-	: GeneratorTests, IClassFixture<OptionsRegistrationGeneratorFixture>
+public class OptionsRegistrationGeneratorTests(ITestOutputHelper output, NuonGeneratorFixture fixture)
+	: IClassFixture<NuonGeneratorFixture>
 {
 	[Fact(Skip = "For debugging during dev only")]
-	public void DevRunGenerator() => RunGenerator(output, fixture);
+	public void DevRunGenerator() => fixture.RunGenerator<OptionsRegistrationGenerator>(output);
 
 	[Fact]
 	public Task OptionsRegistrationsAreGeneratedCorrectly()
 	{
-		var sources = GenerateSources(fixture);
+		var sources = fixture.GenerateSources<OptionsRegistrationGenerator>();
 		return Verify(sources);
 	}
 }

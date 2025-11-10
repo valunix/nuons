@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Core.Abstractions", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Core.Generators", "src\Nuons.Core.Generators\Nuons.Core.Generators.csproj", "{D13B506B-47D3-4203-9E1B-257507D1F12E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Core.Tests", "tests\Nuons.Core.Tests\Nuons.Core.Tests.csproj", "{DE1764E4-F82C-40C4-89EC-72876B2506DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{D13B506B-47D3-4203-9E1B-257507D1F12E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D13B506B-47D3-4203-9E1B-257507D1F12E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D13B506B-47D3-4203-9E1B-257507D1F12E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE1764E4-F82C-40C4-89EC-72876B2506DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE1764E4-F82C-40C4-89EC-72876B2506DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE1764E4-F82C-40C4-89EC-72876B2506DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE1764E4-F82C-40C4-89EC-72876B2506DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

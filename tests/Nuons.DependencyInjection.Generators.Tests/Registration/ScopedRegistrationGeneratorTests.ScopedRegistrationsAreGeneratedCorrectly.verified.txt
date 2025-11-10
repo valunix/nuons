@@ -2,12 +2,12 @@
 
 namespace Nuons.DependencyInjection.Extensions;
 
-public static class ScopedRegistrationScopedRegistrationGeneratorFixtureTestAssembly
+public static class ScopedRegistrationNuonGeneratorFixtureTestAssembly
 {
 	public static void RegisterServices(IServiceCollection services)
 	{
-		services.AddScoped<Nuons.DependencyInjection.Generators.Tests.Samples.IScopedService, Nuons.DependencyInjection.Generators.Tests.Samples.ScopedService>();
-		services.AddScoped<Nuons.DependencyInjection.Generators.Tests.Samples.ServiceWithOptions, Nuons.DependencyInjection.Generators.Tests.Samples.ServiceWithOptions>();
-		services.AddScoped<Nuons.DependencyInjection.Generators.Tests.Samples.IScopedService, Nuons.DependencyInjection.Generators.Tests.Samples.ScopedServiceGeneric>();
+		services.AddScoped<Nuons.DependencyInjection.Generators.Tests.IScopedService, Nuons.DependencyInjection.Generators.Tests.ScopedService>();
+		services.AddScoped<Nuons.DependencyInjection.Generators.Tests.ServiceWithOptions, Nuons.DependencyInjection.Generators.Tests.ServiceWithOptions>();
+		services.AddScoped<Nuons.DependencyInjection.Generators.Tests.IScopedService, Nuons.DependencyInjection.Generators.Tests.ScopedServiceGeneric>();
 	}
 }

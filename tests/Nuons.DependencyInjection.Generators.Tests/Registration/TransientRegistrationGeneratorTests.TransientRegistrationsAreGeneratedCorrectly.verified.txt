@@ -2,11 +2,11 @@
 
 namespace Nuons.DependencyInjection.Extensions;
 
-public static class TransientRegistrationTransientRegistrationGeneratorFixtureTestAssembly
+public static class TransientRegistrationNuonGeneratorFixtureTestAssembly
 {
 	public static void RegisterServices(IServiceCollection services)
 	{
-		services.AddTransient<Nuons.DependencyInjection.Generators.Tests.Samples.ITransientService, Nuons.DependencyInjection.Generators.Tests.Samples.TransientService>();
-		services.AddTransient<Nuons.DependencyInjection.Generators.Tests.Samples.ITransientService, Nuons.DependencyInjection.Generators.Tests.Samples.TransientServiceGeneric>();
+		services.AddTransient<Nuons.DependencyInjection.Generators.Tests.ITransientService, Nuons.DependencyInjection.Generators.Tests.TransientService>();
+		services.AddTransient<Nuons.DependencyInjection.Generators.Tests.ITransientService, Nuons.DependencyInjection.Generators.Tests.TransientServiceGeneric>();
 	}
 }
