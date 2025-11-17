@@ -1,0 +1,15 @@
+﻿using Microsoft.Extensions.DependencyInjection;
+
+internal static class NuonEndpointExtensions
+{
+	
+	public static void AddNuonServices(this IServiceCollection services)
+	{
+		services.AddScoped<Nuons.DependencyInjection.Generators.Tests.GetSampleHandler>();
+	}
+
+	public static void MapNuonEndpoints(this WebApplication app)
+	{
+		app.MapGet("/domain-object", (Nuons.DependencyInjection.Generators.Tests.GetSampleHandler handler) => handler.GetDomainObject());
+	}
+}

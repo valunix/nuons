@@ -3,10 +3,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Nuons.DependencyInjection.Extensions;
 
-public static class OptionsRegistrationOptionsRegistrationGeneratorFixtureTestAssembly
+public static class OptionsRegistrationNuonGeneratorFixtureTestAssembly
 {
 	public static void ConfigureOptions(IServiceCollection services, IConfiguration configuration)
 	{
-		services.Configure<Nuons.DependencyInjection.Generators.Tests.Samples.SampleOptions>(configuration.GetSection("SampleOptions"));
+		services.Configure<Nuons.DependencyInjection.Generators.Tests.SampleOptions>(configuration.GetSection("SampleOptions"));
 	}
 }

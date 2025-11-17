@@ -1,6 +1,7 @@
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
+using Nuons.Core.Generators;
 
 namespace Nuons.DependencyInjection.Generators.Injection;
 

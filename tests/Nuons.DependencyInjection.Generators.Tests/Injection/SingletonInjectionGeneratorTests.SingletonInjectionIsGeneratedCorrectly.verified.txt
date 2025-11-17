@@ -1,8 +1,8 @@
-﻿namespace Nuons.DependencyInjection.Generators.Tests.Samples;
+﻿namespace Nuons.DependencyInjection.Generators.Tests;
 internal partial class SingletonService
 {
 	public SingletonService(
-		Microsoft.Extensions.Options.IOptions<Nuons.DependencyInjection.Generators.Tests.Samples.SampleOptions> options)
+		Microsoft.Extensions.Options.IOptions<Nuons.DependencyInjection.Generators.Tests.SampleOptions> options)
 	{
 		this.options = options.Value;
 	}

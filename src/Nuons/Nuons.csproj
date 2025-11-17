@@ -20,9 +20,25 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Nuons.Core.Abstractions\Nuons.Core.Abstractions.csproj" Pack="true" PrivateAssets="all" />
+		<ProjectReference Include="..\Nuons.Core.Generators\Nuons.Core.Generators.csproj" Pack="true" PrivateAssets="all" ReferenceOutputAssembly="false" />
 		<ProjectReference Include="..\Nuons.DependencyInjection.Analyzers\Nuons.DependencyInjection.Analyzers.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" />
 		<ProjectReference Include="..\Nuons.DependencyInjection.Generators\Nuons.DependencyInjection.Generators.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" />
 		<ProjectReference Include="..\Nuons.DependencyInjection\Nuons.DependencyInjection.csproj" Pack="true" PrivateAssets="all" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\Nuons.Core.Generators\bin\$(Configuration)\netstandard2.0\Nuons.Core.Generators.dll"
+			  Pack="true" PackagePath="analyzers/dotnet/cs/" Visible="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\Nuons.Core.Abstractions\bin\$(Configuration)\netstandard2.0\Nuons.Core.Abstractions.dll"
+			  Pack="true" PackagePath="analyzers/dotnet/cs/" Visible="false" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\Nuons.Core.Abstractions\bin\Release\netstandard2.0\Nuons.Core.Abstractions.dll"
+			  Pack="true" PackagePath="lib/netstandard2.0/" />
 	</ItemGroup>
 
 	<ItemGroup>
