@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Nuons.Core.Abstractions;
 
-namespace Nuons.DependencyInjection;
+namespace Nuons.DependencyInjection.Abstractions;
 
 // TODO is there a use case for service attribute when we have the others
 

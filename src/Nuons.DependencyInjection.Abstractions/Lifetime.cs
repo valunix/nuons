@@ -1,4 +1,4 @@
-namespace Nuons.DependencyInjection;
+namespace Nuons.DependencyInjection.Abstractions;
 
 public enum Lifetime
 {

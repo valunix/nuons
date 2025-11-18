@@ -3,12 +3,13 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
+using Nuons.DependencyInjection.Abstractions;
 
 namespace Nuons.DependencyInjection.Analyzers.Tests;
 
 public class NuonsAnalyzerFixture
 {
-	private static readonly Assembly NuonsAssembly = typeof(AssemblyMarker).Assembly;
+	private static readonly Assembly NuonsAssembly = typeof(DIAbstractionsAssemblyMarker).Assembly;
 
 	public async Task VerifyAnalyzerAsync<TAnalyzer>(string source)
 		where TAnalyzer : DiagnosticAnalyzer, new()

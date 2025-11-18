@@ -1,31 +1,31 @@
 using System.Reflection;
 
-namespace Nuons.DependencyInjection.Tests;
+namespace Nuons.DependencyInjection.Abstractions.Tests;
 
-public class InjectedAttributeTests
+public class TransientAttributeTests
 {
 	[Fact]
-	public void InjectedAttribute_HasCorrectAttributeUsage()
+	public void TransientAttribute_HasCorrectAttributeUsage()
 	{
 		// Arrange
-		var attributeType = typeof(InjectedAttribute);
+		var attributeType = typeof(TransientAttribute);
 
 		// Act
 		var attributeUsage = attributeType.GetCustomAttribute<AttributeUsageAttribute>();
 
 		// Assert
 		attributeUsage.ShouldNotBeNull();
-		attributeUsage.ValidOn.ShouldBe(AttributeTargets.Field);
+		attributeUsage.ValidOn.ShouldBe(AttributeTargets.Class);
 		attributeUsage.AllowMultiple.ShouldBeFalse();
 		attributeUsage.Inherited.ShouldBeFalse();
 	}
 
 	[Fact]
-	public void InjectedAttribute_CanBeInstantiated()
+	public void TransientAttribute_CanBeInstantiated()
 	{
 		// Arrange
 		// Act
-		var attribute = new InjectedAttribute();
+		var attribute = new TransientAttribute();
 
 		// Assert
 		attribute.ShouldNotBeNull();

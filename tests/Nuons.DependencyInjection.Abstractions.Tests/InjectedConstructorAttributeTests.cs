@@ -1,14 +1,14 @@
 using System.Reflection;
 
-namespace Nuons.DependencyInjection.Tests;
+namespace Nuons.DependencyInjection.Abstractions.Tests;
 
-public class RootRegistrationAttributeTests
+public class InjectedConstructorAttributeTests
 {
 	[Fact]
-	public void RootRegistrationAttribute_HasCorrectAttributeUsage()
+	public void InjectedConstructorAttribute_HasCorrectAttributeUsage()
 	{
 		// Arrange
-		var attributeType = typeof(SingletonAttribute);
+		var attributeType = typeof(InjectedConstructorAttribute);
 
 		// Act
 		var attributeUsage = attributeType.GetCustomAttribute<AttributeUsageAttribute>();
@@ -21,11 +21,11 @@ public class RootRegistrationAttributeTests
 	}
 
 	[Fact]
-	public void RootRegistrationAttribute_CanBeInstantiated()
+	public void InjectedConstructorAttribute_CanBeInstantiated()
 	{
 		// Arrange
 		// Act
-		var attribute = new RootRegistrationAttribute(typeof(RootRegistrationAttributeTests));
+		var attribute = new InjectedConstructorAttribute();
 
 		// Assert
 		attribute.ShouldNotBeNull();

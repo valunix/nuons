@@ -6,7 +6,7 @@ public class MissingServiceAnalyzerTests(NuonsAnalyzerFixture fixture) : IClassF
 	public async Task MissingService_WithInjected_ReportsDiagnostic()
 	{
 		const string testCode = @"
-using Nuons.DependencyInjection;
+using Nuons.DependencyInjection.Abstractions;
 
 internal class [|TestClass|] 
 {
@@ -21,7 +21,7 @@ internal class [|TestClass|]
 	public async Task MissingService_WithInjectedOptions_ReportsDiagnostic()
 	{
 		const string testCode = @"
-using Nuons.DependencyInjection;
+using Nuons.DependencyInjection.Abstractions;
 
 internal class [|TestClass|] 
 {
@@ -41,7 +41,7 @@ internal class [|TestClass|]
 	public async Task AttributePresent_NoDiagnostic(string attribute)
 	{
 		string testCode = $@"
-using Nuons.DependencyInjection;
+using Nuons.DependencyInjection.Abstractions;
 
 [{attribute}]
 internal class TestClass
@@ -57,7 +57,7 @@ internal class TestClass
 	public async Task ClassWithoutInjectedField_NoDiagnostic()
 	{
 		const string testCode = @"
-using Nuons.DependencyInjection;
+using Nuons.DependencyInjection.Abstractions;
 
 internal class TestClass
 {

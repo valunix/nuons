@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Options;
+using Nuons.DependencyInjection.Abstractions;
 
 namespace Nuons.DependencyInjection.Generators.Tests;
 

@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using Nuons.DependencyInjection.Abstractions;
 
 namespace Nuons.DependencyInjection.Generators;
 

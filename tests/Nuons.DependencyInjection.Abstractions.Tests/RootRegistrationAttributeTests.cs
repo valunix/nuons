@@ -1,11 +1,11 @@
 using System.Reflection;
 
-namespace Nuons.DependencyInjection.Tests;
+namespace Nuons.DependencyInjection.Abstractions.Tests;
 
-public class SingletonAttributeTests
+public class RootRegistrationAttributeTests
 {
 	[Fact]
-	public void SingletonAttribute_HasCorrectAttributeUsage()
+	public void RootRegistrationAttribute_HasCorrectAttributeUsage()
 	{
 		// Arrange
 		var attributeType = typeof(SingletonAttribute);
@@ -21,11 +21,11 @@ public class SingletonAttributeTests
 	}
 
 	[Fact]
-	public void SingletonAttribute_CanBeInstantiated()
+	public void RootRegistrationAttribute_CanBeInstantiated()
 	{
 		// Arrange
 		// Act
-		var attribute = new SingletonAttribute();
+		var attribute = new RootRegistrationAttribute(typeof(RootRegistrationAttributeTests));
 
 		// Assert
 		attribute.ShouldNotBeNull();

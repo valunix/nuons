@@ -1,31 +1,31 @@
 using System.Reflection;
 
-namespace Nuons.DependencyInjection.Tests;
+namespace Nuons.DependencyInjection.Abstractions.Tests;
 
-public class InjectedOptionsAttributeTests
+public class SingletonAttributeTests
 {
 	[Fact]
-	public void InjectedOptionsAttribute_HasCorrectAttributeUsage()
+	public void SingletonAttribute_HasCorrectAttributeUsage()
 	{
 		// Arrange
-		var attributeType = typeof(InjectedOptionsAttribute);
+		var attributeType = typeof(SingletonAttribute);
 
 		// Act
 		var attributeUsage = attributeType.GetCustomAttribute<AttributeUsageAttribute>();
 
 		// Assert
 		attributeUsage.ShouldNotBeNull();
-		attributeUsage.ValidOn.ShouldBe(AttributeTargets.Field);
+		attributeUsage.ValidOn.ShouldBe(AttributeTargets.Class);
 		attributeUsage.AllowMultiple.ShouldBeFalse();
 		attributeUsage.Inherited.ShouldBeFalse();
 	}
 
 	[Fact]
-	public void InjectedOptionsAttribute_CanBeInstantiated()
+	public void SingletonAttribute_CanBeInstantiated()
 	{
 		// Arrange
 		// Act
-		var attribute = new InjectedOptionsAttribute();
+		var attribute = new SingletonAttribute();
 
 		// Assert
 		attribute.ShouldNotBeNull();

@@ -7,23 +7,23 @@ internal class NuonAnalyzerContext(Compilation compilation)
 {
 	public INamedTypeSymbol[] ParameterlessServiceAttributes { get; init; } =
 	[
-		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.SingletonAttribute")!,
-		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.ScopedAttribute")!,
-		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.TransientAttribute")!,
+		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.Abstractions.SingletonAttribute")!,
+		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.Abstractions.ScopedAttribute")!,
+		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.Abstractions.TransientAttribute")!,
 	];
 
 	public INamedTypeSymbol[] ServiceAttributes { get; init; } =
 	[
-		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.ServiceAttribute")!,
-		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.SingletonAttribute")!,
-		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.ScopedAttribute")!,
-		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.TransientAttribute")!,
-		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.InjectedConstructorAttribute")!,
+		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.Abstractions.ServiceAttribute")!,
+		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.Abstractions.SingletonAttribute")!,
+		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.Abstractions.ScopedAttribute")!,
+		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.Abstractions.TransientAttribute")!,
+		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.Abstractions.InjectedConstructorAttribute")!,
 	];
 
 	public INamedTypeSymbol[] InjectedAttributes { get; init; } =
 	[
-		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.InjectedAttribute")!,
-		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.InjectedOptionsAttribute")!,
+		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.Abstractions.InjectedAttribute")!,
+		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.Abstractions.InjectedOptionsAttribute")!,
 	];
 }

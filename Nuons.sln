@@ -5,13 +5,13 @@ VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons", "src\Nuons\Nuons.csproj", "{6C76BA2D-3647-4A56-BC49-5F2DC1857819}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.DependencyInjection", "src\Nuons.DependencyInjection\Nuons.DependencyInjection.csproj", "{860853C7-500E-4D5E-86CC-D99212C8F565}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.DependencyInjection.Abstractions", "src\Nuons.DependencyInjection.Abstractions\Nuons.DependencyInjection.Abstractions.csproj", "{860853C7-500E-4D5E-86CC-D99212C8F565}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.DependencyInjection.Analyzers", "src\Nuons.DependencyInjection.Analyzers\Nuons.DependencyInjection.Analyzers.csproj", "{021D5000-58D6-4D6D-AE75-8E009659C904}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.DependencyInjection.Analyzers.Tests", "tests\Nuons.DependencyInjection.Analyzers.Tests\Nuons.DependencyInjection.Analyzers.Tests.csproj", "{CA2AF28B-6B81-49CA-BD5A-8CAC81E73C0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.DependencyInjection.Tests", "tests\Nuons.DependencyInjection.Tests\Nuons.DependencyInjection.Tests.csproj", "{C23BF8A0-2875-4A60-95EF-A47CF6555019}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.DependencyInjection.Abstractions.Tests", "tests\Nuons.DependencyInjection.Abstractions.Tests\Nuons.DependencyInjection.Abstractions.Tests.csproj", "{C23BF8A0-2875-4A60-95EF-A47CF6555019}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.DependencyInjection.Generators", "src\Nuons.DependencyInjection.Generators\Nuons.DependencyInjection.Generators.csproj", "{1C8CCC88-33E2-420D-94D8-8AEA5D64F9E4}"
 EndProject
