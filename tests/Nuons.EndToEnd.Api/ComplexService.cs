@@ -1,4 +1,4 @@
-using Nuons.DependencyInjection;
+using Nuons.DependencyInjection.Abstractions;
 using Nuons.EndToEnd.SingletonFeature.Domain;
 
 namespace Nuons.EndToEnd.Api;

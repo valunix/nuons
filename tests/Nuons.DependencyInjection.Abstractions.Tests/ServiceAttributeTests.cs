@@ -1,14 +1,14 @@
 using System.Reflection;
 
-namespace Nuons.DependencyInjection.Tests;
+namespace Nuons.DependencyInjection.Abstractions.Tests;
 
-public class InjectedConstructorAttributeTests
+public class ServiceAttributeTests
 {
 	[Fact]
-	public void InjectedConstructorAttribute_HasCorrectAttributeUsage()
+	public void ServiceAttribute_HasCorrectAttributeUsage()
 	{
 		// Arrange
-		var attributeType = typeof(InjectedConstructorAttribute);
+		var attributeType = typeof(ServiceAttribute);
 
 		// Act
 		var attributeUsage = attributeType.GetCustomAttribute<AttributeUsageAttribute>();
@@ -21,11 +21,11 @@ public class InjectedConstructorAttributeTests
 	}
 
 	[Fact]
-	public void InjectedConstructorAttribute_CanBeInstantiated()
+	public void ServiceAttribute_CanBeInstantiated()
 	{
 		// Arrange
 		// Act
-		var attribute = new InjectedConstructorAttribute();
+		var attribute = new ServiceAttribute(Lifetime.Scoped, typeof(ITestService));
 
 		// Assert
 		attribute.ShouldNotBeNull();

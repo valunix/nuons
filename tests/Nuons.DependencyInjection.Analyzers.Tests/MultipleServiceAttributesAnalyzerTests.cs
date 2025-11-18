@@ -6,7 +6,7 @@ public class MultipleServiceAttributesAnalyzerTests(NuonsAnalyzerFixture fixture
 	public async Task ClassWithMultipleServiceAttributes_ReportsError()
 	{
 		const string testCode = @"
-using Nuons.DependencyInjection;
+using Nuons.DependencyInjection.Abstractions;
 
 internal interface ITestService;
 
@@ -21,7 +21,7 @@ internal class [|TestService|] : ITestService;";
 	public async Task ClassWithSingleServiceAttribute_NoError()
 	{
 		const string testCode = @"
-using Nuons.DependencyInjection;
+using Nuons.DependencyInjection.Abstractions;
 
 internal interface ITestService;
 
@@ -46,7 +46,7 @@ internal class TestService : ITestService;";
 	{
 		const string testCode = @"
 using System;
-using Nuons.DependencyInjection;
+using Nuons.DependencyInjection.Abstractions;
 
 internal interface ITestService;
 

@@ -1,4 +1,4 @@
-using Nuons.DependencyInjection;
+using Nuons.DependencyInjection.Abstractions;
 using Nuons.EndToEnd.TransientFeature.Domain;
 
 namespace Nuons.EndToEnd.TransientFeature.Infrastructure;

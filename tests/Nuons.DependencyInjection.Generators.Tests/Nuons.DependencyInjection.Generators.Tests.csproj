@@ -24,7 +24,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\Nuons.DependencyInjection.Generators\Nuons.DependencyInjection.Generators.csproj" />
-		<ProjectReference Include="..\..\src\Nuons.DependencyInjection\Nuons.DependencyInjection.csproj" />
+		<ProjectReference Include="..\..\src\Nuons.DependencyInjection.Abstractions\Nuons.DependencyInjection.Abstractions.csproj" />
 		<ProjectReference Include="..\Nuons.Core.Tests\Nuons.Core.Tests.csproj" />
 	</ItemGroup>
 

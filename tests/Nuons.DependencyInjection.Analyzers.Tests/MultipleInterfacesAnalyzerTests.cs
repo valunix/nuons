@@ -6,7 +6,7 @@ public class MultipleInterfacesAnalyzerTests(NuonsAnalyzerFixture fixture) : ICl
 	public async Task ParameterlessAttribute_WithMultipleDirectInterfaces_ReportsWarning()
 	{
 		const string testCode = @"
-using Nuons.DependencyInjection;
+using Nuons.DependencyInjection.Abstractions;
 
 internal interface IFirst;
 internal interface ISecond;
@@ -21,7 +21,7 @@ internal partial class [|TestService|] : IFirst, ISecond;";
 	public async Task ParameterlessAttribute_WithSingleDirectInterface_NoWarning()
 	{
 		const string testCode = @"
-using Nuons.DependencyInjection;
+using Nuons.DependencyInjection.Abstractions;
 
 internal interface ITestService;
 
@@ -35,7 +35,7 @@ internal partial class TestService : ITestService;";
 	public async Task GenericAttribute_WithMultipleDirectInterfaces_NoWarning()
 	{
 		const string testCode = @"
-using Nuons.DependencyInjection;
+using Nuons.DependencyInjection.Abstractions;
 
 internal interface IFirst;
 internal interface ISecond;
@@ -50,7 +50,7 @@ internal partial class TestService : IFirst, ISecond;";
 	public async Task ParameterlessAttribute_WithIndirectInterface_NoWarning()
 	{
 		const string testCode = @"
-using Nuons.DependencyInjection;
+using Nuons.DependencyInjection.Abstractions;
 
 internal interface IBase;
 internal interface ITarget : IBase;

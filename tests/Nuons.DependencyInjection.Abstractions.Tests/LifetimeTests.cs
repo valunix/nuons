@@ -1,4 +1,4 @@
-namespace Nuons.DependencyInjection.Tests;
+namespace Nuons.DependencyInjection.Abstractions.Tests;
 
 public class LifetimeTests
 {

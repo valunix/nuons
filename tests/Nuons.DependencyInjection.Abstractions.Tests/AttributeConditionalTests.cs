@@ -2,7 +2,7 @@ using System.Diagnostics;
 using System.Reflection;
 using Nuons.Core.Abstractions;
 
-namespace Nuons.DependencyInjection.Tests;
+namespace Nuons.DependencyInjection.Abstractions.Tests;
 
 public class AttributeConditionalTests
 {
@@ -10,7 +10,7 @@ public class AttributeConditionalTests
 	public void AllCustomAttributes_HaveConditionalAttribute_WithCorrectCondition()
 	{
 		// Arrange
-		var assembly = typeof(AssemblyMarker).Assembly;
+		var assembly = typeof(DIAbstractionsAssemblyMarker).Assembly;
 		var attributeTypes = assembly.GetTypes()
 			.Where(type => type.IsSubclassOf(typeof(Attribute)))
 			.Where(type => type.Namespace is not null && type.Namespace.StartsWith("Nuons"))

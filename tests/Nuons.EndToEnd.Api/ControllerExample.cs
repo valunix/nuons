@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Nuons.DependencyInjection;
+using Nuons.DependencyInjection.Abstractions;
 
 namespace Nuons.EndToEnd.Api;
 

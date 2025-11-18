@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Nuons.Core.Abstractions;
 
-namespace Nuons.DependencyInjection;
+namespace Nuons.DependencyInjection.Abstractions;
 
 [Conditional(Constants.CodeGenerationCondition)]
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]

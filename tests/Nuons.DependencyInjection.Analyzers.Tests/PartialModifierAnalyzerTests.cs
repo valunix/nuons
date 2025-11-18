@@ -6,7 +6,7 @@ public class PartialModifierAnalyzerTests(NuonsAnalyzerFixture fixture) : IClass
 	public async Task ClassWithServiceAttribute_MissingPartialModifier_ReportsError()
 	{
 		const string testCode = @"
-using Nuons.DependencyInjection;
+using Nuons.DependencyInjection.Abstractions;
 
 [Scoped]
 public class [|TestClass|];";
@@ -18,7 +18,7 @@ public class [|TestClass|];";
 	public async Task ClassWithPartialModifier_NoError()
 	{
 		const string testCode = @"
-using Nuons.DependencyInjection;
+using Nuons.DependencyInjection.Abstractions;
 
 [Scoped]
 public partial class TestClass;";
@@ -30,7 +30,7 @@ public partial class TestClass;";
 	public async Task ClassWithoutServiceAttribute_NoError()
 	{
 		const string testCode = @"
-using Nuons.DependencyInjection;
+using Nuons.DependencyInjection.Abstractions;
 
 public class TestClass;";
 
