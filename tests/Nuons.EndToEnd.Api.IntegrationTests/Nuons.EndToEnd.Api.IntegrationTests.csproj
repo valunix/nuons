@@ -1,12 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<OutputType>Exe</OutputType>
 		<RootNamespace>Nuons.EndToEnd.Api.IntegrationTests</RootNamespace>
-		<TargetFramework>net9.0</TargetFramework>
-		<TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+		<TargetFramework>net10.0</TargetFramework>
 		<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
 	</PropertyGroup>
 
@@ -20,10 +19,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.8" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.0" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
 		<PackageReference Include="Shouldly" Version="4.3.0" />
-		<PackageReference Include="xunit.v3" Version="3.0.1" />
+		<PackageReference Include="xunit.v3.mtp-v2" Version="3.2.0" />
 	</ItemGroup>
 
 	<ItemGroup>
