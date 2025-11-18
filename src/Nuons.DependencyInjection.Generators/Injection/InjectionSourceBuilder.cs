@@ -1,3 +1,5 @@
+using Nuons.Core.Generators;
+
 namespace Nuons.DependencyInjection.Generators.Injection;
 
 internal class InjectionSourceBuilder
@@ -19,7 +21,7 @@ internal class InjectionSourceBuilder
 	{
 		if (field.IsOptionsValue)
 		{
-			parameters.Add($"Microsoft.Extensions.Options.IOptions<{field.Type}> {field.Name}");
+			parameters.Add($"global::Microsoft.Extensions.Options.IOptions<{field.Type}> {field.Name}");
 			assignments.Add($"this.{field.Name} = {field.Name}.Value;");
 		}
 		else

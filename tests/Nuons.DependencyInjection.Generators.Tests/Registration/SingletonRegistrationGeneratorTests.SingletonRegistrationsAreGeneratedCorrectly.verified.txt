@@ -6,9 +6,9 @@ public static class SingletonRegistrationNuonGeneratorFixtureTestAssembly
 {
 	public static void RegisterServices(IServiceCollection services)
 	{
-		services.AddSingleton<Nuons.DependencyInjection.Generators.Tests.ISingletonService, Nuons.DependencyInjection.Generators.Tests.SingletonService>();
-		services.AddSingleton<Nuons.DependencyInjection.Generators.Tests.ITarget, Nuons.DependencyInjection.Generators.Tests.MultipleInterfacesIndirect>();
-		services.AddSingleton<Nuons.DependencyInjection.Generators.Tests.MultipleInterfacesDirect, Nuons.DependencyInjection.Generators.Tests.MultipleInterfacesDirect>();
-		services.AddSingleton<Nuons.DependencyInjection.Generators.Tests.ISingletonService, Nuons.DependencyInjection.Generators.Tests.SingletonServiceGeneric>();
+		services.AddSingleton<global::Nuons.DependencyInjection.Generators.Tests.ISingletonService, global::Nuons.DependencyInjection.Generators.Tests.SingletonService>();
+		services.AddSingleton<global::Nuons.DependencyInjection.Generators.Tests.ITarget, global::Nuons.DependencyInjection.Generators.Tests.MultipleInterfacesIndirect>();
+		services.AddSingleton<global::Nuons.DependencyInjection.Generators.Tests.MultipleInterfacesDirect, global::Nuons.DependencyInjection.Generators.Tests.MultipleInterfacesDirect>();
+		services.AddSingleton<global::Nuons.DependencyInjection.Generators.Tests.ISingletonService, global::Nuons.DependencyInjection.Generators.Tests.SingletonServiceGeneric>();
 	}
 }

@@ -8,4 +8,8 @@
 		<IsPackable>true</IsPackable>
 	</PropertyGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="Nuons.Http.Generators.Tests" />
+	</ItemGroup>
+
 </Project>

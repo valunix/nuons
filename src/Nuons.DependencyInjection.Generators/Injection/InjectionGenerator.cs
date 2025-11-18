@@ -28,7 +28,7 @@ internal abstract class InjectionGenerator<T> : IIncrementalGenerator
 			return null;
 		}
 
-		var namespaceName = symbol.ToNamespace();
+		var namespaceName = symbol.ToNamespaceSimple();
 		if (string.IsNullOrEmpty(namespaceName))
 		{
 			return null;

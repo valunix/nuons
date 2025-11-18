@@ -1,4 +1,5 @@
 using System.Text;
+using Nuons.Core.Generators;
 using Nuons.DependencyInjection.Abstractions;
 
 namespace Nuons.DependencyInjection.Generators.Registration;

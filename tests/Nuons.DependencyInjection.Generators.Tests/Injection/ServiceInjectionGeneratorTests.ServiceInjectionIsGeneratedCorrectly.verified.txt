@@ -2,9 +2,9 @@
 internal partial class LifetimeService
 {
 	public LifetimeService(
-		Nuons.DependencyInjection.Generators.Tests.ISingletonService singletonField,
-		Nuons.DependencyInjection.Generators.Tests.IScopedService scopedField,
-		Nuons.DependencyInjection.Generators.Tests.ITransientService transientField)
+		global::Nuons.DependencyInjection.Generators.Tests.ISingletonService singletonField,
+		global::Nuons.DependencyInjection.Generators.Tests.IScopedService scopedField,
+		global::Nuons.DependencyInjection.Generators.Tests.ITransientService transientField)
 	{
 		this.singletonField = singletonField;
 		this.scopedField = scopedField;

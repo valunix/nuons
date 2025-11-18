@@ -6,7 +6,7 @@ namespace Nuons.DependencyInjection.Generators.Tests.Registration;
 public class EndpointGeneratorTests(ITestOutputHelper output, NuonGeneratorFixture fixture)
 	: IClassFixture<NuonGeneratorFixture>
 {
-	[Fact]
+	[Fact(Skip = "For debugging during dev only")]
 	public void DevRunGenerator() => fixture.RunGenerator<EndpointGenerator>(output);
 
 	[Fact]

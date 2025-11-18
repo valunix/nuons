@@ -28,7 +28,7 @@ internal class RootRegistrationGenerator : IIncrementalGenerator
 			return null;
 		}
 
-		var namespaceName = symbol.ToNamespace();
+		var namespaceName = symbol.ToNamespaceSimple();
 		if (string.IsNullOrEmpty(namespaceName))
 		{
 			return null;
@@ -60,7 +60,7 @@ internal class RootRegistrationGenerator : IIncrementalGenerator
 		var registrations = constructorArguments[0].Values
 			.Select(typedConstant => typedConstant.Value)
 			.OfType<INamedTypeSymbol>()
-			.Select(symbol => Sources.GetCombinedRegistrationClassName(symbol.ContainingAssembly.Name))
+			.Select(symbol => DependancyInjectionSources.GetCombinedRegistrationClassName(symbol.ContainingAssembly.Name))
 			.ToImmutableArray();
 
 		return new RootRegistrationIncrement(namespaceName, className, registrations);

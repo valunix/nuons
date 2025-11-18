@@ -1,4 +1,5 @@
 using Microsoft.CodeAnalysis;
+using Nuons.Core.Abstractions;
 using Nuons.Core.Tests;
 using Nuons.Http.Abstractions;
 
@@ -7,9 +8,10 @@ namespace Nuons.DependencyInjection.Generators.Tests;
 internal static class FixtureExtensions
 {
 	private const string SamplesPath = "../../../Samples.cs";
-	private static readonly Type[] AssemblyMarkers = [typeof(HttpAbstractionsAssemblyMarker)];
+	private const string SamplesReferencesPath = "../../../SamplesReferences.cs";
+	private static readonly Type[] AssemblyMarkers = [typeof(HttpAbstractionsAssemblyMarker), typeof(CoreAbstractionsAssemblyMarker)];
 
-	private static readonly NuonTestContext Context = new NuonTestContext(SamplesPath, AssemblyMarkers);
+	private static readonly NuonTestContext Context = new NuonTestContext(SamplesPath, AssemblyMarkers, SamplesReferencesPath);
 
 	public static string GenerateSources<TGenerator>(this NuonGeneratorFixture fixture)
 		where TGenerator : IIncrementalGenerator, new()

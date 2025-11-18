@@ -2,7 +2,7 @@
 internal partial class TransientService
 {
 	public TransientService(
-		Nuons.DependencyInjection.Generators.Tests.IScopedService scopedField)
+		global::Nuons.DependencyInjection.Generators.Tests.IScopedService scopedField)
 	{
 		this.scopedField = scopedField;
 	}

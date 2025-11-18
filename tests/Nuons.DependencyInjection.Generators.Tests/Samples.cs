@@ -74,9 +74,12 @@ internal partial class ServiceWithOptions
 [InjectedConstructor]
 internal partial class InjectedConstructorService
 {
+	[Injected] private readonly IAmGeneric<string?> genericField;
 	[Injected] private readonly ISingletonService singletonField;
 	[InjectedOptions] private readonly SampleOptions sampleOptions;
 }
+
+internal interface IAmGeneric<T>;
 
 [RootRegistration(typeof(RootRegistration))]
 internal partial class RootRegistration;

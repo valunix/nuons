@@ -7,6 +7,6 @@ public static class OptionsRegistrationNuonGeneratorFixtureTestAssembly
 {
 	public static void ConfigureOptions(IServiceCollection services, IConfiguration configuration)
 	{
-		services.Configure<Nuons.DependencyInjection.Generators.Tests.SampleOptions>(configuration.GetSection("SampleOptions"));
+		services.Configure<global::Nuons.DependencyInjection.Generators.Tests.SampleOptions>(configuration.GetSection("SampleOptions"));
 	}
 }

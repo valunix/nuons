@@ -59,7 +59,7 @@ internal class CombinedRegistrationGenerator : IIncrementalGenerator
 		var source = sourceBuilder.Build();
 		var sourceText = SourceText.From(source, Encoding.UTF8);
 
-		var className = Sources.GetCombinedRegistrationClassName(increment.AssemblyName);
+		var className = DependancyInjectionSources.GetCombinedRegistrationClassName(increment.AssemblyName);
 		context.AddSource(Sources.GeneratedNameHint(className), sourceText);
 	}
 }

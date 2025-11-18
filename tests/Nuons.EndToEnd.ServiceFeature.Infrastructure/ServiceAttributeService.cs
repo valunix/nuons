@@ -1,4 +1,4 @@
-using Nuons.DependencyInjection;
+using Nuons.DependencyInjection.Abstractions;
 using Nuons.EndToEnd.ServiceFeature.Domain;
 
 namespace Nuons.EndToEnd.ServiceFeature.Infrastructure;

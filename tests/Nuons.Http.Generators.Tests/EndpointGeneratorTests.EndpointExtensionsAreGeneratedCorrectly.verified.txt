@@ -2,14 +2,16 @@
 
 internal static class NuonEndpointExtensions
 {
-	
 	public static void AddNuonServices(this IServiceCollection services)
 	{
-		services.AddScoped<Nuons.DependencyInjection.Generators.Tests.GetSampleHandler>();
+		services.AddScoped<global::Nuons.DependencyInjection.Generators.Tests.GetDomainObjectHandler>();
+		services.AddScoped<global::Nuons.DependencyInjection.Generators.Tests.GetSubDomainObjectHandler>();
 	}
 
 	public static void MapNuonEndpoints(this WebApplication app)
 	{
-		app.MapGet("/domain-object", (Nuons.DependencyInjection.Generators.Tests.GetSampleHandler handler) => handler.GetDomainObject());
+		app.MapGet("/domain-object", (global::Nuons.DependencyInjection.Generators.Tests.GetDomainObjectHandler handler, Guid id) => handler.GetSimple(id));
+		app.MapGet("/domain-object", (global::Nuons.DependencyInjection.Generators.Tests.GetDomainObjectHandler handler, Guid id, global::System.String name, global::Nuons.DependencyInjection.Generators.Tests.CustomClass<global::System.String> custom) => handler.GetDomainObject(id, name, custom));
+		app.MapGet("/sub-domain-object", (global::Nuons.DependencyInjection.Generators.Tests.GetSubDomainObjectHandler handler) => handler.GetSubDomainObject());
 	}
 }
