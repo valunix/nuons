@@ -64,8 +64,8 @@ internal abstract class RegistrationGenerator<T>(Lifetime lifetime) : IIncrement
 			serviceTypeSymbol = symbol;
 		}
 
-		var serviceType = serviceTypeSymbol.ToFullName();
-		var implementationType = symbol.ToFullName();
+		var serviceType = serviceTypeSymbol.ToFullTypeName();
+		var implementationType = symbol.ToFullTypeName();
 
 		return new ServiceRegistration(serviceType, implementationType);
 	}
@@ -95,8 +95,8 @@ internal abstract class RegistrationGenerator<T>(Lifetime lifetime) : IIncrement
 			return null;
 		}
 
-		var serviceType = namedType.ToFullName();
-		var implementationType = symbol.ToFullName();
+		var serviceType = namedType.ToFullTypeName();
+		var implementationType = symbol.ToFullTypeName();
 
 		return new ServiceRegistration(serviceType, implementationType);
 	}
@@ -108,7 +108,7 @@ internal abstract class RegistrationGenerator<T>(Lifetime lifetime) : IIncrement
 			return;
 		}
 
-		var className = Sources.GetLifetimeRegistrationClassName(increment.AssemblyName, lifetime);
+		var className = DependancyInjectionSources.GetLifetimeRegistrationClassName(increment.AssemblyName, lifetime);
 		var sourceBuilder = new RegistrationSourceBuilder(className);
 		foreach (var registration in increment.Registrations)
 		{

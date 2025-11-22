@@ -1,4 +1,5 @@
 using System.Text;
+using Nuons.Core.Generators;
 
 namespace Nuons.DependencyInjection.Generators.Registration;
 

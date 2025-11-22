@@ -2,7 +2,7 @@
 internal partial class ScopedService
 {
 	public ScopedService(
-		Nuons.DependencyInjection.Generators.Tests.ISingletonService singletonField)
+		global::Nuons.DependencyInjection.Generators.Tests.ISingletonService singletonField)
 	{
 		this.singletonField = singletonField;
 	}
@@ -11,9 +11,9 @@ namespace Nuons.DependencyInjection.Generators.Tests;
 internal partial class ServiceWithOptions
 {
 	public ServiceWithOptions(
-		Nuons.DependencyInjection.Generators.Tests.ISingletonService singletonField,
-		Microsoft.Extensions.Options.IOptions<Nuons.DependencyInjection.Generators.Tests.SampleOptions> options,
-		Microsoft.Extensions.Options.IOptions<Nuons.DependencyInjection.Generators.Tests.SampleOptions> sampleOptions)
+		global::Nuons.DependencyInjection.Generators.Tests.ISingletonService singletonField,
+		global::Microsoft.Extensions.Options.IOptions<global::Nuons.DependencyInjection.Generators.Tests.SampleOptions> options,
+		global::Microsoft.Extensions.Options.IOptions<global::Nuons.DependencyInjection.Generators.Tests.SampleOptions> sampleOptions)
 	{
 		this.singletonField = singletonField;
 		this.options = options;

@@ -32,34 +32,55 @@ public class NuonGeneratorFixture : IDisposable
 	private GeneratorDriver Drive<TGenerator>(NuonTestContext testContext)
 		where TGenerator : IIncrementalGenerator, new()
 	{
+		Compilation? referenceCompilation = null;
+		if (testContext.ReferencesSourcePath is not null)
+		{
+			var referencesSource = File.ReadAllText(testContext.ReferencesSourcePath);
+			referenceCompilation = CreateCompilation(referencesSource, testContext.AssemblyMarkers);
+		}
+
 		var inputSource = File.ReadAllText(testContext.InputSourcePath);
+		var compilation = CreateCompilation(inputSource, testContext.AssemblyMarkers, referenceCompilation);
+
 		var generator = new TGenerator();
-		var compilation = CreateCompilation(inputSource, testContext.AssemblyMarkers);
 		var driver = CSharpGeneratorDriver.Create(generator)
 			.RunGeneratorsAndUpdateCompilation(compilation, out var outputCompilation, out var diagnostics);
 		return driver;
 	}
 
-	private Compilation CreateCompilation(string targetSource, Type[] assemblyMarkers)
+	private Compilation CreateCompilation(string targetSource, Type[] assemblyMarkers, Compilation? referenceCompilation = null)
 	{
 		var references = assemblyMarkers
 			.Select(type => type.Assembly.Location)
-			.Select(location => MetadataReference.CreateFromFile(location))
-			.ToArray();
+			.Select(location => MetadataReference.CreateFromFile(location) as MetadataReference)
+			.ToList();
+
+		references.Add(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
 
 		var runtimeDir = RuntimeEnvironment.GetRuntimeDirectory();
+
 		var systemRuntimePath = Path.Combine(runtimeDir, "System.Runtime.dll");
+		references.Add(MetadataReference.CreateFromFile(systemRuntimePath));
+
 		var netStandardPath = Path.Combine(runtimeDir, "netstandard.dll");
+		references.Add(MetadataReference.CreateFromFile(netStandardPath));
+
+		if (referenceCompilation is not null)
+		{
+			using var peStream = new MemoryStream();
+			var emit = referenceCompilation.Emit(peStream);
+			if (!emit.Success)
+			{
+				throw new InvalidOperationException("Unable to emit reference compilation.");
+			}
+			peStream.Position = 0;
+			references.Add(MetadataReference.CreateFromStream(peStream));
+		}
 
 		var compilation = CSharpCompilation.Create(
 			$"{GetType().Name}.TestAssembly",
 			[CSharpSyntaxTree.ParseText(SourceText.From(targetSource, Encoding.UTF8))],
-			[
-				MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
-				MetadataReference.CreateFromFile(netStandardPath),
-				MetadataReference.CreateFromFile(systemRuntimePath),
-				..references
-			],
+			[.. references],
 			new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
 		);
 

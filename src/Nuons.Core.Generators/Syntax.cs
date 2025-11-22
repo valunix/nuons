@@ -19,7 +19,8 @@ public static class Syntax
 			.FirstOrDefault(a => a.AttributeClass?.Name == typeof(T).Name);
 	}
 
-	public static string ToNamespace(this ISymbol symbol)
+	// TODO avoid trim start?
+	public static string ToNamespaceSimple(this ISymbol symbol)
 	{
 		var namespaceBuilder = new StringBuilder();
 		var currentNamespace = symbol.ContainingNamespace;
@@ -32,6 +33,70 @@ public static class Syntax
 		return namespaceBuilder.ToString().TrimStart(NamespaceSeparator);
 	}
 
-	public static string ToFullName(this ISymbol symbol) =>
-		$"{symbol.ToNamespace()}.{symbol.Name}";
+	// TODO handle guid?
+	public static string ToFullTypeName(this ITypeSymbol symbol)
+	{
+		var format = new SymbolDisplayFormat(
+			globalNamespaceStyle:
+				SymbolDisplayGlobalNamespaceStyle.Included,
+			typeQualificationStyle:
+				SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
+			genericsOptions:
+				SymbolDisplayGenericsOptions.IncludeTypeParameters
+				| SymbolDisplayGenericsOptions.IncludeVariance,
+			miscellaneousOptions: SymbolDisplayMiscellaneousOptions.EscapeKeywordIdentifiers
+				| SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier
+				| SymbolDisplayMiscellaneousOptions.ExpandNullable
+		);
+
+		return symbol.ToDisplayString(format);
+	}
+
+	// TODO
+	public static IncrementalValuesProvider<TValues> WhereNotNull<TValues>(this IncrementalValuesProvider<TValues?> provider)
+	{
+		return provider
+			.Where(increment => increment is not null)
+			.Select( static (increment, _) => increment!);
+	}
+
+	public static bool HasAttribute(this ISymbol assembly, INamedTypeSymbol markerAttribute)
+		=> assembly.GetAttributes().Any(attribute => SymbolEqualityComparer.Default.Equals(attribute.AttributeClass, markerAttribute));
+
+	public static IEnumerable<INamedTypeSymbol> GetAllTypes(this IAssemblySymbol assembly)
+	{
+		return GetTypesRecursive(assembly.GlobalNamespace);
+	}
+
+	private static IEnumerable<INamedTypeSymbol> GetTypesRecursive(INamespaceSymbol namespaceSymbol)
+	{
+		foreach (var type in namespaceSymbol.GetTypeMembers())
+		{
+			foreach (var nestedType in GetNestedTypes(type))
+			{
+				yield return nestedType;
+			}
+		}
+
+		foreach (var subNamespaces in namespaceSymbol.GetNamespaceMembers())
+		{
+			foreach (var type in GetTypesRecursive(subNamespaces))
+			{
+				yield return type;
+			}
+		}
+	}
+
+	private static IEnumerable<INamedTypeSymbol> GetNestedTypes(INamedTypeSymbol currentType)
+	{
+		yield return currentType;
+
+		foreach (var type in currentType.GetTypeMembers())
+		{
+			foreach (var nestedType in GetNestedTypes(type))
+			{
+				yield return nestedType;
+			}
+		}
+	}
 }

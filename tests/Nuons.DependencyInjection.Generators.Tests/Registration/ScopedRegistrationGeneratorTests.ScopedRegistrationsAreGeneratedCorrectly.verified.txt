@@ -6,8 +6,8 @@ public static class ScopedRegistrationNuonGeneratorFixtureTestAssembly
 {
 	public static void RegisterServices(IServiceCollection services)
 	{
-		services.AddScoped<Nuons.DependencyInjection.Generators.Tests.IScopedService, Nuons.DependencyInjection.Generators.Tests.ScopedService>();
-		services.AddScoped<Nuons.DependencyInjection.Generators.Tests.ServiceWithOptions, Nuons.DependencyInjection.Generators.Tests.ServiceWithOptions>();
-		services.AddScoped<Nuons.DependencyInjection.Generators.Tests.IScopedService, Nuons.DependencyInjection.Generators.Tests.ScopedServiceGeneric>();
+		services.AddScoped<global::Nuons.DependencyInjection.Generators.Tests.IScopedService, global::Nuons.DependencyInjection.Generators.Tests.ScopedService>();
+		services.AddScoped<global::Nuons.DependencyInjection.Generators.Tests.ServiceWithOptions, global::Nuons.DependencyInjection.Generators.Tests.ServiceWithOptions>();
+		services.AddScoped<global::Nuons.DependencyInjection.Generators.Tests.IScopedService, global::Nuons.DependencyInjection.Generators.Tests.ScopedServiceGeneric>();
 	}
 }

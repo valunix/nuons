@@ -1,18 +1,10 @@
-using System.Text.RegularExpressions;
+using Nuons.Core.Generators;
 using Nuons.DependencyInjection.Abstractions;
 
 namespace Nuons.DependencyInjection.Generators;
 
-internal static class Sources
+internal static class DependancyInjectionSources
 {
-	private const string GeneratedExtension = ".g.cs";
-
-	public static string GeneratedNameHint(string name) => $"{name}{GeneratedExtension}";
-
-	public const string Tab1 = "\t";
-	public const string Tab2 = "\t\t";
-	public const string NewLine = "\n";
-
 	public static string ToMethodName(this Lifetime lifetime) =>
 		lifetime switch
 		{
@@ -22,18 +14,15 @@ internal static class Sources
 			_ => throw new ArgumentOutOfRangeException(nameof(lifetime)),
 		};
 
-	public static string TrimForClassName(string assemblyName) =>
-		Regex.Replace(assemblyName, @"[^a-zA-Z0-9]", string.Empty);
-
 	public static string GetLifetimeRegistrationClassName(string assemblyName, Lifetime lifetime) =>
-		$"{lifetime}Registration{TrimForClassName(assemblyName)}";
+		$"{lifetime}Registration{Sources.TrimForClassName(assemblyName)}";
 
 	public static string GetServiceRegistrationClassName(string assemblyName) =>
-		$"ServiceRegistration{TrimForClassName(assemblyName)}";
+		$"ServiceRegistration{Sources.TrimForClassName(assemblyName)}";
 
 	public static string GetCombinedRegistrationClassName(string assemblyName) =>
-		$"CombinedRegistration{TrimForClassName(assemblyName)}";
+		$"CombinedRegistration{Sources.TrimForClassName(assemblyName)}";
 
 	public static string GetOptionsRegistrationClassName(string assemblyName) =>
-		$"OptionsRegistration{TrimForClassName(assemblyName)}";
+		$"OptionsRegistration{Sources.TrimForClassName(assemblyName)}";
 }

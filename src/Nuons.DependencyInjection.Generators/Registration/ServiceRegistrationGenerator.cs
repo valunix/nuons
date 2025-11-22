@@ -58,9 +58,9 @@ internal class ServiceRegistrationGenerator : IIncrementalGenerator
 		{
 			return null;
 		}
-		var serviceType = typeArgument.ToFullName();
+		var serviceType = typeArgument.ToFullTypeName();
 
-		return new ServiceLifetimeRegistration(serviceType, symbol.ToFullName(), lifetime);
+		return new ServiceLifetimeRegistration(serviceType, symbol.ToFullTypeName(), lifetime);
 	}
 
 	private void GenerateSources(SourceProductionContext context, ServiceRegistrationIncrement increment)
@@ -70,7 +70,7 @@ internal class ServiceRegistrationGenerator : IIncrementalGenerator
 			return;
 		}
 
-		var className = Sources.GetServiceRegistrationClassName(increment.AssemblyName);
+		var className = DependancyInjectionSources.GetServiceRegistrationClassName(increment.AssemblyName);
 		var sourceBuilder = new RegistrationSourceBuilder(className);
 		foreach (var registration in increment.Registrations)
 		{

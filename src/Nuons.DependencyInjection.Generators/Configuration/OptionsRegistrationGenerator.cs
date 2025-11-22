@@ -52,7 +52,7 @@ internal class OptionsRegistrationGenerator : IIncrementalGenerator
 			return null;
 		}
 
-		return new OptionsRegistration(sectionArg, symbol.ToFullName());
+		return new OptionsRegistration(sectionArg, symbol.ToFullTypeName());
 	}
 
 	private void GenerateSources(SourceProductionContext context, OptionsRegistrationIncrement increment)
@@ -62,7 +62,7 @@ internal class OptionsRegistrationGenerator : IIncrementalGenerator
 			return;
 		}
 
-		var className = Sources.GetOptionsRegistrationClassName(increment.AssemblyName);
+		var className = DependancyInjectionSources.GetOptionsRegistrationClassName(increment.AssemblyName);
 		var builder = new OptionsRegistrationSourceBuilder(className);
 		foreach (var registration in increment.Registrations)
 		{

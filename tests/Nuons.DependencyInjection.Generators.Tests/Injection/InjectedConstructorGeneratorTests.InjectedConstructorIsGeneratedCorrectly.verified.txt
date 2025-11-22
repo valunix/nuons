@@ -2,9 +2,11 @@ namespace Nuons.DependencyInjection.Generators.Tests;
 internal partial class InjectedConstructorService
 {
 	public InjectedConstructorService(
-		Nuons.DependencyInjection.Generators.Tests.ISingletonService singletonField,
-		Microsoft.Extensions.Options.IOptions<Nuons.DependencyInjection.Generators.Tests.SampleOptions> sampleOptions)
+		global::Nuons.DependencyInjection.Generators.Tests.IAmGeneric<global::System.String?> genericField,
+		global::Nuons.DependencyInjection.Generators.Tests.ISingletonService singletonField,
+		global::Microsoft.Extensions.Options.IOptions<global::Nuons.DependencyInjection.Generators.Tests.SampleOptions> sampleOptions)
 	{
+		this.genericField = genericField;
 		this.singletonField = singletonField;
 		this.sampleOptions = sampleOptions.Value;
 	}

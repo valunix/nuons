@@ -6,6 +6,6 @@ public static class ServiceRegistrationNuonGeneratorFixtureTestAssembly
 {
 	public static void RegisterServices(IServiceCollection services)
 	{
-		services.AddTransient<Nuons.DependencyInjection.Generators.Tests.ILifetimeService, Nuons.DependencyInjection.Generators.Tests.LifetimeService>();
+		services.AddTransient<global::Nuons.DependencyInjection.Generators.Tests.ILifetimeService, global::Nuons.DependencyInjection.Generators.Tests.LifetimeService>();
 	}
 }
