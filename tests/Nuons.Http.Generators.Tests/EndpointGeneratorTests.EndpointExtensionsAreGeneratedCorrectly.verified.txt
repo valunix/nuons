@@ -4,14 +4,19 @@ internal static class NuonEndpointExtensions
 {
 	public static void AddNuonServices(this IServiceCollection services)
 	{
-		services.AddScoped<global::Nuons.DependencyInjection.Generators.Tests.GetDomainObjectHandler>();
-		services.AddScoped<global::Nuons.DependencyInjection.Generators.Tests.GetSubDomainObjectHandler>();
+		services.AddScoped<global::Nuons.Http.Generators.Tests.EmptyHandler>();
+		services.AddScoped<global::Nuons.Http.Generators.Tests.ComplexHandler>();
+		services.AddScoped<global::Nuons.Http.Generators.Tests.DomainObjectHandler>();
+		services.AddScoped<global::Nuons.Http.Generators.Tests.SubDomainObjectHandler>();
 	}
 
 	public static void MapNuonEndpoints(this WebApplication app)
 	{
-		app.MapGet("/domain-object", (global::Nuons.DependencyInjection.Generators.Tests.GetDomainObjectHandler handler, Guid id) => handler.GetSimple(id));
-		app.MapGet("/domain-object", (global::Nuons.DependencyInjection.Generators.Tests.GetDomainObjectHandler handler, Guid id, global::System.String name, global::Nuons.DependencyInjection.Generators.Tests.CustomClass<global::System.String> custom) => handler.GetDomainObject(id, name, custom));
-		app.MapGet("/sub-domain-object", (global::Nuons.DependencyInjection.Generators.Tests.GetSubDomainObjectHandler handler) => handler.GetSubDomainObject());
+		app.MapGet("/", (global::Nuons.Http.Generators.Tests.EmptyHandler handler) => handler.GetEmpty());
+		app.MapGet("/complex/sample/{id}", (global::Nuons.Http.Generators.Tests.ComplexHandler handler, Guid id, global::System.String name, global::Nuons.Http.Generators.Tests.GenericClass<global::System.String> generic) => handler.Get(id, name, generic));
+		app.MapGet("/domain-object/{id}", (global::Nuons.Http.Generators.Tests.DomainObjectHandler handler, global::System.String id) => handler.GetDomainObject(id));
+		app.MapPost("/domain-object", (global::Nuons.Http.Generators.Tests.DomainObjectHandler handler, global::Nuons.Http.Generators.Tests.DomainObject domainObject) => handler.CreateDomainObject(domainObject));
+		app.MapGet("/sub-domain-object", (global::Nuons.Http.Generators.Tests.SubDomainObjectHandler handler) => handler.GetSubDomainObject());
+		app.MapPost("/sub-domain-object", (global::Nuons.Http.Generators.Tests.SubDomainObjectHandler handler, global::Nuons.Http.Generators.Tests.SubDomainObject subDomainObject) => handler.CreateSubDomainObject(subDomainObject));
 	}
 }

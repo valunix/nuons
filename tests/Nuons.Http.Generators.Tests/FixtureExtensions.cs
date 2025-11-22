@@ -3,7 +3,7 @@ using Nuons.Core.Abstractions;
 using Nuons.Core.Tests;
 using Nuons.Http.Abstractions;
 
-namespace Nuons.DependencyInjection.Generators.Tests;
+namespace Nuons.Http.Generators.Tests;
 
 internal static class FixtureExtensions
 {

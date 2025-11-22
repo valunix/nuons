@@ -1,7 +1,6 @@
 using Nuons.Core.Tests;
-using Nuons.Http.Generators;
 
-namespace Nuons.DependencyInjection.Generators.Tests.Registration;
+namespace Nuons.Http.Generators.Tests;
 
 public class EndpointGeneratorTests(ITestOutputHelper output, NuonGeneratorFixture fixture)
 	: IClassFixture<NuonGeneratorFixture>

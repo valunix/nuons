@@ -1,16 +1,31 @@
 using Nuons.Http.Abstractions;
 
-namespace Nuons.DependencyInjection.Generators.Tests;
+namespace Nuons.Http.Generators.Tests;
 
-[Route("/domain-object")]
-internal partial class GetDomainObjectHandler
+[Route]
+internal partial class EmptyHandler
 {
-
 	[Get]
-	public void GetSimple(Guid id) { }
-
-	[Get]
-	public void GetDomainObject(Guid id, string name, CustomClass<string> custom) { }
+	public void GetEmpty() { }
 }
 
-internal class CustomClass<T>;
+[Route("/complex/")]
+internal partial class ComplexHandler
+{
+	[Get("/sample/{id}/")]
+	public void Get(Guid id, string name, GenericClass<string> generic) { }
+}
+
+internal class GenericClass<T>;
+
+[Route("/domain-object")]
+internal partial class DomainObjectHandler
+{
+	[Get("{id}")]
+	public void GetDomainObject(string id) { }
+
+	[Post]
+	public void CreateDomainObject(DomainObject domainObject) { }
+}
+
+internal class DomainObject;
