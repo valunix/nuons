@@ -68,6 +68,8 @@ internal class EndpointGenerator : IIncrementalGenerator
 			return null;
 		}
 
+		var routeBuilder = new RouteBuilder(route);
+
 		var implementationType = symbol.ToFullTypeName();
 		var handler = new HandlerRegistration(implementationType);
 
@@ -83,6 +85,19 @@ internal class EndpointGenerator : IIncrementalGenerator
 		var endpointBuilder = ImmutableArray.CreateBuilder<EndpointRegistration>();
 		foreach (var member in members)
 		{
+			var getAttribute = member.FirstOrDefaultAttribute<GetAttribute>();
+			var getConstructorArguments = getAttribute.ConstructorArguments;
+			if (getConstructorArguments.Length is not 1)
+			{
+				continue;
+			}
+
+			var getRoute = getConstructorArguments[0].Value as string;
+			if (getRoute is null)
+			{
+				continue;
+			}
+
 			var parameters = member.Parameters;
 			var parameterBuilder = ImmutableArray.CreateBuilder<MethodParameter>();
 			foreach (var parameter in parameters)
@@ -91,8 +106,10 @@ internal class EndpointGenerator : IIncrementalGenerator
 				var name = parameter.Name;
 				parameterBuilder.Add(new MethodParameter(typeName, name));
 			}
+
 			var implementationMethod = member.Name;
-			var endpoint = new EndpointRegistration(HttpMethods.Get, route, implementationMethod, parameterBuilder.ToImmutable());
+			var fullRoute = routeBuilder.Build(getRoute);
+			var endpoint = new EndpointRegistration(HttpMethods.Get, fullRoute, implementationMethod, parameterBuilder.ToImmutable());
 			endpointBuilder.Add(endpoint);
 		}
 
