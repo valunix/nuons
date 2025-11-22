@@ -2,11 +2,16 @@ using Nuons.Http.Abstractions;
 
 [assembly: Nuons.Core.Abstractions.AssemblyHasNuons]
 
-namespace Nuons.DependencyInjection.Generators.Tests;
+namespace Nuons.Http.Generators.Tests;
 
 [Route("/sub-domain-object")]
-internal partial class GetSubDomainObjectHandler
+internal partial class SubDomainObjectHandler
 {
 	[Get]
 	public void GetSubDomainObject() { }
+
+	[Post]
+	public void CreateSubDomainObject(SubDomainObject subDomainObject) { }
 }
+
+internal class SubDomainObject;
