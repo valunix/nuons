@@ -12,6 +12,16 @@ public static class Syntax
 
 	public static bool IsClassNode(SyntaxNode node, CancellationToken _) => node is ClassDeclarationSyntax;
 
+	public static bool HasAttribute(this ISymbol symbol, INamedTypeSymbol attributeSymbol)
+		=> symbol.GetAttributes().Any(attribute => SymbolEqualityComparer.Default.Equals(attribute.AttributeClass, attributeSymbol));
+
+	public static AttributeData? FirstOrDefaultAttribute(this ISymbol symbol, INamedTypeSymbol attributeSymbol)
+	{
+		return symbol.GetAttributes()
+			.FirstOrDefault(attribute => SymbolEqualityComparer.Default.Equals(attribute.AttributeClass, attributeSymbol));
+	}
+
+	[Obsolete($"Use non generic overload that takes INamedTypeSymbol as input")]
 	public static AttributeData? FirstOrDefaultAttribute<T>(this ISymbol symbol)
 		where T : Attribute
 	{
@@ -33,7 +43,6 @@ public static class Syntax
 		return namespaceBuilder.ToString().TrimStart(NamespaceSeparator);
 	}
 
-	// TODO handle guid?
 	public static string ToFullTypeName(this ITypeSymbol symbol)
 	{
 		var format = new SymbolDisplayFormat(
@@ -52,16 +61,12 @@ public static class Syntax
 		return symbol.ToDisplayString(format);
 	}
 
-	// TODO
 	public static IncrementalValuesProvider<TValues> WhereNotNull<TValues>(this IncrementalValuesProvider<TValues?> provider)
 	{
 		return provider
 			.Where(increment => increment is not null)
 			.Select( static (increment, _) => increment!);
 	}
-
-	public static bool HasAttribute(this ISymbol assembly, INamedTypeSymbol markerAttribute)
-		=> assembly.GetAttributes().Any(attribute => SymbolEqualityComparer.Default.Equals(attribute.AttributeClass, markerAttribute));
 
 	public static IEnumerable<INamedTypeSymbol> GetAllTypes(this IAssemblySymbol assembly)
 	{

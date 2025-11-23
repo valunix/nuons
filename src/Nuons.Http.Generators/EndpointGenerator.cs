@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Nuons.Core.Abstractions;
@@ -8,152 +7,42 @@ using Nuons.Http.Abstractions;
 namespace Nuons.Http.Generators;
 
 [Generator]
-internal class EndpointGenerator : IIncrementalGenerator
+internal partial class EndpointGenerator : IIncrementalGenerator
 {
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{
+		var endpointAttributesProvider = context.CompilationProvider
+			.Select(EndpointAttributes.FromCompilation);
+
 		var currentProjectProvider = context.SyntaxProvider.ForAttributeWithMetadataName(
 			typeof(RouteAttribute).FullName,
 			Syntax.IsClassNode,
-			ExtractIncrement
+			ExtractSymbol
 		)
-			.Where(increment => increment is not null)
+			.WhereNotNull()
 			.Collect();
 
 		var referencesProvider = context.CompilationProvider
-			.SelectMany(ExtractEndpointsFromReferences)
+			.SelectMany(ExtractSymbolsFromReferences)
 			.Collect();
 
 		var mergedProvider = currentProjectProvider
 			.Combine(referencesProvider)
-			.Select(static (combined, ct) => combined.Left.AddRange(combined.Right));
+			.Select(static (combined, ct) => combined.Left.AddRange(combined.Right))
+			.Combine(endpointAttributesProvider)
+			.Select(static (combined, ct) => new EndpointSubIncrement(combined.Left, combined.Right))
+			.Select(ExtractIncrements);
 
 		context.RegisterSourceOutput(mergedProvider, GenerateSources);
 	}
 
-	private EndpointIncrement? ExtractIncrement(GeneratorAttributeSyntaxContext context, CancellationToken cancellationToken)
+	private static INamedTypeSymbol? ExtractSymbol(GeneratorAttributeSyntaxContext context, CancellationToken cancellationToken)
 	{
-		if (context.TargetSymbol is not INamedTypeSymbol symbol)
-		{
-			return null;
-		}
-
-		// TODO optimize
-
-		var getAttributeSymbol = context.SemanticModel.Compilation.GetTypeByMetadataName(typeof(GetAttribute).FullName);
-		if(getAttributeSymbol is null)
-		{
-			return null;
-		}
-
-		var postAttributeSymbol = context.SemanticModel.Compilation.GetTypeByMetadataName(typeof(PostAttribute).FullName);
-		if (postAttributeSymbol is null)
-		{
-			return null;
-		}
-
-		var endpointContext = new EndpointGeneratorContext(getAttributeSymbol, postAttributeSymbol);
-		return ExtractIncrement(symbol, endpointContext, cancellationToken);
+		return context.TargetSymbol as INamedTypeSymbol;
 	}
 
-	private static EndpointIncrement? ExtractIncrement(INamedTypeSymbol symbol, EndpointGeneratorContext endpointContext, CancellationToken cancellationToken)
+	private static ImmutableArray<INamedTypeSymbol> ExtractSymbolsFromReferences(Compilation compilation, CancellationToken cancellationToken)
 	{
-		var attribute = symbol.FirstOrDefaultAttribute<RouteAttribute>();
-		if (attribute is null)
-		{
-			return null;
-		}
-
-		// TODO
-		var constructorArguments = attribute.ConstructorArguments;
-		if (constructorArguments.Length is not 1)
-		{
-			return null;
-		}
-
-		var route = constructorArguments[0].Value as string;
-		if (route is null)
-		{
-			return null;
-		}
-
-		var routeBuilder = new RouteBuilder(route);
-
-		var implementationType = symbol.ToFullTypeName();
-		var handler = new HandlerRegistration(implementationType);
-
-		var endpointBuilder = ImmutableArray.CreateBuilder<EndpointRegistration>();
-
-		var getMembers = symbol.GetMembers()
-			.OfType<IMethodSymbol>()
-			.Where(method => method.HasAttribute(endpointContext.GetAttributeSymbol))
-			.ToList();
-		if (getMembers.Count > 0)
-		{
-			AddEndpoints<GetAttribute>(endpointBuilder, getMembers, HttpMethods.Get, routeBuilder);
-		}
-
-		var postMembers = symbol.GetMembers()
-			.OfType<IMethodSymbol>()
-			.Where(method => method.HasAttribute(endpointContext.PostAttributeSymbol))
-			.ToList();
-		if (postMembers.Count > 0)
-		{
-			AddEndpoints<PostAttribute>(endpointBuilder, postMembers, HttpMethods.Post, routeBuilder);
-		}
-
-		var finalEndpoints = endpointBuilder.ToImmutable();
-		if (finalEndpoints.Length == 0)
-		{
-			return null;
-		}
-
-		var increment = new EndpointIncrement(handler, finalEndpoints);
-		return increment;
-	}
-
-	private static void AddEndpoints<TAttribute>(ImmutableArray<EndpointRegistration>.Builder endpointBuilder, List<IMethodSymbol> members, string httpMethod, RouteBuilder routeBuilder)
-		where TAttribute : Attribute
-	{
-		foreach (var member in members)
-		{
-			var attribute = member.FirstOrDefaultAttribute<TAttribute>();
-			if (attribute is null)
-			{
-				continue;
-			}
-
-			var getConstructorArguments = attribute.ConstructorArguments;
-			if (getConstructorArguments.Length is not 1)
-			{
-				continue;
-			}
-
-			if (getConstructorArguments[0].Value is not string route)
-			{
-				continue;
-			}
-
-			var parameters = member.Parameters;
-			var parameterBuilder = ImmutableArray.CreateBuilder<MethodParameter>();
-			foreach (var parameter in parameters)
-			{
-				var typeName = parameter.Type.ToFullTypeName();
-				var name = parameter.Name;
-				parameterBuilder.Add(new MethodParameter(typeName, name));
-			}
-
-			var implementationMethod = member.Name;
-			var fullRoute = routeBuilder.Build(route);
-			var endpoint = new EndpointRegistration(httpMethod, fullRoute, implementationMethod, parameterBuilder.ToImmutable());
-			endpointBuilder.Add(endpoint);
-		}
-	}
-
-	private static ImmutableArray<EndpointIncrement> ExtractEndpointsFromReferences(Compilation compilation, CancellationToken cancellationToken)
-	{
-		var results = ImmutableArray.CreateBuilder<EndpointIncrement>();
-
 		var routeAttribute = compilation.GetTypeByMetadataName(typeof(RouteAttribute).FullName!);
 		if (routeAttribute is null)
 		{
@@ -166,51 +55,148 @@ internal class EndpointGenerator : IIncrementalGenerator
 			return [];
 		}
 
-		var getAttributeSymbol = compilation.GetTypeByMetadataName(typeof(GetAttribute).FullName);
-		if (getAttributeSymbol is null)
-		{
-			return [];
-		}
+		var results = compilation.SourceModule.ReferencedAssemblySymbols
+			.Where(a => a.HasAttribute(nuonMarkerAttribute))
+			.SelectMany(a => a.GetAllTypes())
+			.Where(type => type.HasAttribute(routeAttribute));
 
-		var postAttributeSymbol = compilation.GetTypeByMetadataName(typeof(PostAttribute).FullName);
-		if (postAttributeSymbol is null)
-		{
-			return [];
-		}
-
-		var endpointContext = new EndpointGeneratorContext(getAttributeSymbol, postAttributeSymbol);
-
-		foreach (var assemblySymbol in compilation.SourceModule.ReferencedAssemblySymbols)
-		{
-			if (!assemblySymbol.HasAttribute(nuonMarkerAttribute))
-			{
-				continue;
-			}
-
-			CollectAssemblyTypes(assemblySymbol, routeAttribute, endpointContext, results, cancellationToken);
-		}
-
-		return results.ToImmutable();
+		return [.. results];
 	}
 
-	private static void CollectAssemblyTypes(IAssemblySymbol assemblySymbol, INamedTypeSymbol routeAttribute, EndpointGeneratorContext endpointContext, ImmutableArray<EndpointIncrement>.Builder sink, CancellationToken cancellationToken)
+	private static ImmutableArray<EndpointIncrement> ExtractIncrements(EndpointSubIncrement subIncrement, CancellationToken token)
 	{
-		foreach (var type in assemblySymbol.GetAllTypes())
-		{
-			if (!type.HasAttribute(routeAttribute))
-			{
-				continue;
-			}
-
-			var increment = ExtractIncrement(type, endpointContext, cancellationToken);
-			if (increment is not null)
-			{
-				sink.Add(increment);
-			}
-		}
+		var increments = subIncrement.Symbols
+			.Select(s => ExtractIncrement(s, subIncrement.Attributes, token))
+			.OfType<EndpointIncrement>();
+		return [.. increments];
 	}
 
-	private void GenerateSources(SourceProductionContext context, ImmutableArray<EndpointIncrement> increments)
+	private static EndpointIncrement? ExtractIncrement(INamedTypeSymbol symbol, EndpointAttributes? endpointAttributes, CancellationToken cancellationToken)
+	{
+		if (endpointAttributes is null)
+		{
+			return null;
+		}
+
+		var attribute = symbol.FirstOrDefaultAttribute(endpointAttributes.Route);
+		if (attribute is null)
+		{
+			return null;
+		}
+
+		var constructorArguments = attribute.ConstructorArguments;
+		if (constructorArguments.Length is not 1)
+		{
+			return null;
+		}
+
+		if (constructorArguments[0].Value is not string route)
+		{
+			return null;
+		}
+
+		var handlerType = symbol.ToFullTypeName();
+		if (string.IsNullOrEmpty(handlerType))
+		{
+			return null;
+		}
+
+		var routeBuilder = new RouteBuilder(route);
+
+		var endpointBuilder = ImmutableArray.CreateBuilder<EndpointRegistration>();
+
+		foreach (var member in symbol.GetMembers().OfType<IMethodSymbol>())
+		{
+			if (TryCreateEndpoint(member, routeBuilder, endpointAttributes, out var endpoint))
+			{
+				endpointBuilder.Add(endpoint!);
+			}
+		}
+
+		var finalEndpoints = endpointBuilder.ToImmutable();
+		if (finalEndpoints.Length == 0)
+		{
+			return null;
+		}
+
+		var increment = new EndpointIncrement(handlerType, finalEndpoints);
+		return increment;
+	}
+
+	// TODO foreach on endpoint spec instead of 4 IFs
+	private static bool TryCreateEndpoint(IMethodSymbol member, RouteBuilder routeBuilder, EndpointAttributes endpointAttributes, out EndpointRegistration? endpoint)
+	{
+		var getAttribute = member.FirstOrDefaultAttribute(endpointAttributes.Get);
+		if (getAttribute is not null)
+		{
+			if (TryCreateEndpoint(member, routeBuilder, getAttribute, HttpMethods.Get, out endpoint))
+			{
+				return true;
+			}
+		}
+
+		var postAttribute = member.FirstOrDefaultAttribute(endpointAttributes.Post);
+		if (postAttribute is not null)
+		{
+			if (TryCreateEndpoint(member, routeBuilder, postAttribute, HttpMethods.Post, out endpoint))
+			{
+				return true;
+			}
+		}
+
+		var putAttribute = member.FirstOrDefaultAttribute(endpointAttributes.Put);
+		if (putAttribute is not null)
+		{
+			if (TryCreateEndpoint(member, routeBuilder, putAttribute, HttpMethods.Put, out endpoint))
+			{
+				return true;
+			}
+		}
+
+		var deleteAttribute = member.FirstOrDefaultAttribute(endpointAttributes.Delete);
+		if (deleteAttribute is not null)
+		{
+			if (TryCreateEndpoint(member, routeBuilder, deleteAttribute, HttpMethods.Delete, out endpoint))
+			{
+				return true;
+			}
+		}
+
+		endpoint = null;
+		return false;
+	}
+
+	private static bool TryCreateEndpoint(IMethodSymbol member, RouteBuilder routeBuilder, AttributeData attribute, string httpMethod, out EndpointRegistration? endpoint)
+	{
+		endpoint = null;
+
+		var getConstructorArguments = attribute.ConstructorArguments;
+		if (getConstructorArguments.Length is not 1)
+		{
+			return false;
+		}
+
+		if (getConstructorArguments[0].Value is not string route)
+		{
+			return false;
+		}
+
+		var parameters = member.Parameters;
+		var parameterBuilder = ImmutableArray.CreateBuilder<MethodParameter>();
+		foreach (var parameter in parameters)
+		{
+			var typeName = parameter.Type.ToFullTypeName();
+			var name = parameter.Name;
+			parameterBuilder.Add(new MethodParameter(typeName, name));
+		}
+
+		var implementationMethod = member.Name;
+		var fullRoute = routeBuilder.Build(route);
+		endpoint = new EndpointRegistration(httpMethod, fullRoute, implementationMethod, parameterBuilder.ToImmutable());
+		return true;
+	}
+
+	private static void GenerateSources(SourceProductionContext context, ImmutableArray<EndpointIncrement> increments)
 	{
 		if (increments.Length == 0)
 		{

@@ -9,9 +9,11 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
 		<PackageReference Include="Nuons" Version="0.0.7" />
+		<PackageReference Include="Nuons.Temp" Version="0.0.7" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Nuons.EndToEnd.Http\Nuons.EndToEnd.Http.csproj" />
 		<ProjectReference Include="..\Nuons.EndToEnd.SingletonFeature.Domain\Nuons.EndToEnd.SingletonFeature.Domain.csproj" />
 		<ProjectReference Include="..\Nuons.EndToEnd.SingletonFeature.Infrastructure\Nuons.EndToEnd.SingletonFeature.Infrastructure.csproj" />
 		<ProjectReference Include="..\Nuons.EndToEnd.TransientFeature.Domain\Nuons.EndToEnd.TransientFeature.Domain.csproj" />

@@ -24,21 +24,23 @@ internal class EndpointSourceBuilder(ImmutableArray<EndpointIncrement> increment
 					parameters = string.Join(ParameterSeparator, endpoint.HandlerMethodParameters.Select(parameter => parameter.Name));
 					parametersFull = ParameterSeparator + string.Join(ParameterSeparator, endpoint.HandlerMethodParameters.Select(parameter => $"{parameter.Type} {parameter.Name}"));
 				}
-				var endpointLine = @$"app.Map{endpoint.HttpMethod}(""{endpoint.Route}"", ({increment.Handler.Type} handler{parametersFull}) => handler.{endpoint.HandlerMethod}({parameters}));";
+				var endpointLine = @$"app.Map{endpoint.HttpMethod}(""{endpoint.Route}"", ({increment.HandlerType} handler{parametersFull}) => handler.{endpoint.HandlerMethod}({parameters}));";
 
 				endpointLines.Append(Sources.NewLine);
 				endpointLines.Append(Sources.Tab2);
 				endpointLines.Append(endpointLine);
 			}
+			endpointLines.Append(Sources.NewLine);
 
-			var serviceLine = $@"services.AddScoped<{increment.Handler.Type}>();";
+			var serviceLine = $@"services.AddScoped<{increment.HandlerType}>();";
 
 			serviceLines.Append(Sources.NewLine);
 			serviceLines.Append(Sources.Tab2);
 			serviceLines.Append(serviceLine);
 		}
 
-		var source = $@"using Microsoft.Extensions.DependencyInjection;
+		var source = $@"using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
 internal static class NuonEndpointExtensions
 {{

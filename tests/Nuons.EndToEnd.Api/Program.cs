@@ -10,6 +10,8 @@ builder.Services.AddControllers();
 
 RootRegistration.RegisterServices(builder.Services, builder.Configuration);
 
+builder.Services.AddNuonServices();
+
 var app = builder.Build();
 
 app.MapGet(Routes.Singleton, (ISingletonService singletonService) => singletonService.GetValue());
@@ -22,6 +24,8 @@ app.MapGet(Routes.Service, (IServiceAttributeService serviceAttributeService) =>
 app.MapGet(Routes.Complex, (IComplexService complexService) => complexService.GetValue());
 
 app.MapControllers();
+
+app.MapNuonEndpoints();
 
 app.Run();
 
