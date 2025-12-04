@@ -16,11 +16,6 @@ internal class CombinedRegistrationSourceBuilder
 	public string Build()
 	{
 		var builder = new StringBuilder();
-		if (increment.Service)
-		{
-			var registration = $"{DependancyInjectionSources.GetServiceRegistrationClassName(increment.AssemblyName)}.RegisterServices(services);";
-			Append(builder, registration);
-		}
 
 		if (increment.Singleton)
 		{

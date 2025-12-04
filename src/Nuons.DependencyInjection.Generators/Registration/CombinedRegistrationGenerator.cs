@@ -14,16 +14,13 @@ internal class CombinedRegistrationGenerator : IIncrementalGenerator
 		var assemblyNameProvider = context.CompilationProvider
 			.Select((c, _) => c.AssemblyName);
 
-		var serviceExists = GetProviderFor(context, typeof(ServiceAttribute));
 		var transientExists = GetProviderFor(context, typeof(TransientAttribute));
 		var scopedExists = GetProviderFor(context, typeof(ScopedAttribute));
 		var singletonExists = GetProviderFor(context, typeof(SingletonAttribute));
 		var optionsExists = GetProviderFor(context, typeof(OptionsAttribute));
 
-		var combinedProvider = assemblyNameProvider.Combine(serviceExists)
-			.Select((combined, _) => new CombinedRegistrationsIncrement() { AssemblyName = combined.Left, Service = combined.Right })
-			.Combine(transientExists)
-			.Select((combined, _) => combined.Left with { Transient = combined.Right })
+		var combinedProvider = assemblyNameProvider.Combine(transientExists)
+			.Select((combined, _) => new CombinedRegistrationsIncrement() { AssemblyName = combined.Left, Transient = combined.Right })
 			.Combine(scopedExists)
 			.Select((combined, _) => combined.Left with { Scoped = combined.Right })
 			.Combine(singletonExists)

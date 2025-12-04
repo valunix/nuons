@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.0.11217.181 d18.0
+VisualStudioVersion = 18.0.11217.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.EndToEnd.Api.IntegrationTests", "tests\Nuons.EndToEnd.Api.IntegrationTests\Nuons.EndToEnd.Api.IntegrationTests.csproj", "{DFB81ADA-DCAD-474C-B372-7CF71877C3CD}"
 EndProject
@@ -10,10 +10,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.EndToEnd.ScopedFeature.Domain", "tests\Nuons.EndToEnd.ScopedFeature.Domain\Nuons.EndToEnd.ScopedFeature.Domain.csproj", "{5BE9B849-99E4-4482-9F58-1216D8A77557}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.EndToEnd.ScopedFeature.Infrastructure", "tests\Nuons.EndToEnd.ScopedFeature.Infrastructure\Nuons.EndToEnd.ScopedFeature.Infrastructure.csproj", "{D2929C13-EC5A-4C6A-8500-B1E0FBE25A53}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.EndToEnd.ServiceFeature.Domain", "tests\Nuons.EndToEnd.ServiceFeature.Domain\Nuons.EndToEnd.ServiceFeature.Domain.csproj", "{0259795C-5FFC-432D-8B02-C3BAFE928EF5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.EndToEnd.ServiceFeature.Infrastructure", "tests\Nuons.EndToEnd.ServiceFeature.Infrastructure\Nuons.EndToEnd.ServiceFeature.Infrastructure.csproj", "{1B2C8482-798B-4D97-8D20-FC78F26E4529}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.EndToEnd.SingletonFeature.Domain", "tests\Nuons.EndToEnd.SingletonFeature.Domain\Nuons.EndToEnd.SingletonFeature.Domain.csproj", "{437FEEBE-E71F-4700-8DCB-690C522CA23B}"
 EndProject
@@ -83,30 +79,6 @@ Global
 		{D2929C13-EC5A-4C6A-8500-B1E0FBE25A53}.Release|x64.Build.0 = Release|Any CPU
 		{D2929C13-EC5A-4C6A-8500-B1E0FBE25A53}.Release|x86.ActiveCfg = Release|Any CPU
 		{D2929C13-EC5A-4C6A-8500-B1E0FBE25A53}.Release|x86.Build.0 = Release|Any CPU
-		{0259795C-5FFC-432D-8B02-C3BAFE928EF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0259795C-5FFC-432D-8B02-C3BAFE928EF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0259795C-5FFC-432D-8B02-C3BAFE928EF5}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{0259795C-5FFC-432D-8B02-C3BAFE928EF5}.Debug|x64.Build.0 = Debug|Any CPU
-		{0259795C-5FFC-432D-8B02-C3BAFE928EF5}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0259795C-5FFC-432D-8B02-C3BAFE928EF5}.Debug|x86.Build.0 = Debug|Any CPU
-		{0259795C-5FFC-432D-8B02-C3BAFE928EF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0259795C-5FFC-432D-8B02-C3BAFE928EF5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0259795C-5FFC-432D-8B02-C3BAFE928EF5}.Release|x64.ActiveCfg = Release|Any CPU
-		{0259795C-5FFC-432D-8B02-C3BAFE928EF5}.Release|x64.Build.0 = Release|Any CPU
-		{0259795C-5FFC-432D-8B02-C3BAFE928EF5}.Release|x86.ActiveCfg = Release|Any CPU
-		{0259795C-5FFC-432D-8B02-C3BAFE928EF5}.Release|x86.Build.0 = Release|Any CPU
-		{1B2C8482-798B-4D97-8D20-FC78F26E4529}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1B2C8482-798B-4D97-8D20-FC78F26E4529}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1B2C8482-798B-4D97-8D20-FC78F26E4529}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{1B2C8482-798B-4D97-8D20-FC78F26E4529}.Debug|x64.Build.0 = Debug|Any CPU
-		{1B2C8482-798B-4D97-8D20-FC78F26E4529}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1B2C8482-798B-4D97-8D20-FC78F26E4529}.Debug|x86.Build.0 = Debug|Any CPU
-		{1B2C8482-798B-4D97-8D20-FC78F26E4529}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1B2C8482-798B-4D97-8D20-FC78F26E4529}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1B2C8482-798B-4D97-8D20-FC78F26E4529}.Release|x64.ActiveCfg = Release|Any CPU
-		{1B2C8482-798B-4D97-8D20-FC78F26E4529}.Release|x64.Build.0 = Release|Any CPU
-		{1B2C8482-798B-4D97-8D20-FC78F26E4529}.Release|x86.ActiveCfg = Release|Any CPU
-		{1B2C8482-798B-4D97-8D20-FC78F26E4529}.Release|x86.Build.0 = Release|Any CPU
 		{437FEEBE-E71F-4700-8DCB-690C522CA23B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{437FEEBE-E71F-4700-8DCB-690C522CA23B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{437FEEBE-E71F-4700-8DCB-690C522CA23B}.Debug|x64.ActiveCfg = Debug|Any CPU

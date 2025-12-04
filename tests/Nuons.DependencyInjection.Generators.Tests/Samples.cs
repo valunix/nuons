@@ -45,11 +45,10 @@ internal partial class TransientServiceGeneric : ITransientService
 	[Injected] private readonly IScopedService scopedField;
 }
 
-public interface ILifetimeService;
+public interface ICombinedService;
 
-//[Service((Lifetime)42, typeof(ILifetimeService))]
-[Service(Lifetime.Transient, typeof(ILifetimeService))]
-internal partial class LifetimeService : ILifetimeService
+[Transient]
+internal partial class CombinedService : ICombinedService
 {
 	[Injected] private readonly ISingletonService singletonField;
 
