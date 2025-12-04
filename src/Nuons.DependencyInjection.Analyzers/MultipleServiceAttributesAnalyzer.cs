@@ -31,26 +31,26 @@ internal class MultipleServiceAttributesAnalyzer : DiagnosticAnalyzer
 
 		context.RegisterCompilationStartAction(startContext =>
 		{
-			var nuonAnalyzerContext = new NuonAnalyzerContext(startContext.Compilation);
+			var nuonAnalyzerContext = new DependencyInjectionAnalyzerContext(startContext.Compilation);
 			startContext.RegisterSyntaxNodeAction(syntaxContext => AnalyzeClass(syntaxContext, nuonAnalyzerContext), SyntaxKind.ClassDeclaration);
 		});
 	}
 
-	private static void AnalyzeClass(SyntaxNodeAnalysisContext context, NuonAnalyzerContext nuonAnalyzerContext)
+	private static void AnalyzeClass(SyntaxNodeAnalysisContext syntaxContext, DependencyInjectionAnalyzerContext analyzerContext)
 	{
-		if (context.Node is not ClassDeclarationSyntax classDeclaration)
+		if (syntaxContext.Node is not ClassDeclarationSyntax classDeclaration)
 		{
 			return;
 		}
 
-		if (context.ContainingSymbol is not INamedTypeSymbol symbol)
+		if (syntaxContext.ContainingSymbol is not INamedTypeSymbol symbol)
 		{
 			return;
 		}
 
 		var serviceAttributes = symbol.GetAttributes()
 			.Where(attribute => attribute.AttributeClass is not null
-				&& nuonAnalyzerContext.ServiceAttributes.Contains(attribute.AttributeClass, SymbolEqualityComparer.Default))
+				&& analyzerContext.ServiceAttributes.Contains(attribute.AttributeClass, SymbolEqualityComparer.Default))
 			.ToList();
 
 		if (serviceAttributes.Count <= MaxServiceAttributes)
@@ -65,6 +65,6 @@ internal class MultipleServiceAttributesAnalyzer : DiagnosticAnalyzer
 			symbol.Name,
 			attributeNames);
 
-		context.ReportDiagnostic(diagnostic);
+		syntaxContext.ReportDiagnostic(diagnostic);
 	}
 }

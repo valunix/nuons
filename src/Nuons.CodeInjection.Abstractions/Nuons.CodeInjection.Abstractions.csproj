@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+		<IsPackable>true</IsPackable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="Nuons.CodeInjection.Abstractions.Tests" />
+		<InternalsVisibleTo Include="Nuons.CodeInjection.Analyzers.Tests" />
+		<InternalsVisibleTo Include="Nuons.CodeInjection.Generators.Tests" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Nuons.Core.Abstractions\Nuons.Core.Abstractions.csproj" />
+	</ItemGroup>
+
+</Project>

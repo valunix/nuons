@@ -10,7 +10,7 @@ internal static class FixtureExtensions
 	private const string SamplesPath = "../../../Samples.cs";
 	private static readonly Type[] AssemblyMarkers = [typeof(DIAbstractionsAssemblyMarker), typeof(Options)];
 
-	private static readonly NuonTestContext Context = new NuonTestContext(SamplesPath, AssemblyMarkers);
+	private static readonly NuonGeneratorTestContext Context = new(SamplesPath, AssemblyMarkers);
 
 	public static string GenerateSources<TGenerator>(this NuonGeneratorFixture fixture)
 		where TGenerator : IIncrementalGenerator, new()

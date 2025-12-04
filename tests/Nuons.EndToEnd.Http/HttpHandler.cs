@@ -1,6 +1,6 @@
 using Nuons.Http.Abstractions;
 
-namespace Nuons.EndToEnd.TransientFeature.Infrastructure;
+namespace Nuons.EndToEnd.Http;
 
 [Route("http-handler")]
 public class HttpHandler

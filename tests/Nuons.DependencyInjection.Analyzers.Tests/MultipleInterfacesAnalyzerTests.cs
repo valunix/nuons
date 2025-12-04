@@ -1,6 +1,8 @@
+using Nuons.Core.Tests;
+
 namespace Nuons.DependencyInjection.Analyzers.Tests;
 
-public class MultipleInterfacesAnalyzerTests(NuonsAnalyzerFixture fixture) : IClassFixture<NuonsAnalyzerFixture>
+public class MultipleInterfacesAnalyzerTests(NuonAnalyzerFixture fixture) : IClassFixture<NuonAnalyzerFixture>
 {
 	[Fact]
 	public async Task ParameterlessAttribute_WithMultipleDirectInterfaces_ReportsWarning()
@@ -12,7 +14,8 @@ internal interface IFirst;
 internal interface ISecond;
 
 [Singleton]
-internal partial class [|TestService|] : IFirst, ISecond;";
+internal partial class [|TestService|] : IFirst, ISecond;
+";
 
 		await fixture.VerifyAnalyzerAsync<MultipleInterfacesAnalyzer>(testCode);
 	}
@@ -26,7 +29,8 @@ using Nuons.DependencyInjection.Abstractions;
 internal interface ITestService;
 
 [Singleton]
-internal partial class TestService : ITestService;";
+internal partial class TestService : ITestService;
+";
 
 		await fixture.VerifyAnalyzerAsync<MultipleInterfacesAnalyzer>(testCode);
 	}
@@ -41,7 +45,8 @@ internal interface IFirst;
 internal interface ISecond;
 
 [Singleton<IFirst>]
-internal partial class TestService : IFirst, ISecond;";
+internal partial class TestService : IFirst, ISecond;
+";
 
 		await fixture.VerifyAnalyzerAsync<MultipleInterfacesAnalyzer>(testCode);
 	}
@@ -56,7 +61,8 @@ internal interface IBase;
 internal interface ITarget : IBase;
 
 [Singleton]
-internal partial class TestService : ITarget;";
+internal partial class TestService : ITarget;
+";
 
 		await fixture.VerifyAnalyzerAsync<MultipleInterfacesAnalyzer>(testCode);
 	}

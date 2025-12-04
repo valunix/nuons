@@ -13,7 +13,7 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0" />
-		<PackageReference Include="Nuons" Version="0.0.7" />
+		<PackageReference Include="Nuons.Library" Version="0.0.7" />
 	</ItemGroup>
 
 	<ItemGroup>

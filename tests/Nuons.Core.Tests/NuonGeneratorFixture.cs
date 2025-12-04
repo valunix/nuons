@@ -9,7 +9,7 @@ namespace Nuons.Core.Tests;
 
 public class NuonGeneratorFixture : IDisposable
 {
-	public string GenerateSources<TGenerator>(NuonTestContext testContext)
+	public string GenerateSources<TGenerator>(NuonGeneratorTestContext testContext)
 		where TGenerator : IIncrementalGenerator, new()
 	{
 		var driver = Drive<TGenerator>(testContext);
@@ -29,7 +29,7 @@ public class NuonGeneratorFixture : IDisposable
 		}
 	}
 
-	private GeneratorDriver Drive<TGenerator>(NuonTestContext testContext)
+	private GeneratorDriver Drive<TGenerator>(NuonGeneratorTestContext testContext)
 		where TGenerator : IIncrementalGenerator, new()
 	{
 		Compilation? referenceCompilation = null;
@@ -87,7 +87,7 @@ public class NuonGeneratorFixture : IDisposable
 		return compilation;
 	}
 
-	public void RunGenerator<TGenerator>(NuonTestContext testContext, ITestOutputHelper output)
+	public void RunGenerator<TGenerator>(NuonGeneratorTestContext testContext, ITestOutputHelper output)
 		where TGenerator : IIncrementalGenerator, new()
 	{
 		var driver = Drive<TGenerator>(testContext);
