@@ -4,12 +4,11 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<RootNamespace>Nuons.Temp</RootNamespace>
 		<LangVersion>latest</LangVersion>
 		<IsPackable>true</IsPackable>
-		<PackageId>Nuons.Temp</PackageId>
+		<PackageId>Nuons.Library</PackageId>
 		<Authors>Nikola Ljubisic</Authors>
-		<Title>Nuons Temp</Title>
+		<Title>Nuons Library</Title>
 		<PackageIcon>nuons_icon_64x64.png</PackageIcon>
 		<PackageProjectUrl>https://github.com/valunix/nuons</PackageProjectUrl>
 		<Description>A lightweight open-source library for .NET that cuts down boilerplate and speeds up application development.</Description>
@@ -21,37 +20,17 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Nuons.Core.Abstractions\Nuons.Core.Abstractions.csproj" Pack="true" PrivateAssets="all" />
-		<ProjectReference Include="..\Nuons.Core.Generators\Nuons.Core.Generators.csproj" Pack="true" PrivateAssets="all" ReferenceOutputAssembly="false" />
-		<ProjectReference Include="..\Nuons.Http.Generators\Nuons.Http.Generators.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" />
 		<ProjectReference Include="..\Nuons.Http.Abstractions\Nuons.Http.Abstractions.csproj" Pack="true" PrivateAssets="all" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Include="..\Nuons.Core.Generators\bin\$(Configuration)\netstandard2.0\Nuons.Core.Generators.dll"
-			  Pack="true" PackagePath="analyzers/dotnet/cs/" Visible="false" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="..\Nuons.Core.Abstractions\bin\Release\netstandard2.0\Nuons.Core.Abstractions.dll"
 			  Pack="true" PackagePath="lib/netstandard2.0/" />
 	</ItemGroup>
-	<ItemGroup>
-		<None Include="..\Nuons.Core.Abstractions\bin\$(Configuration)\netstandard2.0\Nuons.Core.Abstractions.dll"
-			  Pack="true" PackagePath="analyzers/dotnet/cs/" Visible="false" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Include="..\Nuons.Http.Generators\bin\$(Configuration)\netstandard2.0\Nuons.Http.Generators.dll"
-			  Pack="true" PackagePath="analyzers/dotnet/cs/" Visible="false" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="..\Nuons.Http.Abstractions\bin\Release\netstandard2.0\Nuons.Http.Abstractions.dll"
 			  Pack="true" PackagePath="lib/netstandard2.0/" />
-	</ItemGroup>
-	<ItemGroup>
-		<None Include="..\Nuons.Http.Abstractions\bin\Release\netstandard2.0\Nuons.Http.Abstractions.dll"
-			  Pack="true" PackagePath="analyzers/dotnet/cs/" Visible="false" />
 	</ItemGroup>
 
 	<ItemGroup>

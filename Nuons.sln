@@ -29,9 +29,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Core.Tests", "tests\N
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Http.Generators.Tests", "tests\Nuons.Http.Generators.Tests\Nuons.Http.Generators.Tests.csproj", "{FDD93947-4B1A-4376-9A7F-FE97B9FA497C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Abstractions", "src\Nuons.Abstractions\Nuons.Abstractions.csproj", "{A645737D-187F-4322-A911-3629BD356A90}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Library", "src\Nuons.Library\Nuons.Library.csproj", "{A645737D-187F-4322-A911-3629BD356A90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Temp", "src\Nuons.Temp\Nuons.Temp.csproj", "{730D1411-862E-4749-B8B8-1881C4BB49B2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Startup", "src\Nuons.Startup\Nuons.Startup.csproj", "{730D1411-862E-4749-B8B8-1881C4BB49B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

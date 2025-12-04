@@ -10,18 +10,18 @@ dotnet pack $nuonProjectFile -c Release --no-build -o "..\artifacts\local-nuget"
 Write-Host "NuGet package for $nuonProjectFile created in ..\artifacts\local-nuget directory with version $version" -ForegroundColor Green
 
 
-$nuonsAbstractionsProjectFile = "./../src/Nuons.Abstractions/Nuons.Abstractions.csproj"
+$nuonsLibraryProjectFile = "./../src/Nuons.Library/Nuons.Library.csproj"
 
-dotnet clean $nuonsAbstractionsProjectFile
-dotnet build $nuonsAbstractionsProjectFile -c Release "/p:Version=$version" "/p:AssemblyVersion=$version" "/p:FileVersion=$version"
-dotnet pack $nuonsAbstractionsProjectFile -c Release --no-build -o "..\artifacts\local-nuget" "/p:Version=$version" "/p:PackageVersion=$version" "/p:AssemblyVersion=$version" "/p:FileVersion=$version"
+dotnet clean $nuonsLibraryProjectFile
+dotnet build $nuonsLibraryProjectFile -c Release "/p:Version=$version" "/p:AssemblyVersion=$version" "/p:FileVersion=$version"
+dotnet pack $nuonsLibraryProjectFile -c Release --no-build -o "..\artifacts\local-nuget" "/p:Version=$version" "/p:PackageVersion=$version" "/p:AssemblyVersion=$version" "/p:FileVersion=$version"
 
-Write-Host "NuGet package for $nuonsAbstractionsProjectFile created in ..\artifacts\local-nuget directory with version $version" -ForegroundColor Green
+Write-Host "NuGet package for $nuonsLibraryProjectFile created in ..\artifacts\local-nuget directory with version $version" -ForegroundColor Green
 
-$nuonsTempProjectFile = "./../src/Nuons.Temp/Nuons.Temp.csproj"
+$nuonsStartupProjectFile = "./../src/Nuons.Startup/Nuons.Startup.csproj"
 
-dotnet clean $nuonsTempProjectFile
-dotnet build $nuonsTempProjectFile -c Release "/p:Version=$version" "/p:AssemblyVersion=$version" "/p:FileVersion=$version"
-dotnet pack $nuonsTempProjectFile -c Release --no-build -o "..\artifacts\local-nuget" "/p:Version=$version" "/p:PackageVersion=$version" "/p:AssemblyVersion=$version" "/p:FileVersion=$version"
+dotnet clean $nuonsStartupProjectFile
+dotnet build $nuonsStartupProjectFile -c Release "/p:Version=$version" "/p:AssemblyVersion=$version" "/p:FileVersion=$version"
+dotnet pack $nuonsStartupProjectFile -c Release --no-build -o "..\artifacts\local-nuget" "/p:Version=$version" "/p:PackageVersion=$version" "/p:AssemblyVersion=$version" "/p:FileVersion=$version"
 
-Write-Host "NuGet package for $nuonsTempProjectFile created in ..\artifacts\local-nuget directory with version $version" -ForegroundColor Green
+Write-Host "NuGet package for $nuonsStartupProjectFile created in ..\artifacts\local-nuget directory with version $version" -ForegroundColor Green
