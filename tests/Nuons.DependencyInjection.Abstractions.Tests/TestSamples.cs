@@ -11,9 +11,6 @@ public class ScopedTestService : ITestService { }
 [Transient]
 public class TransientTestService : ITestService { }
 
-[Service(Lifetime.Scoped, typeof(ITestService))]
-public class ServiceAttributeTestService : ITestService { }
-
 [Options("TestSectionKey")]
 public class TestOptions { }
 

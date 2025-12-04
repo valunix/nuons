@@ -1,7 +1,6 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Nuons.EndToEnd.ScopedFeature.Infrastructure;
-using Nuons.EndToEnd.ServiceFeature.Infrastructure;
 using Nuons.EndToEnd.SingletonFeature.Infrastructure;
 using Nuons.EndToEnd.TransientFeature.Infrastructure;
 
@@ -107,22 +106,6 @@ public class NuonsServiceTests(WebApplicationFactory<Program> webApplicationFact
 	}
 
 	[Fact]
-	public async Task GetServiceAttributeEndpoint_ReturnsCorrectValue()
-	{
-		// Arrange 
-		using var client = webApplicationFactory.CreateClient();
-
-		// Act
-		using var response = await client.GetAsync(Routes.Service, TestContext.Current.CancellationToken);
-
-		// Assert
-		response.StatusCode.ShouldBe(HttpStatusCode.OK);
-
-		var content = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
-		content.ShouldBe(ServiceAttributeService.Value);
-	}
-
-	[Fact]
 	public async Task GetComplexEndpoint_ReturnsCorrectValue()
 	{
 		// Arrange 
@@ -152,5 +135,24 @@ public class NuonsServiceTests(WebApplicationFactory<Program> webApplicationFact
 
 		var content = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
 		content.ShouldBe(SingletonService.Value);
+	}
+
+	// TODO
+	// separate http tests?
+	// update to use constants
+	[Fact]
+	public async Task GetHttpEndpoint_ReturnsCorrectValue()
+	{
+		// Arrange 
+		using var client = webApplicationFactory.CreateClient();
+
+		// Act
+		using var response = await client.GetAsync("http-handler/get", TestContext.Current.CancellationToken);
+
+		// Assert
+		response.StatusCode.ShouldBe(HttpStatusCode.OK);
+
+		var content = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+		content.ShouldBe("get");
 	}
 }

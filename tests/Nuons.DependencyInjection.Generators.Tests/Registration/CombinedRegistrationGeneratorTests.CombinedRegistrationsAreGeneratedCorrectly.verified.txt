@@ -7,7 +7,6 @@ public static class CombinedRegistrationNuonGeneratorFixtureTestAssembly
 {
 	public static void RegisterServices(IServiceCollection services, IConfiguration configuration)
 	{
-		ServiceRegistrationNuonGeneratorFixtureTestAssembly.RegisterServices(services);
 		SingletonRegistrationNuonGeneratorFixtureTestAssembly.RegisterServices(services);
 		ScopedRegistrationNuonGeneratorFixtureTestAssembly.RegisterServices(services);
 		TransientRegistrationNuonGeneratorFixtureTestAssembly.RegisterServices(services);

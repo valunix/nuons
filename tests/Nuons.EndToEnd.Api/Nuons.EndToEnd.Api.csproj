@@ -20,8 +20,6 @@
 		<ProjectReference Include="..\Nuons.EndToEnd.TransientFeature.Infrastructure\Nuons.EndToEnd.TransientFeature.Infrastructure.csproj" />
 		<ProjectReference Include="..\Nuons.EndToEnd.ScopedFeature.Domain\Nuons.EndToEnd.ScopedFeature.Domain.csproj" />
 		<ProjectReference Include="..\Nuons.EndToEnd.ScopedFeature.Infrastructure\Nuons.EndToEnd.ScopedFeature.Infrastructure.csproj" />
-		<ProjectReference Include="..\Nuons.EndToEnd.ServiceFeature.Domain\Nuons.EndToEnd.ServiceFeature.Domain.csproj" />
-		<ProjectReference Include="..\Nuons.EndToEnd.ServiceFeature.Infrastructure\Nuons.EndToEnd.ServiceFeature.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

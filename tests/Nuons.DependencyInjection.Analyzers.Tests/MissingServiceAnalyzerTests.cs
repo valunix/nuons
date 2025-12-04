@@ -36,7 +36,6 @@ internal class [|TestClass|]
 	[InlineData("Transient")]
 	[InlineData("Scoped")]
 	[InlineData("Singleton")]
-	[InlineData("Service(Lifetime.Transient, typeof(TestClass))")]
 	[InlineData("InjectedConstructor")]
 	public async Task AttributePresent_NoDiagnostic(string attribute)
 	{

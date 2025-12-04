@@ -10,5 +10,4 @@ public static class Routes
 	public const string TransientGeneric = "/transient-generic";
 	public const string Scoped = "/scoped";
 	public const string ScopedGeneric = "/scoped-generic";
-	public const string Service = "/service";
 }
