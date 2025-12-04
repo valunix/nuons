@@ -1,3 +1,4 @@
+using System;
 using Nuons.Http.Abstractions;
 
 namespace Nuons.Http.Generators.Tests;
@@ -22,10 +23,16 @@ internal class GenericClass<T>;
 internal partial class DomainObjectHandler
 {
 	[Get("{id}")]
-	public void GetDomainObject(string id) { }
+	public void Get(string id) { }
 
 	[Post]
-	public void CreateDomainObject(DomainObject domainObject) { }
+	public void Create(DomainObject domainObject) { }
+
+	[Delete("{id}")]
+	public void Delete(Guid id) { }
+
+	[Put("{id}")]
+	public void Update(int id, DomainObject domainObject) { }
 }
 
 internal class DomainObject;

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31903.59
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11217.181 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.EndToEnd.Api.IntegrationTests", "tests\Nuons.EndToEnd.Api.IntegrationTests\Nuons.EndToEnd.Api.IntegrationTests.csproj", "{DFB81ADA-DCAD-474C-B372-7CF71877C3CD}"
 EndProject
@@ -22,6 +22,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.EndToEnd.TransientFeature.Domain", "tests\Nuons.EndToEnd.TransientFeature.Domain\Nuons.EndToEnd.TransientFeature.Domain.csproj", "{4D1345C9-69D5-4F9C-8E0A-E423969094CA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.EndToEnd.TransientFeature.Infrastructure", "tests\Nuons.EndToEnd.TransientFeature.Infrastructure\Nuons.EndToEnd.TransientFeature.Infrastructure.csproj", "{52D0B12D-E5F7-4A89-A46B-3608844280A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.EndToEnd.Http", "tests\Nuons.EndToEnd.Http\Nuons.EndToEnd.Http.csproj", "{942E9DCF-C6C7-4806-8415-5749BB9330C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -153,8 +155,23 @@ Global
 		{52D0B12D-E5F7-4A89-A46B-3608844280A9}.Release|x64.Build.0 = Release|Any CPU
 		{52D0B12D-E5F7-4A89-A46B-3608844280A9}.Release|x86.ActiveCfg = Release|Any CPU
 		{52D0B12D-E5F7-4A89-A46B-3608844280A9}.Release|x86.Build.0 = Release|Any CPU
+		{942E9DCF-C6C7-4806-8415-5749BB9330C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{942E9DCF-C6C7-4806-8415-5749BB9330C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{942E9DCF-C6C7-4806-8415-5749BB9330C9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{942E9DCF-C6C7-4806-8415-5749BB9330C9}.Debug|x64.Build.0 = Debug|Any CPU
+		{942E9DCF-C6C7-4806-8415-5749BB9330C9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{942E9DCF-C6C7-4806-8415-5749BB9330C9}.Debug|x86.Build.0 = Debug|Any CPU
+		{942E9DCF-C6C7-4806-8415-5749BB9330C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{942E9DCF-C6C7-4806-8415-5749BB9330C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{942E9DCF-C6C7-4806-8415-5749BB9330C9}.Release|x64.ActiveCfg = Release|Any CPU
+		{942E9DCF-C6C7-4806-8415-5749BB9330C9}.Release|x64.Build.0 = Release|Any CPU
+		{942E9DCF-C6C7-4806-8415-5749BB9330C9}.Release|x86.ActiveCfg = Release|Any CPU
+		{942E9DCF-C6C7-4806-8415-5749BB9330C9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5D81C438-C724-4BED-AF6C-30412634C6E0}
 	EndGlobalSection
 EndGlobal
