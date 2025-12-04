@@ -1,0 +1,13 @@
+namespace Nuons.CodeInjection.Generators.Tests;
+internal partial class InjectedConstructorService
+{
+	public InjectedConstructorService(
+		global::Nuons.CodeInjection.Generators.Tests.IGenericService<global::System.String?> genericField,
+		global::Nuons.CodeInjection.Generators.Tests.ITestService testField,
+		global::Microsoft.Extensions.Options.IOptions<global::Nuons.CodeInjection.Generators.Tests.SampleOptions> sampleOptions)
+	{
+		this.genericField = genericField;
+		this.testField = testField;
+		this.sampleOptions = sampleOptions.Value;
+	}
+}
