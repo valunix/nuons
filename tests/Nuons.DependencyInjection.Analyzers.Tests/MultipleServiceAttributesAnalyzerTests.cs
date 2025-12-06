@@ -1,6 +1,8 @@
+using Nuons.Core.Tests;
+
 namespace Nuons.DependencyInjection.Analyzers.Tests;
 
-public class MultipleServiceAttributesAnalyzerTests(NuonsAnalyzerFixture fixture) : IClassFixture<NuonsAnalyzerFixture>
+public class MultipleServiceAttributesAnalyzerTests(NuonAnalyzerFixture fixture) : IClassFixture<NuonAnalyzerFixture>
 {
 	[Fact]
 	public async Task ClassWithMultipleServiceAttributes_ReportsError()

@@ -1,6 +1,8 @@
+using Nuons.Core.Tests;
+
 namespace Nuons.DependencyInjection.Analyzers.Tests;
 
-public class MultipleInterfacesAnalyzerTests(NuonsAnalyzerFixture fixture) : IClassFixture<NuonsAnalyzerFixture>
+public class MultipleInterfacesAnalyzerTests(NuonAnalyzerFixture fixture) : IClassFixture<NuonAnalyzerFixture>
 {
 	[Fact]
 	public async Task ParameterlessAttribute_WithMultipleDirectInterfaces_ReportsWarning()

@@ -1,6 +1,6 @@
 using Nuons.Core.Tests;
 
-namespace Nuons.DependencyInjection.Analyzers.Tests;
+namespace Nuons.CodeInjection.Analyzers.Tests;
 
 public class MissingServiceAnalyzerTests(NuonAnalyzerFixture fixture) : IClassFixture<NuonAnalyzerFixture>
 {
@@ -8,7 +8,7 @@ public class MissingServiceAnalyzerTests(NuonAnalyzerFixture fixture) : IClassFi
 	public async Task MissingService_WithInjected_ReportsDiagnostic()
 	{
 		const string testCode = @"
-using Nuons.DependencyInjection.Abstractions;
+using Nuons.CodeInjection.Abstractions;
 
 internal class [|TestClass|] 
 {
@@ -23,7 +23,7 @@ internal class [|TestClass|]
 	public async Task MissingService_WithInjectedOptions_ReportsDiagnostic()
 	{
 		const string testCode = @"
-using Nuons.DependencyInjection.Abstractions;
+using Nuons.CodeInjection.Abstractions;
 
 internal class [|TestClass|] 
 {
@@ -34,17 +34,13 @@ internal class [|TestClass|]
 		await fixture.VerifyAnalyzerAsync<MissingServiceAnalyzer>(testCode);
 	}
 
-	[Theory]
-	[InlineData("Transient")]
-	[InlineData("Scoped")]
-	[InlineData("Singleton")]
-	[InlineData("InjectedConstructor")]
-	public async Task AttributePresent_NoDiagnostic(string attribute)
+	[Fact]
+	public async Task AttributePresent_NoDiagnostic()
 	{
 		string testCode = $@"
-using Nuons.DependencyInjection.Abstractions;
+using Nuons.CodeInjection.Abstractions;
 
-[{attribute}]
+[InjectConstructor]
 internal class TestClass
 {{
 	[Injected]
@@ -58,7 +54,7 @@ internal class TestClass
 	public async Task ClassWithoutInjectedField_NoDiagnostic()
 	{
 		const string testCode = @"
-using Nuons.DependencyInjection.Abstractions;
+using Nuons.CodeInjection.Abstractions;
 
 internal class TestClass
 {

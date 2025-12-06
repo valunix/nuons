@@ -1,6 +1,6 @@
 using Nuons.Core.Tests;
 
-namespace Nuons.DependencyInjection.Analyzers.Tests;
+namespace Nuons.CodeInjection.Analyzers.Tests;
 
 public class PartialModifierAnalyzerTests(NuonAnalyzerFixture fixture) : IClassFixture<NuonAnalyzerFixture>
 {
@@ -8,10 +8,11 @@ public class PartialModifierAnalyzerTests(NuonAnalyzerFixture fixture) : IClassF
 	public async Task ClassWithServiceAttribute_MissingPartialModifier_ReportsError()
 	{
 		const string testCode = @"
-using Nuons.DependencyInjection.Abstractions;
+using Nuons.CodeInjection.Abstractions;
 
-[Scoped]
-public class [|TestClass|];";
+[InjectConstructor]
+public class [|TestClass|];
+";
 
 		await fixture.VerifyAnalyzerAsync<PartialModifierAnalyzer>(testCode);
 	}
@@ -20,10 +21,11 @@ public class [|TestClass|];";
 	public async Task ClassWithPartialModifier_NoError()
 	{
 		const string testCode = @"
-using Nuons.DependencyInjection.Abstractions;
+using Nuons.CodeInjection.Abstractions;
 
-[Scoped]
-public partial class TestClass;";
+[InjectConstructor]
+public partial class TestClass;
+";
 
 		await fixture.VerifyAnalyzerAsync<PartialModifierAnalyzer>(testCode);
 	}
@@ -32,9 +34,10 @@ public partial class TestClass;";
 	public async Task ClassWithoutServiceAttribute_NoError()
 	{
 		const string testCode = @"
-using Nuons.DependencyInjection.Abstractions;
+using Nuons.CodeInjection.Abstractions;
 
-public class TestClass;";
+public class TestClass;
+";
 
 		await fixture.VerifyAnalyzerAsync<PartialModifierAnalyzer>(testCode);
 	}
