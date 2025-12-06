@@ -3,89 +3,37 @@ using Nuons.DependencyInjection.Abstractions;
 
 namespace Nuons.DependencyInjection.Generators.Tests;
 
-public interface ISingletonService;
+public interface ITestService;
 
 [Singleton]
-internal partial class SingletonService : ISingletonService
-{
-	[InjectedOptions] private readonly SampleOptions options;
-}
+internal partial class SingletonService : ITestService;
 
-[Singleton<ISingletonService>]
-internal partial class SingletonServiceGeneric : ISingletonService
-{
-	[InjectedOptions] private readonly SampleOptions options;
-}
-
-public interface IScopedService;
+[Singleton<ITestService>]
+internal partial class SingletonServiceGeneric : ITestService;
 
 [Scoped]
-internal partial class ScopedService : IScopedService
-{
-	[Injected] private readonly ISingletonService singletonField;
-}
+internal partial class ScopedService : ITestService;
 
-[Scoped<IScopedService>]
-internal partial class ScopedServiceGeneric : IScopedService
-{
-	[Injected] private readonly ISingletonService singletonField;
-}
-
-public interface ITransientService;
+[Scoped<ITestService>]
+internal partial class ScopedServiceGeneric : ITestService;
 
 [Transient]
-internal partial class TransientService : ITransientService
-{
-	[Injected] private readonly IScopedService scopedField;
-}
+internal partial class TransientService : ITestService;
 
-[Transient<ITransientService>]
-internal partial class TransientServiceGeneric : ITransientService
-{
-	[Injected] private readonly IScopedService scopedField;
-}
-
-public interface ICombinedService;
-
-[Transient]
-internal partial class CombinedService : ICombinedService
-{
-	[Injected] private readonly ISingletonService singletonField;
-
-	[Injected] private readonly IScopedService scopedField;
-
-	[Injected] private readonly ITransientService transientField;
-}
+[Transient<ITestService>]
+internal partial class TransientServiceGeneric : ITestService;
 
 [Options(nameof(SampleOptions))]
 internal class SampleOptions;
-
-[Scoped]
-internal partial class ServiceWithOptions
-{
-	[Injected] private readonly ISingletonService singletonField;
-
-	[Injected] private readonly IOptions<SampleOptions> options;
-
-	[InjectedOptions] private readonly SampleOptions sampleOptions;
-}
-
-[InjectedConstructor]
-internal partial class InjectedConstructorService
-{
-	[Injected] private readonly IAmGeneric<string?> genericField;
-	[Injected] private readonly ISingletonService singletonField;
-	[InjectedOptions] private readonly SampleOptions sampleOptions;
-}
-
-internal interface IAmGeneric<T>;
 
 [RootRegistration(typeof(RootRegistration))]
 internal partial class RootRegistration;
 
 internal interface IBase;
 internal interface ITarget : IBase;
+
 [Singleton]
 internal partial class MultipleInterfacesIndirect : ITarget;
+
 [Singleton]
 internal partial class MultipleInterfacesDirect : ITarget, IBase;

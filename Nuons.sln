@@ -29,9 +29,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Core.Tests", "tests\N
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Http.Generators.Tests", "tests\Nuons.Http.Generators.Tests\Nuons.Http.Generators.Tests.csproj", "{FDD93947-4B1A-4376-9A7F-FE97B9FA497C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Abstractions", "src\Nuons.Abstractions\Nuons.Abstractions.csproj", "{A645737D-187F-4322-A911-3629BD356A90}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Library", "src\Nuons.Library\Nuons.Library.csproj", "{A645737D-187F-4322-A911-3629BD356A90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Temp", "src\Nuons.Temp\Nuons.Temp.csproj", "{730D1411-862E-4749-B8B8-1881C4BB49B2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Startup", "src\Nuons.Startup\Nuons.Startup.csproj", "{730D1411-862E-4749-B8B8-1881C4BB49B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.CodeInjection.Abstractions", "src\Nuons.CodeInjection.Abstractions\Nuons.CodeInjection.Abstractions.csproj", "{F2E1913B-3FA7-41B6-9D85-FF74E1CF8013}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.CodeInjection.Generators", "src\Nuons.CodeInjection.Generators\Nuons.CodeInjection.Generators.csproj", "{D61D8FB5-7002-4CDF-960A-87A682BA2A87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.CodeInjection.Generators.Tests", "tests\Nuons.CodeInjection.Generators.Tests\Nuons.CodeInjection.Generators.Tests.csproj", "{B0AF95EF-973A-4972-BAD6-4EDF0C8DFE02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.CodeInjection.Analyzers", "src\Nuons.CodeInjection.Analyzers\Nuons.CodeInjection.Analyzers.csproj", "{A1B611DB-E1EF-4710-AFC6-6EE6AE540434}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.CodeInjection.Analyzers.Tests", "tests\Nuons.CodeInjection.Analyzers.Tests\Nuons.CodeInjection.Analyzers.Tests.csproj", "{196FA70B-D82C-4634-AE95-86F9837AC893}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.CodeInjection.Abstractions.Tests", "tests\Nuons.CodeInjection.Abstractions.Tests\Nuons.CodeInjection.Abstractions.Tests.csproj", "{51B32127-5B79-41EE-96AF-6FC68083AA62}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,6 +111,30 @@ Global
 		{730D1411-862E-4749-B8B8-1881C4BB49B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{730D1411-862E-4749-B8B8-1881C4BB49B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{730D1411-862E-4749-B8B8-1881C4BB49B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2E1913B-3FA7-41B6-9D85-FF74E1CF8013}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2E1913B-3FA7-41B6-9D85-FF74E1CF8013}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2E1913B-3FA7-41B6-9D85-FF74E1CF8013}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2E1913B-3FA7-41B6-9D85-FF74E1CF8013}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D61D8FB5-7002-4CDF-960A-87A682BA2A87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D61D8FB5-7002-4CDF-960A-87A682BA2A87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D61D8FB5-7002-4CDF-960A-87A682BA2A87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D61D8FB5-7002-4CDF-960A-87A682BA2A87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0AF95EF-973A-4972-BAD6-4EDF0C8DFE02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0AF95EF-973A-4972-BAD6-4EDF0C8DFE02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0AF95EF-973A-4972-BAD6-4EDF0C8DFE02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0AF95EF-973A-4972-BAD6-4EDF0C8DFE02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B611DB-E1EF-4710-AFC6-6EE6AE540434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B611DB-E1EF-4710-AFC6-6EE6AE540434}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B611DB-E1EF-4710-AFC6-6EE6AE540434}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B611DB-E1EF-4710-AFC6-6EE6AE540434}.Release|Any CPU.Build.0 = Release|Any CPU
+		{196FA70B-D82C-4634-AE95-86F9837AC893}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{196FA70B-D82C-4634-AE95-86F9837AC893}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{196FA70B-D82C-4634-AE95-86F9837AC893}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{196FA70B-D82C-4634-AE95-86F9837AC893}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51B32127-5B79-41EE-96AF-6FC68083AA62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51B32127-5B79-41EE-96AF-6FC68083AA62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51B32127-5B79-41EE-96AF-6FC68083AA62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51B32127-5B79-41EE-96AF-6FC68083AA62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

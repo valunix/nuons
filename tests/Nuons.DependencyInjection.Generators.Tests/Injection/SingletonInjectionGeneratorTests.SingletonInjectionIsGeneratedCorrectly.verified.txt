@@ -1,9 +1,0 @@
-﻿namespace Nuons.DependencyInjection.Generators.Tests;
-internal partial class SingletonService
-{
-	public SingletonService(
-		global::Microsoft.Extensions.Options.IOptions<global::Nuons.DependencyInjection.Generators.Tests.SampleOptions> options)
-	{
-		this.options = options.Value;
-	}
-}

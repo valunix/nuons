@@ -1,6 +1,8 @@
+using Nuons.Core.Tests;
+
 namespace Nuons.DependencyInjection.Analyzers.Tests;
 
-public class MultipleServiceAttributesAnalyzerTests(NuonsAnalyzerFixture fixture) : IClassFixture<NuonsAnalyzerFixture>
+public class MultipleServiceAttributesAnalyzerTests(NuonAnalyzerFixture fixture) : IClassFixture<NuonAnalyzerFixture>
 {
 	[Fact]
 	public async Task ClassWithMultipleServiceAttributes_ReportsError()
@@ -12,7 +14,8 @@ internal interface ITestService;
 
 [Singleton]
 [Scoped]
-internal class [|TestService|] : ITestService;";
+internal class [|TestService|] : ITestService;
+";
 
 		await fixture.VerifyAnalyzerAsync<MultipleServiceAttributesAnalyzer>(testCode);
 	}
@@ -26,7 +29,8 @@ using Nuons.DependencyInjection.Abstractions;
 internal interface ITestService;
 
 [Singleton]
-internal class TestService : ITestService;";
+internal class TestService : ITestService;
+";
 
 		await fixture.VerifyAnalyzerAsync<MultipleServiceAttributesAnalyzer>(testCode);
 	}
@@ -36,7 +40,8 @@ internal class TestService : ITestService;";
 	{
 		const string testCode = @"
 internal interface ITestService;
-internal class TestService : ITestService;";
+internal class TestService : ITestService;
+";
 
 		await fixture.VerifyAnalyzerAsync<MultipleServiceAttributesAnalyzer>(testCode);
 	}
@@ -52,7 +57,8 @@ internal interface ITestService;
 
 [Singleton]
 [Obsolete]
-internal class TestService : ITestService;";
+internal class TestService : ITestService;
+";
 
 		await fixture.VerifyAnalyzerAsync<MultipleServiceAttributesAnalyzer>(testCode);
 	}

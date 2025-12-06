@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
-using Nuons.DependencyInjection.Abstractions;
+using Nuons.CodeInjection.Abstractions;
 
 namespace Nuons.EndToEnd.Api;
 
 [Controller]
 [Route(Routes.Controller)]
-[InjectedConstructor]
+[InjectConstructor]
 public partial class ControllerExample : ControllerBase
 {
 	[Injected]
