@@ -49,7 +49,7 @@ internal partial class EndpointGenerator : IIncrementalGenerator
 			return [];
 		}
 
-		var nuonMarkerAttribute = compilation.GetTypeByMetadataName(typeof(AssemblyHasNuons).FullName!);
+		var nuonMarkerAttribute = compilation.GetTypeByMetadataName(typeof(AssemblyHasNuonsAttribute).FullName!);
 		if (nuonMarkerAttribute is null)
 		{
 			return [];
