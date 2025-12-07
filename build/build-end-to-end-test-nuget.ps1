@@ -2,13 +2,13 @@ $null = New-Item -ItemType Directory -Path "..\artifacts\local-nuget" -Force -Er
 
 $version = "0.0.7"
 
-$nuonsLibraryProjectFile = "./../src/Nuons.Library/Nuons.Library.csproj"
+$nuonsProjectFile = "./../src/Nuons/Nuons.csproj"
 
-dotnet clean $nuonsLibraryProjectFile
-dotnet build $nuonsLibraryProjectFile -c Release "/p:Version=$version" "/p:AssemblyVersion=$version" "/p:FileVersion=$version"
-dotnet pack $nuonsLibraryProjectFile -c Release --no-build -o "..\artifacts\local-nuget" "/p:Version=$version" "/p:PackageVersion=$version" "/p:AssemblyVersion=$version" "/p:FileVersion=$version"
+dotnet clean $nuonsProjectFile
+dotnet build $nuonsProjectFile -c Release "/p:Version=$version" "/p:AssemblyVersion=$version" "/p:FileVersion=$version"
+dotnet pack $nuonsProjectFile -c Release --no-build -o "..\artifacts\local-nuget" "/p:Version=$version" "/p:PackageVersion=$version" "/p:AssemblyVersion=$version" "/p:FileVersion=$version"
 
-Write-Host "NuGet package for $nuonsLibraryProjectFile created in ..\artifacts\local-nuget directory with version $version" -ForegroundColor Green
+Write-Host "NuGet package for $nuonsProjectFile created in ..\artifacts\local-nuget directory with version $version" -ForegroundColor Green
 
 $nuonsStartupProjectFile = "./../src/Nuons.Startup/Nuons.Startup.csproj"
 

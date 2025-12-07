@@ -24,7 +24,7 @@ internal class EndpointSourceBuilder(ImmutableArray<EndpointIncrement> increment
 					parameters = string.Join(ParameterSeparator, endpoint.HandlerMethodParameters.Select(parameter => parameter.Name));
 					parametersFull = ParameterSeparator + string.Join(ParameterSeparator, endpoint.HandlerMethodParameters.Select(parameter => $"{parameter.Type} {parameter.Name}"));
 				}
-				var endpointLine = @$"app.Map{endpoint.HttpMethod}(""{endpoint.Route}"", ({increment.HandlerType} handler{parametersFull}) => handler.{endpoint.HandlerMethod}({parameters}));";
+				var endpointLine = @$"app.Map{endpoint.HttpMethod}(""{endpoint.Route}""{ParameterSeparator}({increment.HandlerType} handler{parametersFull}) => handler.{endpoint.HandlerMethod}({parameters}));";
 
 				endpointLines.Append(Sources.NewLine);
 				endpointLines.Append(Sources.Tab2);
@@ -42,13 +42,15 @@ internal class EndpointSourceBuilder(ImmutableArray<EndpointIncrement> increment
 		var source = $@"using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
+namespace Nuons.Http.Extensions;
+
 internal static class NuonEndpointExtensions
 {{
-	public static void AddNuonServices(this IServiceCollection services)
+	public static void AddNuonHttpServices(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection services)
 	{{{serviceLines}
 	}}
 
-	public static void MapNuonEndpoints(this WebApplication app)
+	public static void MapNuonEndpoints(this global::Microsoft.AspNetCore.Routing.IEndpointRouteBuilder app)
 	{{{endpointLines}
 	}}
 }}";

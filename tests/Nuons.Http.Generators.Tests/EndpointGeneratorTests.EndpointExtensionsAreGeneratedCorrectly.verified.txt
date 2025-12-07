@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
+namespace Nuons.Http.Extensions;
+
 internal static class NuonEndpointExtensions
 {
-	public static void AddNuonServices(this IServiceCollection services)
+	public static void AddNuonHttpServices(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection services)
 	{
 		services.AddScoped<global::Nuons.Http.Generators.Tests.EmptyHandler>();
 		services.AddScoped<global::Nuons.Http.Generators.Tests.ComplexHandler>();
@@ -11,7 +13,7 @@ internal static class NuonEndpointExtensions
 		services.AddScoped<global::Nuons.Http.Generators.Tests.SubDomainObjectHandler>();
 	}
 
-	public static void MapNuonEndpoints(this WebApplication app)
+	public static void MapNuonEndpoints(this global::Microsoft.AspNetCore.Routing.IEndpointRouteBuilder app)
 	{
 		app.MapGet("/", (global::Nuons.Http.Generators.Tests.EmptyHandler handler) => handler.GetEmpty());
 

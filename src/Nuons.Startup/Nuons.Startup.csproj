@@ -7,6 +7,7 @@
 		<LangVersion>latest</LangVersion>
 		<IsPackable>true</IsPackable>
 		<PackageId>Nuons.Startup</PackageId>
+		<!--<DevelopmentDependency>true</DevelopmentDependency>-->
 		<Authors>Nikola Ljubisic</Authors>
 		<Title>Nuons Startup</Title>
 		<PackageIcon>nuons_icon_64x64.png</PackageIcon>
@@ -21,17 +22,71 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Nuons.Core.Abstractions\Nuons.Core.Abstractions.csproj" Pack="true" PrivateAssets="all" />
 		<ProjectReference Include="..\Nuons.Core.Generators\Nuons.Core.Generators.csproj" Pack="true" PrivateAssets="all" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\Nuons.CodeInjection.Abstractions\Nuons.CodeInjection.Abstractions.csproj" Pack="true" PrivateAssets="all" />
+		<ProjectReference Include="..\Nuons.CodeInjection.Analyzers\Nuons.CodeInjection.Analyzers.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\Nuons.CodeInjection.Generators\Nuons.CodeInjection.Generators.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\Nuons.DependencyInjection.Abstractions\Nuons.DependencyInjection.Abstractions.csproj" Pack="true" PrivateAssets="all" />
+		<ProjectReference Include="..\Nuons.DependencyInjection.Analyzers\Nuons.DependencyInjection.Analyzers.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\Nuons.DependencyInjection.Generators\Nuons.DependencyInjection.Generators.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\Nuons.DependencyInjection.Generators.Startup\Nuons.DependencyInjection.Generators.Startup.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" />
 		<ProjectReference Include="..\Nuons.Http.Abstractions\Nuons.Http.Abstractions.csproj" Pack="true" PrivateAssets="all" />
 		<ProjectReference Include="..\Nuons.Http.Generators\Nuons.Http.Generators.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="..\Nuons.Core.Abstractions\bin\$(Configuration)\netstandard2.0\Nuons.Core.Abstractions.dll"
+		<None Include="..\Nuons.Core.Abstractions\bin\Release\netstandard2.0\Nuons.Core.Abstractions.dll"
+			  Pack="true" PackagePath="lib/netstandard2.0/" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\Nuons.Core.Abstractions\bin\Release\netstandard2.0\Nuons.Core.Abstractions.dll"
 			  Pack="true" PackagePath="analyzers/dotnet/cs/" Visible="false" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="..\Nuons.Core.Generators\bin\$(Configuration)\netstandard2.0\Nuons.Core.Generators.dll"
+			  Pack="true" PackagePath="analyzers/dotnet/cs/" Visible="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\Nuons.CodeInjection.Abstractions\bin\Release\netstandard2.0\Nuons.CodeInjection.Abstractions.dll"
+			  Pack="true" PackagePath="lib/netstandard2.0/" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\Nuons.CodeInjection.Abstractions\bin\Release\netstandard2.0\Nuons.CodeInjection.Abstractions.dll"
+			  Pack="true" PackagePath="analyzers/dotnet/cs/" Visible="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\Nuons.CodeInjection.Analyzers\bin\$(Configuration)\netstandard2.0\Nuons.CodeInjection.Analyzers.dll"
+			  Pack="true" PackagePath="analyzers/dotnet/cs/" Visible="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\Nuons.CodeInjection.Generators\bin\$(Configuration)\netstandard2.0\Nuons.CodeInjection.Generators.dll"
+			  Pack="true" PackagePath="analyzers/dotnet/cs/" Visible="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\Nuons.DependencyInjection.Abstractions\bin\Release\netstandard2.0\Nuons.DependencyInjection.Abstractions.dll"
+			  Pack="true" PackagePath="lib/netstandard2.0/" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\Nuons.DependencyInjection.Abstractions\bin\Release\netstandard2.0\Nuons.DependencyInjection.Abstractions.dll"
+			  Pack="true" PackagePath="analyzers/dotnet/cs/" Visible="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\Nuons.DependencyInjection.Analyzers\bin\$(Configuration)\netstandard2.0\Nuons.DependencyInjection.Analyzers.dll"
+			  Pack="true" PackagePath="analyzers/dotnet/cs/" Visible="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\Nuons.DependencyInjection.Generators\bin\$(Configuration)\netstandard2.0\Nuons.DependencyInjection.Generators.dll"
+			  Pack="true" PackagePath="analyzers/dotnet/cs/" Visible="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\Nuons.DependencyInjection.Generators.Startup\bin\$(Configuration)\netstandard2.0\Nuons.DependencyInjection.Generators.Startup.dll"
 			  Pack="true" PackagePath="analyzers/dotnet/cs/" Visible="false" />
 	</ItemGroup>
 
