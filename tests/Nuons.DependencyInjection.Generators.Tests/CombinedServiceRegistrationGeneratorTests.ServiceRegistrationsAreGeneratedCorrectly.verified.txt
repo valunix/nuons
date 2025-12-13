@@ -1,0 +1,9 @@
+﻿namespace Nuons.DependencyInjection.Extensions;
+
+public static class NuonDependencyInjectionExtensions
+{
+	public static void AddDependancyInjectionServices(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection services)
+	{
+		ServiceRegistrationNuonGeneratorFixtureTestAssembly.AddServices(services);
+	}
+}

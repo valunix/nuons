@@ -7,6 +7,7 @@
 		<LangVersion>latest</LangVersion>
 		<IsPackable>true</IsPackable>
 		<PackageId>Nuons.Startup</PackageId>
+		<DevelopmentDependency>true</DevelopmentDependency>
 		<Authors>Nikola Ljubisic</Authors>
 		<Title>Nuons Startup</Title>
 		<PackageIcon>nuons_icon_64x64.png</PackageIcon>

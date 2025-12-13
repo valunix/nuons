@@ -7,6 +7,7 @@
 		<LangVersion>latest</LangVersion>
 		<IsPackable>true</IsPackable>
 		<PackageId>Nuons.Library</PackageId>
+		<DevelopmentDependency>true</DevelopmentDependency>
 		<Authors>Nikola Ljubisic</Authors>
 		<Title>Nuons Library</Title>
 		<PackageIcon>nuons_icon_64x64.png</PackageIcon>

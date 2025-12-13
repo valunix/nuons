@@ -9,6 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<InternalsVisibleTo Include="Nuons.DependencyInjection.Generators.Tests" />
 		<InternalsVisibleTo Include="Nuons.Http.Generators.Tests" />
 	</ItemGroup>
 
