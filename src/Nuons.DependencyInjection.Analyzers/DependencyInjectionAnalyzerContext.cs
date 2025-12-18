@@ -1,4 +1,5 @@
 using Microsoft.CodeAnalysis;
+using Nuons.DependencyInjection.Abstractions;
 
 namespace Nuons.DependencyInjection.Analyzers;
 
@@ -7,8 +8,9 @@ internal class DependencyInjectionAnalyzerContext(Compilation compilation)
 {
 	public INamedTypeSymbol[] ServiceAttributes { get; init; } =
 	[
-		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.Abstractions.SingletonAttribute")!,
-		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.Abstractions.ScopedAttribute")!,
-		compilation.GetTypeByMetadataName("Nuons.DependencyInjection.Abstractions.TransientAttribute")!,
+		// TODO generic versions
+		compilation.GetTypeByMetadataName(typeof(SingletonAttribute).FullName)!,
+		compilation.GetTypeByMetadataName(typeof(ScopedAttribute).FullName)!,
+		compilation.GetTypeByMetadataName(typeof(TransientAttribute).FullName)!,
 	];
 }

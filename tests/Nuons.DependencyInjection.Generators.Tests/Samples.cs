@@ -26,9 +26,6 @@ internal partial class TransientServiceGeneric : ITestService;
 [Options(nameof(SampleOptions))]
 internal class SampleOptions;
 
-[RootRegistration(typeof(RootRegistration))]
-internal partial class RootRegistration;
-
 internal interface IBase;
 internal interface ITarget : IBase;
 

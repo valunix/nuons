@@ -1,23 +1,19 @@
 using System.Text;
 using Nuons.Core.Generators;
-using Nuons.DependencyInjection.Abstractions;
 
-namespace Nuons.DependencyInjection.Generators.Registration;
+namespace Nuons.DependencyInjection.Generators;
 
-internal class RegistrationSourceBuilder
+internal class ServiceRegistrationSourceBuilder
 {
 	private readonly string className;
 	private readonly List<string> registrations = [];
 
-	public RegistrationSourceBuilder(string className)
+	public ServiceRegistrationSourceBuilder(string className)
 	{
 		this.className = className;
 	}
 
-	public void WithRegistration(ServiceRegistration registration, Lifetime lifetime) =>
-		WithRegistration(registration.ServiceType, registration.ImplementingType, lifetime);
-
-	public void WithRegistration(ServiceLifetimeRegistration registration) =>
+	public void WithRegistration(ServiceRegistration registration) =>
 		WithRegistration(registration.ServiceType, registration.ImplementingType, registration.Lifetime);
 
 	private void WithRegistration(string serviceType, string implementingType, Lifetime lifetime)
@@ -41,7 +37,7 @@ namespace Nuons.DependencyInjection.Extensions;
 
 public static class {className}
 {{
-	public static void RegisterServices(IServiceCollection services)
+	public static void AddServices(global::Microsoft.Extensions.DependencyInjection.IServiceCollection services)
 	{{{registrationsBuilder}
 	}}
 }}";

@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -16,18 +17,12 @@ public static class Syntax
 		=> symbol.GetAttributes().Any(attribute => SymbolEqualityComparer.Default.Equals(attribute.AttributeClass, attributeSymbol));
 
 	public static AttributeData? FirstOrDefaultAttribute(this ISymbol symbol, INamedTypeSymbol attributeSymbol)
-	{
-		return symbol.GetAttributes()
-			.FirstOrDefault(attribute => SymbolEqualityComparer.Default.Equals(attribute.AttributeClass, attributeSymbol));
-	}
+		=> symbol.GetAttributes().FirstOrDefault(attribute => SymbolEqualityComparer.Default.Equals(attribute.AttributeClass, attributeSymbol));
+	public static AttributeData? FirstOrDefaultAttribute<T>(this ISymbol symbol) where T : Attribute
+		=> symbol.FirstOrDefaultAttribute(typeof(T).FullName);
 
-	[Obsolete($"Use non generic overload that takes INamedTypeSymbol as input")]
-	public static AttributeData? FirstOrDefaultAttribute<T>(this ISymbol symbol)
-		where T : Attribute
-	{
-		return symbol.GetAttributes()
-			.FirstOrDefault(a => a.AttributeClass?.Name == typeof(T).Name);
-	}
+	public static AttributeData? FirstOrDefaultAttribute(this ISymbol symbol, string attributeFullName)
+		=> symbol.GetAttributes().FirstOrDefault(attribute => attribute.AttributeClass?.ToFullTypeName(false, false) == attributeFullName);
 
 	// TODO avoid trim start?
 	public static string ToNamespaceSimple(this ISymbol symbol)
@@ -43,17 +38,19 @@ public static class Syntax
 		return namespaceBuilder.ToString().TrimStart(NamespaceSeparator);
 	}
 
-	public static string ToFullTypeName(this ITypeSymbol symbol)
+	public static string ToFullTypeName(this ITypeSymbol symbol, bool useGlobal = true, bool useGeneric = true)
 	{
 		var format = new SymbolDisplayFormat(
-			globalNamespaceStyle:
-				SymbolDisplayGlobalNamespaceStyle.Included,
+			globalNamespaceStyle: useGlobal
+				? SymbolDisplayGlobalNamespaceStyle.Included
+				: SymbolDisplayGlobalNamespaceStyle.Omitted,
 			typeQualificationStyle:
 				SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
-			genericsOptions:
-				SymbolDisplayGenericsOptions.IncludeTypeParameters
-				| SymbolDisplayGenericsOptions.IncludeVariance,
-			miscellaneousOptions: SymbolDisplayMiscellaneousOptions.EscapeKeywordIdentifiers
+			genericsOptions: useGeneric
+				? SymbolDisplayGenericsOptions.IncludeTypeParameters | SymbolDisplayGenericsOptions.IncludeVariance
+				: SymbolDisplayGenericsOptions.None,
+			miscellaneousOptions:
+				SymbolDisplayMiscellaneousOptions.EscapeKeywordIdentifiers
 				| SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier
 				| SymbolDisplayMiscellaneousOptions.ExpandNullable
 		);
@@ -65,7 +62,7 @@ public static class Syntax
 	{
 		return provider
 			.Where(increment => increment is not null)
-			.Select( static (increment, _) => increment!);
+			.Select(static (increment, _) => increment!);
 	}
 
 	public static IEnumerable<INamedTypeSymbol> GetAllTypes(this IAssemblySymbol assembly)

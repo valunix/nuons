@@ -49,7 +49,7 @@ internal partial class EndpointGenerator : IIncrementalGenerator
 			return [];
 		}
 
-		var nuonMarkerAttribute = compilation.GetTypeByMetadataName(typeof(AssemblyHasNuons).FullName!);
+		var nuonMarkerAttribute = compilation.GetTypeByMetadataName(typeof(AssemblyHasNuonsAttribute).FullName!);
 		if (nuonMarkerAttribute is null)
 		{
 			return [];
@@ -66,7 +66,7 @@ internal partial class EndpointGenerator : IIncrementalGenerator
 	private static ImmutableArray<EndpointIncrement> ExtractIncrements(EndpointSubIncrement subIncrement, CancellationToken token)
 	{
 		var increments = subIncrement.Symbols
-			.Select(s => ExtractIncrement(s, subIncrement.Attributes, token))
+			.Select(symbol => ExtractIncrement(symbol, subIncrement.Attributes, token))
 			.OfType<EndpointIncrement>();
 		return [.. increments];
 	}
@@ -198,11 +198,6 @@ internal partial class EndpointGenerator : IIncrementalGenerator
 
 	private static void GenerateSources(SourceProductionContext context, ImmutableArray<EndpointIncrement> increments)
 	{
-		if (increments.Length == 0)
-		{
-			return;
-		}
-
 		var builder = new EndpointSourceBuilder(increments);
 		var source = builder.Build();
 		context.AddSource(Sources.GeneratedNameHint("NuonEndpointExtensions"), source);

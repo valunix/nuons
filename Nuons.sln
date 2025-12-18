@@ -29,8 +29,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Core.Tests", "tests\N
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Http.Generators.Tests", "tests\Nuons.Http.Generators.Tests\Nuons.Http.Generators.Tests.csproj", "{FDD93947-4B1A-4376-9A7F-FE97B9FA497C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Library", "src\Nuons.Library\Nuons.Library.csproj", "{A645737D-187F-4322-A911-3629BD356A90}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.Startup", "src\Nuons.Startup\Nuons.Startup.csproj", "{730D1411-862E-4749-B8B8-1881C4BB49B2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.CodeInjection.Abstractions", "src\Nuons.CodeInjection.Abstractions\Nuons.CodeInjection.Abstractions.csproj", "{F2E1913B-3FA7-41B6-9D85-FF74E1CF8013}"
@@ -44,6 +42,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.CodeInjection.Analyzers.Tests", "tests\Nuons.CodeInjection.Analyzers.Tests\Nuons.CodeInjection.Analyzers.Tests.csproj", "{196FA70B-D82C-4634-AE95-86F9837AC893}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.CodeInjection.Abstractions.Tests", "tests\Nuons.CodeInjection.Abstractions.Tests\Nuons.CodeInjection.Abstractions.Tests.csproj", "{51B32127-5B79-41EE-96AF-6FC68083AA62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuons.DependencyInjection.Generators.Startup", "src\Nuons.DependencyInjection.Generators.Startup\Nuons.DependencyInjection.Generators.Startup.csproj", "{22D7874F-7D52-4C39-BC3C-20D84423B07F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -103,10 +103,6 @@ Global
 		{FDD93947-4B1A-4376-9A7F-FE97B9FA497C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDD93947-4B1A-4376-9A7F-FE97B9FA497C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDD93947-4B1A-4376-9A7F-FE97B9FA497C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A645737D-187F-4322-A911-3629BD356A90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A645737D-187F-4322-A911-3629BD356A90}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A645737D-187F-4322-A911-3629BD356A90}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A645737D-187F-4322-A911-3629BD356A90}.Release|Any CPU.Build.0 = Release|Any CPU
 		{730D1411-862E-4749-B8B8-1881C4BB49B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{730D1411-862E-4749-B8B8-1881C4BB49B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{730D1411-862E-4749-B8B8-1881C4BB49B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -135,6 +131,10 @@ Global
 		{51B32127-5B79-41EE-96AF-6FC68083AA62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51B32127-5B79-41EE-96AF-6FC68083AA62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51B32127-5B79-41EE-96AF-6FC68083AA62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22D7874F-7D52-4C39-BC3C-20D84423B07F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22D7874F-7D52-4C39-BC3C-20D84423B07F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22D7874F-7D52-4C39-BC3C-20D84423B07F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22D7874F-7D52-4C39-BC3C-20D84423B07F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

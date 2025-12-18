@@ -1,15 +1,16 @@
+using Nuons.DependencyInjection.Extensions;
 using Nuons.EndToEnd.Api;
 using Nuons.EndToEnd.ScopedFeature.Domain;
 using Nuons.EndToEnd.SingletonFeature.Domain;
 using Nuons.EndToEnd.TransientFeature.Domain;
+using Nuons.Http.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-RootRegistration.RegisterServices(builder.Services, builder.Configuration);
-
-builder.Services.AddNuonServices();
+builder.Services.AddNuonHttpServices();
+builder.Services.AddNuonDependancyInjectionServices();
 
 var app = builder.Build();
 

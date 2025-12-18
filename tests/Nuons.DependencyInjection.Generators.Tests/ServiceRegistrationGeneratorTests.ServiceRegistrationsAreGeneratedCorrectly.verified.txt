@@ -1,0 +1,18 @@
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace Nuons.DependencyInjection.Extensions;
+
+public static class ServiceRegistrationNuonGeneratorFixtureTestAssembly
+{
+	public static void AddServices(global::Microsoft.Extensions.DependencyInjection.IServiceCollection services)
+	{
+		services.AddTransient<global::Nuons.DependencyInjection.Generators.Tests.ITestService, global::Nuons.DependencyInjection.Generators.Tests.TransientService>();
+		services.AddTransient<global::Nuons.DependencyInjection.Generators.Tests.ITestService, global::Nuons.DependencyInjection.Generators.Tests.TransientServiceGeneric>();
+		services.AddScoped<global::Nuons.DependencyInjection.Generators.Tests.ITestService, global::Nuons.DependencyInjection.Generators.Tests.ScopedService>();
+		services.AddScoped<global::Nuons.DependencyInjection.Generators.Tests.ITestService, global::Nuons.DependencyInjection.Generators.Tests.ScopedServiceGeneric>();
+		services.AddSingleton<global::Nuons.DependencyInjection.Generators.Tests.ITestService, global::Nuons.DependencyInjection.Generators.Tests.SingletonService>();
+		services.AddSingleton<global::Nuons.DependencyInjection.Generators.Tests.ITarget, global::Nuons.DependencyInjection.Generators.Tests.MultipleInterfacesIndirect>();
+		services.AddSingleton<global::Nuons.DependencyInjection.Generators.Tests.MultipleInterfacesDirect, global::Nuons.DependencyInjection.Generators.Tests.MultipleInterfacesDirect>();
+		services.AddSingleton<global::Nuons.DependencyInjection.Generators.Tests.ITestService, global::Nuons.DependencyInjection.Generators.Tests.SingletonServiceGeneric>();
+	}
+}
