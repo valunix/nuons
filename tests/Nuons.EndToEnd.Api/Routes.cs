@@ -2,8 +2,8 @@ namespace Nuons.EndToEnd.Api;
 
 public static class Routes
 {
-	public const string Controller = "/controller";
 	public const string Complex = "/complex";
+	public const string ComplexOptions = "/complex/options";
 	public const string Singleton = "/singleton";
 	public const string SingletonGeneric = "/singleton-generic";
 	public const string Transient = "/transient";

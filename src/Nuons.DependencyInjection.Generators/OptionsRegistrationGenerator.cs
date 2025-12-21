@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis.Text;
 using Nuons.Core.Generators;
 using Nuons.DependencyInjection.Abstractions;
 
-namespace Nuons.DependencyInjection.Generators.Configuration;
+namespace Nuons.DependencyInjection.Generators;
 
 [Generator]
 internal class OptionsRegistrationGenerator : IIncrementalGenerator
@@ -19,7 +19,7 @@ internal class OptionsRegistrationGenerator : IIncrementalGenerator
 			Syntax.IsClassNode,
 			ExtractOptionDefinitions
 		)
-			.Where(optionDefinition => optionDefinition is not null)
+			.WhereNotNull()
 			.Collect();
 
 		var optionsIncrementProvider = assemblyNameProvider.Combine(optionsProvider)
@@ -57,7 +57,7 @@ internal class OptionsRegistrationGenerator : IIncrementalGenerator
 
 	private void GenerateSources(SourceProductionContext context, OptionsRegistrationIncrement increment)
 	{
-		if (increment.AssemblyName is null || !increment.Registrations.Any())
+		if (increment.AssemblyName is null)
 		{
 			return;
 		}
@@ -66,11 +66,6 @@ internal class OptionsRegistrationGenerator : IIncrementalGenerator
 		var builder = new OptionsRegistrationSourceBuilder(className);
 		foreach (var registration in increment.Registrations)
 		{
-			if (registration is null)
-			{
-				continue;
-			}
-
 			builder.WithOptions(registration);
 		}
 

@@ -1,7 +1,7 @@
 using System.Text;
 using Nuons.Core.Generators;
 
-namespace Nuons.DependencyInjection.Generators.Configuration;
+namespace Nuons.DependencyInjection.Generators;
 
 internal class OptionsRegistrationSourceBuilder
 {

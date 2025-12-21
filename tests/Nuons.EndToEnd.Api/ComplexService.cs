@@ -11,5 +11,10 @@ internal partial class ComplexService : IComplexService
 	[Injected]
 	private readonly ISingletonService singletonService;
 
+	[InjectedOptions]
+	private readonly MyOptions options;
+
 	public string GetValue() => singletonService.GetValue();
+
+	public string GetOptionsValue() => options.MyProperty;
 }

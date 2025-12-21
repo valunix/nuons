@@ -4,8 +4,9 @@ namespace Nuons.DependencyInjection.Extensions;
 
 public static class NuonDependencyInjectionExtensions
 {
-	public static void AddNuonDependancyInjectionServices(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection services)
+	public static void AddNuonDependancyInjectionServices(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection services, global::Microsoft.Extensions.Configuration.IConfiguration configuration)
 	{
 		ServiceRegistrationNuonGeneratorFixtureTestAssembly.AddServices(services);
+		OptionsRegistrationNuonGeneratorFixtureTestAssembly.ConfigureOptions(services, configuration);
 	}
 }
