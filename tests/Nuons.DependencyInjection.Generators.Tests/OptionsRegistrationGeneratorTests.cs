@@ -1,7 +1,6 @@
 using Nuons.Core.Tests;
-using Nuons.DependencyInjection.Generators.Configuration;
 
-namespace Nuons.DependencyInjection.Generators.Tests.Configuration;
+namespace Nuons.DependencyInjection.Generators.Tests;
 
 public class OptionsRegistrationGeneratorTests(ITestOutputHelper output, NuonGeneratorFixture fixture)
 	: IClassFixture<NuonGeneratorFixture>

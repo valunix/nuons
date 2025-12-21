@@ -122,19 +122,19 @@ public class NuonsServiceTests(WebApplicationFactory<Program> webApplicationFact
 	}
 
 	[Fact]
-	public async Task GetControllerEndpoint_ReturnsCorrectValue()
+	public async Task GetComplexOptionsEndpoint_ReturnsCorrectValue()
 	{
 		// Arrange 
 		using var client = webApplicationFactory.CreateClient();
 
 		// Act
-		using var response = await client.GetAsync(Routes.Controller, TestContext.Current.CancellationToken);
+		using var response = await client.GetAsync(Routes.ComplexOptions, TestContext.Current.CancellationToken);
 
 		// Assert
 		response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
 		var content = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
-		content.ShouldBe(SingletonService.Value);
+		content.ShouldBe("OptionsValue");
 	}
 
 	// TODO
