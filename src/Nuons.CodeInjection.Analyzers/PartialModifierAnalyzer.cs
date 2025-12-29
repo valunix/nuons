@@ -9,7 +9,7 @@ namespace Nuons.CodeInjection.Analyzers;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 internal class PartialModifierAnalyzer : DiagnosticAnalyzer
 {
-	public const string DiagnosticId = "NU001";
+	public const string DiagnosticId = "NUCI001";
 
 	private static readonly DiagnosticDescriptor Rule = new(
 		id: DiagnosticId,

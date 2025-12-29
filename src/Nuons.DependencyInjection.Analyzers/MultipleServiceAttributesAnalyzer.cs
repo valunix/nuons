@@ -9,7 +9,7 @@ namespace Nuons.DependencyInjection.Analyzers;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 internal class MultipleServiceAttributesAnalyzer : DiagnosticAnalyzer
 {
-	public const string DiagnosticId = "NU003";
+	public const string DiagnosticId = "NUDI001";
 
 	private const int MaxServiceAttributes = 1;
 

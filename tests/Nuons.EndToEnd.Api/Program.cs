@@ -7,8 +7,6 @@ using Nuons.Http.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-
 builder.Services.AddNuonHttpServices();
 builder.Services.AddNuonDependancyInjectionServices(builder.Configuration);
 
@@ -22,8 +20,6 @@ app.MapGet(Routes.Scoped, (IScopedService scopedService) => scopedService.GetVal
 app.MapGet(Routes.ScopedGeneric, (IScopedGenericService scopedService) => scopedService.GetValue());
 app.MapGet(Routes.Complex, (IComplexService complexService) => complexService.GetValue());
 app.MapGet(Routes.ComplexOptions, (IComplexService complexService) => complexService.GetOptionsValue());
-
-app.MapControllers();
 
 app.MapNuonEndpoints();
 

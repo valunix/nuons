@@ -9,7 +9,7 @@ namespace Nuons.CodeInjection.Analyzers;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 internal class MissingServiceAnalyzer : DiagnosticAnalyzer
 {
-	public const string DiagnosticId = "NU002";
+	public const string DiagnosticId = "NUCI002";
 
 	private static readonly DiagnosticDescriptor Rule = new(
 		id: DiagnosticId,

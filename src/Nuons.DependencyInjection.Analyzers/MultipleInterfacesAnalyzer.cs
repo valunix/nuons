@@ -9,7 +9,7 @@ namespace Nuons.DependencyInjection.Analyzers;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 internal class MultipleInterfacesAnalyzer : DiagnosticAnalyzer
 {
-	public const string DiagnosticId = "NU004";
+	public const string DiagnosticId = "NUDI002";
 
 	private static readonly DiagnosticDescriptor Rule = new(
 		id: DiagnosticId,

@@ -57,8 +57,11 @@ jobs:
       - name: Build
         run: dotnet build ./Nuons.slnx --configuration Release --no-restore 
 
-      - name: Pack
+      - name: Pack Nuons
         run: dotnet pack ./src/Nuons/Nuons.csproj --configuration Release --no-build -p:PackageVersion=${{ steps.get_version.outputs.version }} -o ./artifacts/nuons-package
+
+      - name: Pack Nuons Startup
+        run: dotnet pack ./src/Nuons.Startup/Nuons.Startup.csproj --configuration Release --no-build -p:PackageVersion=${{ steps.get_version.outputs.version }} -o ./artifacts/nuons-startup-package
 
       - name: NuGet login
         uses: NuGet/login@v1
@@ -66,5 +69,8 @@ jobs:
         with:
           user: ${{ secrets.NUGET_USER }}
 
-      - name: Push to NuGet
+      - name: Push Nuons to NuGet
         run: dotnet nuget push "./artifacts/nuons-package/*.nupkg" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json
+
+      - name: Push Nuons Startup to NuGet
+        run: dotnet nuget push "./artifacts/nuons-startup-package/*.nupkg" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json
