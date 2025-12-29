@@ -1,0 +1,23 @@
+<Solution>
+  <Project Path="src/Nuons.CodeInjection.Abstractions/Nuons.CodeInjection.Abstractions.csproj" />
+  <Project Path="src/Nuons.CodeInjection.Analyzers/Nuons.CodeInjection.Analyzers.csproj" />
+  <Project Path="src/Nuons.CodeInjection.Generators/Nuons.CodeInjection.Generators.csproj" />
+  <Project Path="src/Nuons.Core.Abstractions/Nuons.Core.Abstractions.csproj" />
+  <Project Path="src/Nuons.Core.Generators/Nuons.Core.Generators.csproj" />
+  <Project Path="src/Nuons.DependencyInjection.Abstractions/Nuons.DependencyInjection.Abstractions.csproj" />
+  <Project Path="src/Nuons.DependencyInjection.Analyzers/Nuons.DependencyInjection.Analyzers.csproj" />
+  <Project Path="src/Nuons.DependencyInjection.Generators.Startup/Nuons.DependencyInjection.Generators.Startup.csproj" />
+  <Project Path="src/Nuons.DependencyInjection.Generators/Nuons.DependencyInjection.Generators.csproj" />
+  <Project Path="src/Nuons.Http.Abstractions/Nuons.Http.Abstractions.csproj" />
+  <Project Path="src/Nuons.Http.Generators/Nuons.Http.Generators.csproj" />
+  <Project Path="src/Nuons.Startup/Nuons.Startup.csproj" />
+  <Project Path="src/Nuons/Nuons.csproj" />
+  <Project Path="tests/Nuons.CodeInjection.Abstractions.Tests/Nuons.CodeInjection.Abstractions.Tests.csproj" />
+  <Project Path="tests/Nuons.CodeInjection.Analyzers.Tests/Nuons.CodeInjection.Analyzers.Tests.csproj" />
+  <Project Path="tests/Nuons.CodeInjection.Generators.Tests/Nuons.CodeInjection.Generators.Tests.csproj" />
+  <Project Path="tests/Nuons.Core.Tests/Nuons.Core.Tests.csproj" />
+  <Project Path="tests/Nuons.DependencyInjection.Abstractions.Tests/Nuons.DependencyInjection.Abstractions.Tests.csproj" />
+  <Project Path="tests/Nuons.DependencyInjection.Analyzers.Tests/Nuons.DependencyInjection.Analyzers.Tests.csproj" />
+  <Project Path="tests/Nuons.DependencyInjection.Generators.Tests/Nuons.DependencyInjection.Generators.Tests.csproj" />
+  <Project Path="tests/Nuons.Http.Generators.Tests/Nuons.Http.Generators.Tests.csproj" />
+</Solution>

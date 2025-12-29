@@ -1,0 +1,16 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="tests/Nuons.EndToEnd.Api.IntegrationTests/Nuons.EndToEnd.Api.IntegrationTests.csproj" />
+  <Project Path="tests/Nuons.EndToEnd.Api/Nuons.EndToEnd.Api.csproj" />
+  <Project Path="tests/Nuons.EndToEnd.Http/Nuons.EndToEnd.Http.csproj" />
+  <Project Path="tests/Nuons.EndToEnd.ScopedFeature.Domain/Nuons.EndToEnd.ScopedFeature.Domain.csproj" />
+  <Project Path="tests/Nuons.EndToEnd.ScopedFeature.Infrastructure/Nuons.EndToEnd.ScopedFeature.Infrastructure.csproj" />
+  <Project Path="tests/Nuons.EndToEnd.SingletonFeature.Domain/Nuons.EndToEnd.SingletonFeature.Domain.csproj" />
+  <Project Path="tests/Nuons.EndToEnd.SingletonFeature.Infrastructure/Nuons.EndToEnd.SingletonFeature.Infrastructure.csproj" />
+  <Project Path="tests/Nuons.EndToEnd.TransientFeature.Domain/Nuons.EndToEnd.TransientFeature.Domain.csproj" />
+  <Project Path="tests/Nuons.EndToEnd.TransientFeature.Infrastructure/Nuons.EndToEnd.TransientFeature.Infrastructure.csproj" />
+</Solution>
