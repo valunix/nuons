@@ -5,6 +5,8 @@ A lightweight open-source library for .NET that cuts down boilerplate and speeds
 
 Add `Nuons.Startup` package to your main project where your `Program.cs` is. If you use multiple projects and want to leverage nuons add `Nuons` package to them and mark them with `[assembly: AssemblyHasNuons]`.
 
+**Important note:** nuon packages need to be marked with `PrivateAssets="all"` to work correctly.
+
 ## Dependency Injection samples
 
 Nuons Dependency Injection provides a set of attributes and source generators to simplify dependency injection in .NET apps. Here are some samples to get you productive in minutes.
