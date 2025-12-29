@@ -21,8 +21,6 @@ app.MapGet(Routes.ScopedGeneric, (IScopedGenericService scopedService) => scoped
 app.MapGet(Routes.Complex, (IComplexService complexService) => complexService.GetValue());
 app.MapGet(Routes.ComplexOptions, (IComplexService complexService) => complexService.GetOptionsValue());
 
-app.MapControllers();
-
 app.MapNuonEndpoints();
 
 app.Run();
