@@ -1,6 +1,10 @@
 # Nuons
 A lightweight open-source library for .NET that cuts down boilerplate and speeds up application development.
 
+## Installation
+
+Add `Nuons.Startup` package to your main project where your `Program.cs` is. If you use multiple projects and want to leverage nuons add `Nuons` package to them and mark them with `[assembly: AssemblyHasNuons]`.
+
 ## Dependency Injection samples
 
 Nuons Dependency Injection provides a set of attributes and source generators to simplify dependency injection in .NET apps. Here are some samples to get you productive in minutes.
@@ -53,11 +57,12 @@ public partial class MultipleInterfacesDirect : ITarget, ISomeOtherInterface;
 ```
 
 ### 2) Inject services into your classes
-Nuons supports clean field injection by simply marking fields with `[Injected]`. Generator will create the constructor and wire it up for you. Make sure to mark the class as `partial`.
+Nuons supports clean field injection by simply marking class with `[InjectConstructor]` and fields with `[Injected]`. Generator will create the constructor and wire it up for you. Make sure to mark the class as `partial`.
 ```csharp
 using Nuons.DependencyInjection;
 
 [Singleton]
+[InjectConstructor]
 public partial class GreetingConsumer
 {
     [Injected] private readonly IGreetingService greetings;
@@ -78,6 +83,7 @@ public class MyAppOptions
 }
 
 [Singleton]
+[InjectConstructor]
 public partial class Dashboard
 {
     [Injected] private readonly IOptions<MyAppOptions> optionsWrapped;
@@ -98,40 +104,13 @@ appsettings.json
 Nuons will generate the code to bind configuration and make `MyAppOptions` available for injection.
 
 ### 4) Wire up Program.cs
-Use the generated combined registration to register all services and bind options in one call. The generator creates a class named `CombinedRegistration{YourAssemblyName}` under the `Nuons.DependencyInjection.Extensions` namespace.
+Use the generated `AddNuonDependancyInjectionServices` method under the `Nuons.DependencyInjection.Extensions` namespace to register all services and configurations from single place.
 
 ```csharp
 using Nuons.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Register all services and options discovered by Nuons in this assembly
-CombinedRegistrationMyApp.RegisterServices(builder.Services, builder.Configuration);
-// Replace MyApp with your assembly name
-
-var app = builder.Build();
-app.MapGet("/hello/{name}", (string name, IGreetingService greeter) => greeter.Greet(name));
-app.Run();
-```
-
-### 5) Multiple assemblies
-If your services live across multiple projects you can use `RootRegistrationAttribute` to combine them and call registrations from single point.
-
-Root registration class (in your startup/host project):
-```csharp
-using Nuons.DependencyInjection;
-
-namespace MyApp.Startup;
-
-[RootRegistration(typeof(MyApp.Startup.AssemblyMarker), typeof(MySubDomainA.AssemblyMarker), typeof(MySubDomainB.AssemblyMarker))]
-public partial class MyRootRegistration;
-```
-
-Program.cs
-```csharp
-var builder = WebApplication.CreateBuilder(args);
-
-MyRootRegistration.RegisterServices(builder.Services, builder.Configuration);
+builder.Services.AddNuonDependancyInjectionServices(builder.Configuration);
 
 var app = builder.Build();
 app.MapGet("/hello/{name}", (string name, IGreetingService greeter) => greeter.Greet(name));

@@ -7,8 +7,6 @@ using Nuons.Http.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-
 builder.Services.AddNuonHttpServices();
 builder.Services.AddNuonDependancyInjectionServices(builder.Configuration);
 
