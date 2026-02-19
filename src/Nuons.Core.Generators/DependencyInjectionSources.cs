@@ -1,6 +1,6 @@
 namespace Nuons.Core.Generators;
 
-public static class DependancyInjectionSources
+public static class DependencyInjectionSources
 {
 	public static string GetServiceRegistrationClassName(string assemblyName) =>
 		$"ServiceRegistration{Sources.TrimForClassName(assemblyName)}";

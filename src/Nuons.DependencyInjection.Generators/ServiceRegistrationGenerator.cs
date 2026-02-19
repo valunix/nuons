@@ -118,7 +118,7 @@ internal class ServiceRegistrationGenerator : IIncrementalGenerator
 			return;
 		}
 
-		var className = DependancyInjectionSources.GetServiceRegistrationClassName(increment.AssemblyName);
+		var className = DependencyInjectionSources.GetServiceRegistrationClassName(increment.AssemblyName);
 		var sourceBuilder = new ServiceRegistrationSourceBuilder(className);
 		foreach (var registration in increment.Registrations)
 		{
