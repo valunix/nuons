@@ -20,13 +20,13 @@ internal class CombinedServiceRegistrationSourceBuilder
 		{
 			registrationsBuilder.AppendLine();
 
-			var serviceClassName = DependancyInjectionSources.GetServiceRegistrationClassName(registration.AssemblyName);
+			var serviceClassName = DependencyInjectionSources.GetServiceRegistrationClassName(registration.AssemblyName);
 			var serviceLine = $"{Sources.Tab2}{serviceClassName}.AddServices(services);";
 			registrationsBuilder.Append(serviceLine);
 
 			registrationsBuilder.AppendLine();
 
-			var optionsClassName = DependancyInjectionSources.GetOptionsRegistrationClassName(registration.AssemblyName);
+			var optionsClassName = DependencyInjectionSources.GetOptionsRegistrationClassName(registration.AssemblyName);
 			var optionsLine = $"{Sources.Tab2}{optionsClassName}.ConfigureOptions(services, configuration);";
 			registrationsBuilder.Append(optionsLine);
 		});
@@ -37,7 +37,7 @@ namespace Nuons.DependencyInjection.Extensions;
 
 public static class {className}
 {{
-	public static void AddNuonDependancyInjectionServices(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection services, global::Microsoft.Extensions.Configuration.IConfiguration configuration)
+	public static void AddNuonDependencyInjectionServices(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection services, global::Microsoft.Extensions.Configuration.IConfiguration configuration)
 	{{{registrationsBuilder}
 	}}
 }}";

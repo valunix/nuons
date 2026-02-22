@@ -62,7 +62,7 @@ internal class OptionsRegistrationGenerator : IIncrementalGenerator
 			return;
 		}
 
-		var className = DependancyInjectionSources.GetOptionsRegistrationClassName(increment.AssemblyName);
+		var className = DependencyInjectionSources.GetOptionsRegistrationClassName(increment.AssemblyName);
 		var builder = new OptionsRegistrationSourceBuilder(className);
 		foreach (var registration in increment.Registrations)
 		{
