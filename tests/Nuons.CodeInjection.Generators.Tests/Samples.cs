@@ -12,7 +12,7 @@ internal interface IGenericService<T>;
 [InjectConstructor]
 internal partial class InjectedConstructorService
 {
-	[Injected] private readonly IGenericService<string?> genericField;
-	[Injected] private readonly ITestService testField;
-	[InjectedOptions] private readonly SampleOptions sampleOptions;
+	[Injected] private readonly IGenericService<string?> genericField = null!;
+	[Injected] private readonly ITestService testField = null!;
+	[InjectedOptions] private readonly SampleOptions sampleOptions = null!;
 }
