@@ -9,6 +9,8 @@ namespace Nuons.Http.Generators;
 [Generator]
 internal partial class EndpointGenerator : IIncrementalGenerator
 {
+	private static readonly string AssemblyHasNuonsAttributeName = typeof(AssemblyHasNuonsAttribute).FullName!;
+
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{
 		var endpointAttributesProvider = context.CompilationProvider
@@ -49,7 +51,7 @@ internal partial class EndpointGenerator : IIncrementalGenerator
 			return [];
 		}
 
-		var nuonMarkerAttribute = compilation.GetTypeByMetadataName(typeof(AssemblyHasNuonsAttribute).FullName!);
+		var nuonMarkerAttribute = compilation.GetTypeByMetadataName(AssemblyHasNuonsAttributeName);
 		if (nuonMarkerAttribute is null)
 		{
 			return [];

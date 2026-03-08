@@ -8,6 +8,8 @@ namespace Nuons.DependencyInjection.Generators.Startup;
 [Generator]
 internal partial class CombinedServiceRegistrationGenerator : IIncrementalGenerator
 {
+	private static readonly string AssemblyHasNuonsAttributeName = typeof(AssemblyHasNuonsAttribute).FullName!;
+
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{
 		var referencesProvider = context.CompilationProvider
@@ -19,7 +21,7 @@ internal partial class CombinedServiceRegistrationGenerator : IIncrementalGenera
 
 	private static ImmutableArray<CombinedServiceRegistrationIncrement> ExtractIncrements(Compilation compilation, CancellationToken cancellationToken)
 	{
-		var nuonMarkerAttribute = compilation.GetTypeByMetadataName(typeof(AssemblyHasNuonsAttribute).FullName);
+		var nuonMarkerAttribute = compilation.GetTypeByMetadataName(AssemblyHasNuonsAttributeName);
 		if (nuonMarkerAttribute is null)
 		{
 			return [];

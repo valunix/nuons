@@ -155,4 +155,20 @@ public class NuonsServiceTests(WebApplicationFactory<Program> webApplicationFact
 		var content = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
 		content.ShouldBe("get");
 	}
+
+	[Fact]
+	public async Task GetNuonHttpEndpoint_ReturnsCorrectValue()
+	{
+		// Arrange 
+		using var client = webApplicationFactory.CreateClient();
+
+		// Act
+		using var response = await client.GetAsync("nuon-http-handler/get", TestContext.Current.CancellationToken);
+
+		// Assert
+		response.StatusCode.ShouldBe(HttpStatusCode.OK);
+
+		var content = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+		content.ShouldBe("get");
+	}
 }
