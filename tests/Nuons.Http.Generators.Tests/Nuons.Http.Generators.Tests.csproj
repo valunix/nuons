@@ -29,6 +29,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\src\Nuons.Core.Abstractions\Nuons.Core.Abstractions.csproj" />
+		<ProjectReference Include="..\..\src\Nuons.Http.Abstractions\Nuons.Http.Abstractions.csproj" />
 		<ProjectReference Include="..\..\src\Nuons.Http.Generators\Nuons.Http.Generators.csproj" />
 		<ProjectReference Include="..\Nuons.Core.Tests\Nuons.Core.Tests.csproj" />
 	</ItemGroup>

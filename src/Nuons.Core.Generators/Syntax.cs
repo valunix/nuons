@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -18,9 +17,6 @@ public static class Syntax
 
 	public static AttributeData? FirstOrDefaultAttribute(this ISymbol symbol, INamedTypeSymbol attributeSymbol)
 		=> symbol.GetAttributes().FirstOrDefault(attribute => SymbolEqualityComparer.Default.Equals(attribute.AttributeClass, attributeSymbol));
-	public static AttributeData? FirstOrDefaultAttribute<T>(this ISymbol symbol) where T : Attribute
-		=> symbol.FirstOrDefaultAttribute(typeof(T).FullName);
-
 	public static AttributeData? FirstOrDefaultAttribute(this ISymbol symbol, string attributeFullName)
 		=> symbol.GetAttributes().FirstOrDefault(attribute => attribute.AttributeClass?.ToFullTypeName(false, false) == attributeFullName);
 

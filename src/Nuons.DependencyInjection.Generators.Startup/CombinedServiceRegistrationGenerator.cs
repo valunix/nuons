@@ -1,6 +1,5 @@
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
-using Nuons.Core.Abstractions;
 using Nuons.Core.Generators;
 
 namespace Nuons.DependencyInjection.Generators.Startup;
@@ -8,8 +7,6 @@ namespace Nuons.DependencyInjection.Generators.Startup;
 [Generator]
 internal partial class CombinedServiceRegistrationGenerator : IIncrementalGenerator
 {
-	private static readonly string AssemblyHasNuonsAttributeName = typeof(AssemblyHasNuonsAttribute).FullName!;
-
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{
 		var referencesProvider = context.CompilationProvider
@@ -21,7 +18,7 @@ internal partial class CombinedServiceRegistrationGenerator : IIncrementalGenera
 
 	private static ImmutableArray<CombinedServiceRegistrationIncrement> ExtractIncrements(Compilation compilation, CancellationToken cancellationToken)
 	{
-		var nuonMarkerAttribute = compilation.GetTypeByMetadataName(AssemblyHasNuonsAttributeName);
+		var nuonMarkerAttribute = compilation.GetTypeByMetadataName(KnownCoreTypes.AssemblyHasNuonsAttribute);
 		if (nuonMarkerAttribute is null)
 		{
 			return [];

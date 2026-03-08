@@ -2,7 +2,6 @@ using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using Nuons.Core.Generators;
-using Nuons.CodeInjection.Abstractions;
 
 namespace Nuons.CodeInjection.Generators;
 
@@ -12,7 +11,7 @@ internal class InjectConstructorGenerator : IIncrementalGenerator
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{
 		var injectionProvider = context.SyntaxProvider.ForAttributeWithMetadataName(
-			typeof(InjectConstructorAttribute).FullName,
+			KnownCodeInjectionTypes.InjectConstructorAttribute,
 			Syntax.IsClassNode,
 			ExtractInjectionIncrement
 		)
@@ -50,7 +49,7 @@ internal class InjectConstructorGenerator : IIncrementalGenerator
 			.OfType<IFieldSymbol>()
 			.Where(field => field.GetAttributes()
 				.Any(attribute => attribute.AttributeClass is not null
-					&& attribute.AttributeClass.Name == nameof(InjectedAttribute)))
+					&& attribute.AttributeClass.Name == KnownCodeInjectionTypes.InjectedAttribute))
 			.Select(field => field.ToInjectedField())
 			.ToList();
 
@@ -58,7 +57,7 @@ internal class InjectConstructorGenerator : IIncrementalGenerator
 			.OfType<IFieldSymbol>()
 			.Where(field => field.GetAttributes()
 				.Any(attribute => attribute.AttributeClass is not null
-					&& attribute.AttributeClass.Name == nameof(InjectedOptionsAttribute)))
+					&& attribute.AttributeClass.Name == KnownCodeInjectionTypes.InjectedOptionsAttribute))
 			.Select(field => field.ToInjectedField(true))
 			.ToList();
 

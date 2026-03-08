@@ -2,7 +2,6 @@ using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using Nuons.Core.Generators;
-using Nuons.DependencyInjection.Abstractions;
 
 namespace Nuons.DependencyInjection.Generators;
 
@@ -15,7 +14,7 @@ internal class OptionsRegistrationGenerator : IIncrementalGenerator
 			.Select((compilation, _) => compilation.AssemblyName);
 
 		var optionsProvider = context.SyntaxProvider.ForAttributeWithMetadataName(
-			typeof(OptionsAttribute).FullName,
+			KnownDependencyInjectionTypes.OptionsAttribute,
 			Syntax.IsClassNode,
 			ExtractOptionDefinitions
 		)
@@ -35,7 +34,7 @@ internal class OptionsRegistrationGenerator : IIncrementalGenerator
 			return null;
 		}
 
-		var attribute = symbol.FirstOrDefaultAttribute<OptionsAttribute>();
+		var attribute = symbol.FirstOrDefaultAttribute(KnownDependencyInjectionTypes.OptionsAttribute);
 		if (attribute is null)
 		{
 			return null;
