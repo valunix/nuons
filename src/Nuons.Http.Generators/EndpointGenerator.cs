@@ -1,23 +1,19 @@
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
-using Nuons.Core.Abstractions;
 using Nuons.Core.Generators;
-using Nuons.Http.Abstractions;
 
 namespace Nuons.Http.Generators;
 
 [Generator]
 internal partial class EndpointGenerator : IIncrementalGenerator
 {
-	private static readonly string AssemblyHasNuonsAttributeName = typeof(AssemblyHasNuonsAttribute).FullName!;
-
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{
 		var endpointAttributesProvider = context.CompilationProvider
 			.Select(EndpointAttributes.FromCompilation);
 
 		var currentProjectProvider = context.SyntaxProvider.ForAttributeWithMetadataName(
-			typeof(RouteAttribute).FullName,
+			KnownHttpTypes.RouteAttribute,
 			Syntax.IsClassNode,
 			ExtractSymbol
 		)
@@ -45,13 +41,13 @@ internal partial class EndpointGenerator : IIncrementalGenerator
 
 	private static ImmutableArray<INamedTypeSymbol> ExtractSymbolsFromReferences(Compilation compilation, CancellationToken cancellationToken)
 	{
-		var routeAttribute = compilation.GetTypeByMetadataName(typeof(RouteAttribute).FullName!);
+		var routeAttribute = compilation.GetTypeByMetadataName(KnownHttpTypes.RouteAttribute);
 		if (routeAttribute is null)
 		{
 			return [];
 		}
 
-		var nuonMarkerAttribute = compilation.GetTypeByMetadataName(AssemblyHasNuonsAttributeName);
+		var nuonMarkerAttribute = compilation.GetTypeByMetadataName(KnownCoreTypes.AssemblyHasNuonsAttribute);
 		if (nuonMarkerAttribute is null)
 		{
 			return [];

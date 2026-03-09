@@ -1,5 +1,4 @@
 using Microsoft.CodeAnalysis;
-using Nuons.Http.Abstractions;
 
 namespace Nuons.Http.Generators;
 
@@ -13,31 +12,31 @@ internal record EndpointAttributes(
 {
 	public static EndpointAttributes? FromCompilation(Compilation compilation, CancellationToken cancellationToken)
 	{
-		var routeAttributeSymbol = compilation.GetTypeByMetadataName(typeof(RouteAttribute).FullName);
+		var routeAttributeSymbol = compilation.GetTypeByMetadataName(KnownHttpTypes.RouteAttribute);
 		if (routeAttributeSymbol is null)
 		{
 			return null;
 		}
 
-		var getAttributeSymbol = compilation.GetTypeByMetadataName(typeof(GetAttribute).FullName);
+		var getAttributeSymbol = compilation.GetTypeByMetadataName(KnownHttpTypes.GetAttribute);
 		if (getAttributeSymbol is null)
 		{
 			return null;
 		}
 
-		var postAttributeSymbol = compilation.GetTypeByMetadataName(typeof(PostAttribute).FullName);
+		var postAttributeSymbol = compilation.GetTypeByMetadataName(KnownHttpTypes.PostAttribute);
 		if (postAttributeSymbol is null)
 		{
 			return null;
 		}
 
-		var putAttributeSymbol = compilation.GetTypeByMetadataName(typeof(PutAttribute).FullName);
+		var putAttributeSymbol = compilation.GetTypeByMetadataName(KnownHttpTypes.PutAttribute);
 		if (putAttributeSymbol is null)
 		{
 			return null;
 		}
 
-		var deleteAttributeSymbol = compilation.GetTypeByMetadataName(typeof(DeleteAttribute).FullName);
+		var deleteAttributeSymbol = compilation.GetTypeByMetadataName(KnownHttpTypes.DeleteAttribute);
 		if (deleteAttributeSymbol is null)
 		{
 			return null;

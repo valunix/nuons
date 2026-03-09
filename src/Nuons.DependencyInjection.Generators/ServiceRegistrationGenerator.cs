@@ -3,7 +3,6 @@ using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using Nuons.Core.Generators;
-using Nuons.DependencyInjection.Abstractions;
 
 namespace Nuons.DependencyInjection.Generators;
 
@@ -15,9 +14,9 @@ internal class ServiceRegistrationGenerator : IIncrementalGenerator
 		var assemblyNameProvider = context.CompilationProvider
 			.Select((compilation, _) => compilation.AssemblyName);
 
-		var transientProvider = GetProviderFor<TransientAttribute>(context, Lifetime.Transient);
-		var scopedProvider = GetProviderFor<ScopedAttribute>(context, Lifetime.Scoped);
-		var singletonProvider = GetProviderFor<SingletonAttribute>(context, Lifetime.Singleton);
+		var transientProvider = GetProviderFor(context, KnownDependencyInjectionTypes.TransientAttribute, Lifetime.Transient);
+		var scopedProvider = GetProviderFor(context, KnownDependencyInjectionTypes.ScopedAttribute, Lifetime.Scoped);
+		var singletonProvider = GetProviderFor(context, KnownDependencyInjectionTypes.SingletonAttribute, Lifetime.Singleton);
 
 		var allRegistrations = transientProvider
 			.Combine(scopedProvider)
@@ -33,9 +32,8 @@ internal class ServiceRegistrationGenerator : IIncrementalGenerator
 		context.RegisterSourceOutput(combinedProvider, GenerateSources);
 	}
 
-	private IncrementalValueProvider<ImmutableArray<ServiceRegistration?>> GetProviderFor<TAttribute>(IncrementalGeneratorInitializationContext context, Lifetime lifetime)
+	private IncrementalValueProvider<ImmutableArray<ServiceRegistration?>> GetProviderFor(IncrementalGeneratorInitializationContext context, string attributeFullName, Lifetime lifetime)
 	{
-		var attributeFullName = typeof(TAttribute).FullName;
 		var provider = context.SyntaxProvider.ForAttributeWithMetadataName
 		(
 			attributeFullName,

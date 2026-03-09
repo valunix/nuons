@@ -36,10 +36,6 @@
 		<None Include="..\Nuons.Core.Abstractions\bin\Release\netstandard2.0\Nuons.Core.Abstractions.dll"
 			  Pack="true" PackagePath="lib/netstandard2.0/" />
 	</ItemGroup>
-	<ItemGroup>
-		<None Include="..\Nuons.Core.Abstractions\bin\Release\netstandard2.0\Nuons.Core.Abstractions.dll"
-			  Pack="true" PackagePath="analyzers/dotnet/cs/" Visible="false" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="..\Nuons.Core.Generators\bin\$(Configuration)\netstandard2.0\Nuons.Core.Generators.dll"
@@ -49,10 +45,6 @@
 	<ItemGroup>
 		<None Include="..\Nuons.CodeInjection.Abstractions\bin\Release\netstandard2.0\Nuons.CodeInjection.Abstractions.dll"
 			  Pack="true" PackagePath="lib/netstandard2.0/" />
-	</ItemGroup>
-	<ItemGroup>
-		<None Include="..\Nuons.CodeInjection.Abstractions\bin\Release\netstandard2.0\Nuons.CodeInjection.Abstractions.dll"
-			  Pack="true" PackagePath="analyzers/dotnet/cs/" Visible="false" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -68,10 +60,6 @@
 	<ItemGroup>
 		<None Include="..\Nuons.DependencyInjection.Abstractions\bin\Release\netstandard2.0\Nuons.DependencyInjection.Abstractions.dll"
 			  Pack="true" PackagePath="lib/netstandard2.0/" />
-	</ItemGroup>
-	<ItemGroup>
-		<None Include="..\Nuons.DependencyInjection.Abstractions\bin\Release\netstandard2.0\Nuons.DependencyInjection.Abstractions.dll"
-			  Pack="true" PackagePath="analyzers/dotnet/cs/" Visible="false" />
 	</ItemGroup>
 
 	<ItemGroup>

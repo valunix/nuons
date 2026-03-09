@@ -32,3 +32,5 @@ obj/
 *.user.config
 
 artifacts/
+
+.claude/
