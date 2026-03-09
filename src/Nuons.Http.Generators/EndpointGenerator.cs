@@ -99,13 +99,19 @@ internal partial class EndpointGenerator : IIncrementalGenerator
 			return null;
 		}
 
-		var routeBuilder = new RouteBuilder(route);
+		var routePrefix = NormalizePrefix(route);
+
+		var groupConfigBuilder = ImmutableArray.CreateBuilder<EndpointConfigurationCall>();
+		foreach (var attr in symbol.GetAttributes())
+		{
+			ExtractSharedConfigCall(attr, groupConfigBuilder);
+		}
 
 		var endpointBuilder = ImmutableArray.CreateBuilder<EndpointRegistration>();
 
 		foreach (var member in symbol.GetMembers().OfType<IMethodSymbol>())
 		{
-			if (TryCreateEndpoint(member, routeBuilder, endpointAttributes, out var endpoint))
+			if (TryCreateEndpoint(member, endpointAttributes, out var endpoint))
 			{
 				endpointBuilder.Add(endpoint!);
 			}
@@ -117,46 +123,21 @@ internal partial class EndpointGenerator : IIncrementalGenerator
 			return null;
 		}
 
-		var increment = new EndpointIncrement(handlerType, finalEndpoints);
+		var increment = new EndpointIncrement(handlerType, routePrefix, finalEndpoints, groupConfigBuilder.ToImmutable());
 		return increment;
 	}
 
-	// TODO foreach on endpoint spec instead of 4 IFs
-	private static bool TryCreateEndpoint(IMethodSymbol member, RouteBuilder routeBuilder, EndpointAttributes endpointAttributes, out EndpointRegistration? endpoint)
+	private static bool TryCreateEndpoint(IMethodSymbol member, EndpointAttributes endpointAttributes, out EndpointRegistration? endpoint)
 	{
-		var getAttribute = member.FirstOrDefaultAttribute(endpointAttributes.Get);
-		if (getAttribute is not null)
+		foreach (var (attributeSymbol, httpMethod) in endpointAttributes.HttpMethodAttributes())
 		{
-			if (TryCreateEndpoint(member, routeBuilder, getAttribute, HttpMethods.Get, out endpoint))
+			var attribute = member.FirstOrDefaultAttribute(attributeSymbol);
+			if (attribute is not null)
 			{
-				return true;
-			}
-		}
-
-		var postAttribute = member.FirstOrDefaultAttribute(endpointAttributes.Post);
-		if (postAttribute is not null)
-		{
-			if (TryCreateEndpoint(member, routeBuilder, postAttribute, HttpMethods.Post, out endpoint))
-			{
-				return true;
-			}
-		}
-
-		var putAttribute = member.FirstOrDefaultAttribute(endpointAttributes.Put);
-		if (putAttribute is not null)
-		{
-			if (TryCreateEndpoint(member, routeBuilder, putAttribute, HttpMethods.Put, out endpoint))
-			{
-				return true;
-			}
-		}
-
-		var deleteAttribute = member.FirstOrDefaultAttribute(endpointAttributes.Delete);
-		if (deleteAttribute is not null)
-		{
-			if (TryCreateEndpoint(member, routeBuilder, deleteAttribute, HttpMethods.Delete, out endpoint))
-			{
-				return true;
+				if (TryCreateEndpoint(member, attribute, httpMethod, out endpoint))
+				{
+					return true;
+				}
 			}
 		}
 
@@ -164,7 +145,7 @@ internal partial class EndpointGenerator : IIncrementalGenerator
 		return false;
 	}
 
-	private static bool TryCreateEndpoint(IMethodSymbol member, RouteBuilder routeBuilder, AttributeData attribute, string httpMethod, out EndpointRegistration? endpoint)
+	private static bool TryCreateEndpoint(IMethodSymbol member, AttributeData attribute, string httpMethod, out EndpointRegistration? endpoint)
 	{
 		endpoint = null;
 
@@ -185,13 +166,176 @@ internal partial class EndpointGenerator : IIncrementalGenerator
 		{
 			var typeName = parameter.Type.ToFullTypeName();
 			var name = parameter.Name;
-			parameterBuilder.Add(new MethodParameter(typeName, name));
+			var bindingAttribute = GetBindingAttribute(parameter);
+			parameterBuilder.Add(new MethodParameter(typeName, name, bindingAttribute));
+		}
+
+		var configBuilder = ImmutableArray.CreateBuilder<EndpointConfigurationCall>();
+		foreach (var attr in member.GetAttributes())
+		{
+			var fullName = attr.AttributeClass?.ToDisplayString();
+			if (fullName == KnownHttpTypes.AllowAnonymousAttribute)
+			{
+				configBuilder.Add(new EndpointConfigurationCall("AllowAnonymous", ImmutableArray<string>.Empty));
+			}
+			else if (fullName == KnownHttpTypes.EndpointNameAttribute)
+			{
+				var name = attr.ConstructorArguments[0].Value as string;
+				if (name is not null)
+				{
+					configBuilder.Add(new EndpointConfigurationCall("WithName", ImmutableArray.Create(name)));
+				}
+			}
+			else if (fullName == KnownHttpTypes.EndpointDescriptionAttribute)
+			{
+				var desc = attr.ConstructorArguments[0].Value as string;
+				if (desc is not null)
+				{
+					configBuilder.Add(new EndpointConfigurationCall("WithDescription", ImmutableArray.Create(desc)));
+				}
+			}
+			else
+			{
+				ExtractSharedConfigCall(attr, configBuilder);
+			}
 		}
 
 		var implementationMethod = member.Name;
-		var fullRoute = routeBuilder.Build(route);
-		endpoint = new EndpointRegistration(httpMethod, fullRoute, implementationMethod, parameterBuilder.ToImmutable());
+		var subRoute = NormalizeSubRoute(route);
+		var isAsync = IsAsyncReturnType(member);
+		endpoint = new EndpointRegistration(httpMethod, subRoute, implementationMethod, parameterBuilder.ToImmutable(), configBuilder.ToImmutable(), isAsync);
 		return true;
+	}
+
+	private static bool IsAsyncReturnType(IMethodSymbol method)
+	{
+		var returnType = method.ReturnType;
+		var fullName = returnType.OriginalDefinition.ToDisplayString();
+
+		return fullName is
+			"System.Threading.Tasks.Task" or
+			"System.Threading.Tasks.Task<TResult>" or
+			"System.Threading.Tasks.ValueTask" or
+			"System.Threading.Tasks.ValueTask<TResult>";
+	}
+
+	private static void ExtractSharedConfigCall(AttributeData attr, ImmutableArray<EndpointConfigurationCall>.Builder builder)
+	{
+		var fullName = attr.AttributeClass?.ToDisplayString();
+		if (fullName == KnownHttpTypes.AuthorizeAttribute)
+		{
+			var policy = GetStringArg(attr);
+			var args = policy is not null
+				? ImmutableArray.Create(policy)
+				: ImmutableArray<string>.Empty;
+			builder.Add(new EndpointConfigurationCall("RequireAuthorization", args));
+		}
+		else if (fullName == KnownHttpTypes.TagsAttribute)
+		{
+			var tags = ImmutableArray.CreateBuilder<string>();
+			foreach (var arg in attr.ConstructorArguments)
+			{
+				if (arg.Kind == TypedConstantKind.Array)
+				{
+					foreach (var item in arg.Values)
+					{
+						if (item.Value is string s)
+						{
+							tags.Add(s);
+						}
+					}
+				}
+				else if (arg.Value is string s)
+				{
+					tags.Add(s);
+				}
+			}
+			builder.Add(new EndpointConfigurationCall("WithTags", tags.ToImmutable()));
+		}
+		else if (fullName == KnownHttpTypes.EnableRateLimitingAttribute)
+		{
+			var policy = GetStringArg(attr);
+			if (policy is not null)
+			{
+				builder.Add(new EndpointConfigurationCall("RequireRateLimiting", ImmutableArray.Create(policy)));
+			}
+		}
+		else if (fullName == KnownHttpTypes.RequireCorsAttribute)
+		{
+			var policy = GetStringArg(attr);
+			if (policy is not null)
+			{
+				builder.Add(new EndpointConfigurationCall("RequireCors", ImmutableArray.Create(policy)));
+			}
+		}
+		else if (fullName == KnownHttpTypes.DisableAntiforgeryAttribute)
+		{
+			builder.Add(new EndpointConfigurationCall("DisableAntiforgery", ImmutableArray<string>.Empty));
+		}
+	}
+
+	private static ParameterBindingAttribute? GetBindingAttribute(IParameterSymbol parameter)
+	{
+		foreach (var attr in parameter.GetAttributes())
+		{
+			var fullName = attr.AttributeClass?.ToDisplayString();
+			switch (fullName)
+			{
+				case KnownHttpTypes.FromHeaderAttribute:
+					return new ParameterBindingAttribute("Microsoft.AspNetCore.Http.FromHeaderAttribute", GetNameArg(attr));
+				case KnownHttpTypes.FromQueryAttribute:
+					return new ParameterBindingAttribute("Microsoft.AspNetCore.Http.FromQueryAttribute", GetNameArg(attr));
+				case KnownHttpTypes.FromBodyAttribute:
+					return new ParameterBindingAttribute("Microsoft.AspNetCore.Http.FromBodyAttribute", null);
+				case KnownHttpTypes.FromRouteAttribute:
+					return new ParameterBindingAttribute("Microsoft.AspNetCore.Http.FromRouteAttribute", GetNameArg(attr));
+				case KnownHttpTypes.FromFormAttribute:
+					return new ParameterBindingAttribute("Microsoft.AspNetCore.Http.FromFormAttribute", GetNameArg(attr));
+				case KnownHttpTypes.FromServicesAttribute:
+					return new ParameterBindingAttribute("Microsoft.AspNetCore.Http.FromServicesAttribute", null);
+				case KnownHttpTypes.AsParametersAttribute:
+					return new ParameterBindingAttribute("Microsoft.AspNetCore.Http.AsParametersAttribute", null);
+			}
+		}
+		return null;
+	}
+
+	private static string? GetNameArg(AttributeData attr)
+	{
+		if (attr.ConstructorArguments.Length > 0 && attr.ConstructorArguments[0].Value is string name && !string.IsNullOrEmpty(name))
+		{
+			return name;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	private static string? GetStringArg(AttributeData attr)
+	{
+		if (attr.ConstructorArguments.Length > 0 && attr.ConstructorArguments[0].Value is string s && !string.IsNullOrEmpty(s))
+		{
+			return s;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	private static string NormalizePrefix(string route)
+	{
+		// Ensure leading slash, no trailing slash
+		var trimmed = route.Trim('/');
+		return "/" + trimmed;
+	}
+
+	private static string NormalizeSubRoute(string route)
+	{
+		// Sub-routes are relative, so we just trim leading and trailing slashes
+		// This allows them to be combined with group routes properly
+		return route.Trim('/');
 	}
 
 	private static void GenerateSources(SourceProductionContext context, ImmutableArray<EndpointIncrement> increments)

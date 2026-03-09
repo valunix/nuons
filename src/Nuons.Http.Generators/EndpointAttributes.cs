@@ -7,9 +7,19 @@ internal record EndpointAttributes(
 	INamedTypeSymbol Get,
 	INamedTypeSymbol Post,
 	INamedTypeSymbol Put,
-	INamedTypeSymbol Delete
+	INamedTypeSymbol Delete,
+	INamedTypeSymbol Patch
 )
 {
+	public IEnumerable<(INamedTypeSymbol Symbol, string HttpMethod)> HttpMethodAttributes()
+	{
+		yield return (Get, HttpMethods.Get);
+		yield return (Post, HttpMethods.Post);
+		yield return (Put, HttpMethods.Put);
+		yield return (Delete, HttpMethods.Delete);
+		yield return (Patch, HttpMethods.Patch);
+	}
+
 	public static EndpointAttributes? FromCompilation(Compilation compilation, CancellationToken cancellationToken)
 	{
 		var routeAttributeSymbol = compilation.GetTypeByMetadataName(KnownHttpTypes.RouteAttribute);
@@ -42,6 +52,12 @@ internal record EndpointAttributes(
 			return null;
 		}
 
-		return new EndpointAttributes(routeAttributeSymbol, getAttributeSymbol, postAttributeSymbol, putAttributeSymbol, deleteAttributeSymbol);
+		var patchAttributeSymbol = compilation.GetTypeByMetadataName(KnownHttpTypes.PatchAttribute);
+		if (patchAttributeSymbol is null)
+		{
+			return null;
+		}
+
+		return new EndpointAttributes(routeAttributeSymbol, getAttributeSymbol, postAttributeSymbol, putAttributeSymbol, deleteAttributeSymbol, patchAttributeSymbol);
 	}
 }
