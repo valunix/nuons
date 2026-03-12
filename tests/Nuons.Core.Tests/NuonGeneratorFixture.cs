@@ -48,7 +48,7 @@ public class NuonGeneratorFixture : IDisposable
 		return driver;
 	}
 
-	private Compilation CreateCompilation(string targetSource, Type[] assemblyMarkers, Compilation? referenceCompilation = null)
+	public Compilation CreateCompilation(string targetSource, Type[] assemblyMarkers, Compilation? referenceCompilation = null)
 	{
 		var references = assemblyMarkers
 			.Select(type => type.Assembly.Location)
