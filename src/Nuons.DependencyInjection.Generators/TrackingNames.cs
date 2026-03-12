@@ -7,4 +7,5 @@ internal static class TrackingNames
 	public const string ScopedProvider = nameof(ScopedProvider);
 	public const string SingletonProvider = nameof(SingletonProvider);
 	public const string AllRegistrations = nameof(AllRegistrations);
+	public const string CombinedProvider = nameof(CombinedProvider);
 }

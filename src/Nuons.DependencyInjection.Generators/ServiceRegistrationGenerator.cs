@@ -32,7 +32,8 @@ internal class ServiceRegistrationGenerator : IIncrementalGenerator
 			.WithTrackingName(TrackingNames.AllRegistrations);
 
 		var combinedProvider = assemblyNameProvider.Combine(allRegistrations)
-			.Select((pair, _) => new ServiceRegistrationIncrement(pair.Left, pair.Right));
+			.Select((pair, _) => new ServiceRegistrationIncrement(pair.Left, pair.Right))
+			.WithTrackingName(TrackingNames.CombinedProvider);
 
 		context.RegisterSourceOutput(combinedProvider, GenerateSources);
 	}
