@@ -1,0 +1,28 @@
+﻿namespace Nuons.CodeInjection.Generators.Tests;
+public partial record SampleProductDto
+{
+	public global::System.Int32 Id { get; init; }
+	public global::System.String Name { get; init; }
+	public global::System.Decimal Price { get; init; }
+	public global::System.Boolean IsActive { get; init; }
+	public global::System.Nullable<global::System.Int32> DiscountPercent { get; init; }
+	public global::System.String? Description { get; init; }
+	public global::System.Nullable<global::System.DateTimeOffset> LastModified { get; init; }
+}
+namespace Nuons.CodeInjection.Generators.Tests;
+public static class SampleProductDtoExtensions
+{
+	public static SampleProductDto ToSampleProductDto(this global::Nuons.CodeInjection.Generators.Tests.SampleProduct source)
+	{
+		return new SampleProductDto
+		{
+			Id = source.Id,
+			Name = source.Name,
+			Price = source.Price,
+			IsActive = source.IsActive,
+			DiscountPercent = source.DiscountPercent,
+			Description = source.Description,
+			LastModified = source.LastModified,
+		};
+	}
+}

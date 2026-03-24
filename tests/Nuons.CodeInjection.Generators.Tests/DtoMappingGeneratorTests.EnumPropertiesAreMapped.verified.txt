@@ -1,0 +1,26 @@
+﻿namespace Nuons.CodeInjection.Generators.Tests;
+public partial record SampleOrderEnumDto
+{
+	public global::System.Int32 Id { get; init; }
+	public global::System.String CustomerName { get; init; }
+	public global::Nuons.CodeInjection.Generators.Tests.SampleOrderStatus Status { get; init; }
+	public global::System.Guid InternalTrackingId { get; init; }
+	public global::System.DateTime CreatedAt { get; init; }
+	public global::System.Decimal TotalAmount { get; init; }
+}
+namespace Nuons.CodeInjection.Generators.Tests;
+public static class SampleOrderEnumDtoExtensions
+{
+	public static SampleOrderEnumDto ToSampleOrderEnumDto(this global::Nuons.CodeInjection.Generators.Tests.SampleOrder source)
+	{
+		return new SampleOrderEnumDto
+		{
+			Id = source.Id,
+			CustomerName = source.CustomerName,
+			Status = source.Status,
+			InternalTrackingId = source.InternalTrackingId,
+			CreatedAt = source.CreatedAt,
+			TotalAmount = source.TotalAmount,
+		};
+	}
+}

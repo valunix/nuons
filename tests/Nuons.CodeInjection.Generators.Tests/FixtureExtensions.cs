@@ -23,4 +23,16 @@ internal static class FixtureExtensions
 	{
 		fixture.RunGenerator<TGenerator>(Context, output);
 	}
+
+	private const string MappingSamplesSharedPath = "../../../MappingSamplesShared.cs";
+	private const string MappingSamplesDir = "../../../MappingSamples";
+
+	private static NuonGeneratorTestContext MappingContext(string sampleFileName) =>
+		new($"{MappingSamplesDir}/{sampleFileName}", AssemblyMarkers, MappingSamplesSharedPath);
+
+	public static string GenerateMappingSources(this NuonGeneratorFixture fixture, string sampleFileName) =>
+		fixture.GenerateSources<DtoMappingGenerator>(MappingContext(sampleFileName));
+
+	public static void RunMappingGenerator(this NuonGeneratorFixture fixture, string sampleFileName, ITestOutputHelper output) =>
+		fixture.RunGenerator<DtoMappingGenerator>(MappingContext(sampleFileName), output);
 }

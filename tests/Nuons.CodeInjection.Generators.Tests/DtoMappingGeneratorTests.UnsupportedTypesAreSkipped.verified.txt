@@ -1,0 +1,22 @@
+﻿namespace Nuons.CodeInjection.Generators.Tests;
+public partial record SampleComplexEntityDto
+{
+	public global::System.Int32 Id { get; init; }
+	public global::System.String Name { get; init; }
+	public global::Nuons.CodeInjection.Generators.Tests.SampleOrderStatus Status { get; init; }
+	public global::System.DateTime CreatedAt { get; init; }
+}
+namespace Nuons.CodeInjection.Generators.Tests;
+public static class SampleComplexEntityDtoExtensions
+{
+	public static SampleComplexEntityDto ToSampleComplexEntityDto(this global::Nuons.CodeInjection.Generators.Tests.SampleComplexEntity source)
+	{
+		return new SampleComplexEntityDto
+		{
+			Id = source.Id,
+			Name = source.Name,
+			Status = source.Status,
+			CreatedAt = source.CreatedAt,
+		};
+	}
+}

@@ -1,0 +1,18 @@
+﻿namespace Nuons.CodeInjection.Generators.Tests;
+public partial record SampleReadOnlyEntityDto
+{
+	public global::System.Int32 Id { get; init; }
+	public global::System.String Name { get; init; }
+}
+namespace Nuons.CodeInjection.Generators.Tests;
+public static class SampleReadOnlyEntityDtoExtensions
+{
+	public static SampleReadOnlyEntityDto ToSampleReadOnlyEntityDto(this global::Nuons.CodeInjection.Generators.Tests.SampleReadOnlyEntity source)
+	{
+		return new SampleReadOnlyEntityDto
+		{
+			Id = source.Id,
+			Name = source.Name,
+		};
+	}
+}

@@ -1,0 +1,24 @@
+﻿namespace Nuons.CodeInjection.Generators.Tests;
+public partial record SampleOrderWithIgnoreDto
+{
+	public global::System.Int32 Id { get; init; }
+	public global::System.String CustomerName { get; init; }
+	public global::Nuons.CodeInjection.Generators.Tests.SampleOrderStatus Status { get; init; }
+	public global::System.DateTime CreatedAt { get; init; }
+	public global::System.Decimal TotalAmount { get; init; }
+}
+namespace Nuons.CodeInjection.Generators.Tests;
+public static class SampleOrderWithIgnoreDtoExtensions
+{
+	public static SampleOrderWithIgnoreDto ToSampleOrderWithIgnoreDto(this global::Nuons.CodeInjection.Generators.Tests.SampleOrder source)
+	{
+		return new SampleOrderWithIgnoreDto
+		{
+			Id = source.Id,
+			CustomerName = source.CustomerName,
+			Status = source.Status,
+			CreatedAt = source.CreatedAt,
+			TotalAmount = source.TotalAmount,
+		};
+	}
+}
