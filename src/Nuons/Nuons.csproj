@@ -35,6 +35,8 @@
 	<ItemGroup>
 		<None Include="..\Nuons.Core.Abstractions\bin\Release\netstandard2.0\Nuons.Core.Abstractions.dll"
 			  Pack="true" PackagePath="lib/netstandard2.0/" />
+		<None Include="..\Nuons.Core.Abstractions\bin\Release\netstandard2.0\Nuons.Core.Abstractions.xml"
+			  Pack="true" PackagePath="lib/netstandard2.0/" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -44,6 +46,8 @@
 
 	<ItemGroup>
 		<None Include="..\Nuons.CodeInjection.Abstractions\bin\Release\netstandard2.0\Nuons.CodeInjection.Abstractions.dll"
+			  Pack="true" PackagePath="lib/netstandard2.0/" />
+		<None Include="..\Nuons.CodeInjection.Abstractions\bin\Release\netstandard2.0\Nuons.CodeInjection.Abstractions.xml"
 			  Pack="true" PackagePath="lib/netstandard2.0/" />
 	</ItemGroup>
 
@@ -60,6 +64,8 @@
 	<ItemGroup>
 		<None Include="..\Nuons.DependencyInjection.Abstractions\bin\Release\netstandard2.0\Nuons.DependencyInjection.Abstractions.dll"
 			  Pack="true" PackagePath="lib/netstandard2.0/" />
+		<None Include="..\Nuons.DependencyInjection.Abstractions\bin\Release\netstandard2.0\Nuons.DependencyInjection.Abstractions.xml"
+			  Pack="true" PackagePath="lib/netstandard2.0/" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -74,6 +80,8 @@
 
 	<ItemGroup>
 		<None Include="..\Nuons.Http.Abstractions\bin\Release\netstandard2.0\Nuons.Http.Abstractions.dll"
+			  Pack="true" PackagePath="lib/netstandard2.0/" />
+		<None Include="..\Nuons.Http.Abstractions\bin\Release\netstandard2.0\Nuons.Http.Abstractions.xml"
 			  Pack="true" PackagePath="lib/netstandard2.0/" />
 	</ItemGroup>
 
