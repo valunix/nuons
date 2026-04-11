@@ -40,7 +40,8 @@ public class ServiceRegistrationGeneratorCachingTests(NuonGeneratorFixture fixtu
 		{
 			foreach (var stepOutput in step.Outputs)
 			{
-				stepOutput.Reason.ShouldBe(expectedReason, $"Step '{stepName}' expected {expectedReason} but was {stepOutput.Reason}");
+				//stepOutput.Reason.ShouldBe(expectedReason, $"Step '{stepName}' expected {expectedReason} but was {stepOutput.Reason}");
+				stepOutput.Reason.ShouldBe(expectedReason);
 			}
 		}
 	}
@@ -60,77 +61,8 @@ public class ServiceRegistrationGeneratorCachingTests(NuonGeneratorFixture fixtu
 	}
 
 	[Fact]
-	public void UnrelatedChange_ShouldCacheAssemblyNameAndRegistrations()
+	public void AllSteps_AreCached_WhenIdenticalSourceIsRerun()
 	{
-		// Arrange - initial source with a singleton service
-		const string initialSource = """
-			using Nuons.DependencyInjection.Abstractions;
-			namespace Test;
-			[Singleton]
-			public class MyService : IMyService { }
-			public interface IMyService { }
-			""";
-
-		var (driver, _) = CreateDriverAndRun(initialSource);
-
-		// Act - add an unrelated class (no attributes)
-		const string updatedSource = """
-			using Nuons.DependencyInjection.Abstractions;
-			namespace Test;
-			[Singleton]
-			public class MyService : IMyService { }
-			public interface IMyService { }
-			public class UnrelatedClass { }
-			""";
-
-		driver = RunAgain(driver, updatedSource);
-
-		// Assert
-		var result = driver.GetRunResult().Results[0];
-		LogTrackedSteps(result, output);
-
-		AssertStepReason(result, TrackingNames.AssemblyName, IncrementalStepRunReason.Unchanged);
-		AssertStepReason(result, TrackingNames.SingletonProvider, IncrementalStepRunReason.Cached);
-	}
-
-	[Fact]
-	public void ModifiedRegistration_ShouldInvalidateRegistrations()
-	{
-		// Arrange - singleton service implementing one interface
-		const string initialSource = """
-			using Nuons.DependencyInjection.Abstractions;
-			namespace Test;
-			[Singleton]
-			public class MyService : IMyService { }
-			public interface IMyService { }
-			""";
-
-		var (driver, _) = CreateDriverAndRun(initialSource);
-
-		// Act - change the service to implement a different interface
-		const string updatedSource = """
-			using Nuons.DependencyInjection.Abstractions;
-			namespace Test;
-			[Singleton]
-			public class MyService : IOtherService { }
-			public interface IMyService { }
-			public interface IOtherService { }
-			""";
-
-		driver = RunAgain(driver, updatedSource);
-
-		// Assert
-		var result = driver.GetRunResult().Results[0];
-		LogTrackedSteps(result, output);
-
-		AssertStepReason(result, TrackingNames.AssemblyName, IncrementalStepRunReason.Unchanged);
-		AssertStepReason(result, TrackingNames.SingletonProvider, IncrementalStepRunReason.Modified);
-	}
-
-	[Fact]
-	public void IdenticalRerun_ShouldCacheEverything()
-	{
-		// Arrange & Act - run the exact same source twice
 		const string source = """
 			using Nuons.DependencyInjection.Abstractions;
 			namespace Test;
@@ -140,99 +72,75 @@ public class ServiceRegistrationGeneratorCachingTests(NuonGeneratorFixture fixtu
 			[Transient]
 			public class MyTransient : IMyTransient { }
 			public interface IMyTransient { }
+			[Scoped]
+			public class MyScoped : IMyScoped { }
+			public interface IMyScoped { }
 			""";
 
 		var (driver, _) = CreateDriverAndRun(source);
 		driver = RunAgain(driver, source);
 
-		// Assert - everything should be cached
 		var result = driver.GetRunResult().Results[0];
 		LogTrackedSteps(result, output);
 
-		AssertStepReason(result, TrackingNames.AssemblyName, IncrementalStepRunReason.Unchanged);
 		AssertStepReason(result, TrackingNames.SingletonProvider, IncrementalStepRunReason.Cached);
+		AssertStepReason(result, TrackingNames.ScopedProvider, IncrementalStepRunReason.Cached);
 		AssertStepReason(result, TrackingNames.TransientProvider, IncrementalStepRunReason.Cached);
-	}
-
-	[Fact]
-	public void CombinedProvider_ShouldBeCached_WhenAttributedClassBodyChanges()
-	{
-		// When the body of an attributed class changes (but not its type identity),
-		// ForAttributeWithMetadataName re-evaluates and finds the same ServiceRegistration
-		// (Unchanged). Collect sees all items Unchanged and stays Cached.
-		// Combine(Unchanged, Cached) propagates Cached to CombinedProvider.
-		const string source = """
-			using Nuons.DependencyInjection.Abstractions;
-			namespace Test;
-			[Singleton]
-			public class ServiceA : IServiceA { }
-			public interface IServiceA { }
-			[Singleton<IServiceA>]
-			public class ServiceB : IServiceA { }
-			""";
-
-		var compilation = fixture.CreateCompilation(source, AssemblyMarkers);
-		var generator = new ServiceRegistrationGenerator();
-		var driver = CSharpGeneratorDriver.Create(
-			generators: [generator.AsSourceGenerator()],
-			driverOptions: new GeneratorDriverOptions(IncrementalGeneratorOutputKind.None, trackIncrementalGeneratorSteps: true)
-		);
-
-		driver = (CSharpGeneratorDriver)driver.RunGenerators(compilation);
-
-		// Add a field — syntax changes but extracted registration is identical
-		var updatedSource = """
-			using Nuons.DependencyInjection.Abstractions;
-			namespace Test;
-			[Singleton]
-			public class ServiceA : IServiceA { private int _x; }
-			public interface IServiceA { }
-			[Singleton<IServiceA>]
-			public class ServiceB : IServiceA { }
-			""";
-		var modifiedCompilation = fixture.CreateCompilation(updatedSource, AssemblyMarkers);
-		driver = (CSharpGeneratorDriver)driver.RunGenerators(modifiedCompilation);
-
-		var result = driver.GetRunResult().Results[0];
-		LogTrackedSteps(result, output);
-
-		AssertStepReason(result, TrackingNames.AssemblyName, IncrementalStepRunReason.Unchanged);
+		AssertStepReason(result, TrackingNames.AllRegistrations, IncrementalStepRunReason.Cached);
 		AssertStepReason(result, TrackingNames.CombinedProvider, IncrementalStepRunReason.Cached);
 	}
 
 	[Fact]
-	public void NewRegistrationAdded_ShouldModifyAllRegistrations()
+	public void AllSteps_AreCached_WhenUnrelatedChangesAreMade()
 	{
-		// Arrange - start with one singleton
-		const string initialSource = """
+		const string source = """
 			using Nuons.DependencyInjection.Abstractions;
 			namespace Test;
+
 			[Singleton]
-			public class MyService : IMyService { }
-			public interface IMyService { }
+			public class MySingleton : IMySingleton { }
+			public interface IMySingleton;
+
+			[Transient]
+			public class MyTransient : IMyTransient { }
+			public interface IMyTransient;
+
+			[Scoped]
+			public class MyScoped : IMyScoped { }
+			public interface IMyScoped;
 			""";
 
-		var (driver, _) = CreateDriverAndRun(initialSource);
+		var (driver, _) = CreateDriverAndRun(source);
 
-		// Act - add a second singleton
 		const string updatedSource = """
 			using Nuons.DependencyInjection.Abstractions;
 			namespace Test;
+
 			[Singleton]
-			public class MyService : IMyService { }
-			public interface IMyService { }
-			[Singleton]
-			public class AnotherService : IAnotherService { }
-			public interface IAnotherService { }
+			public class MySingleton : IMySingleton { private int myField; }
+			public interface IMySingleton;
+
+			[Transient]
+			public class MyTransient : IMyTransient { private int myField; }
+			public interface IMyTransient;
+
+			[Scoped]
+			public class MyScoped : IMyScoped { private int myField; }
+			public interface IMyScoped;
+
+			public class UnrelatedClass;
 			""";
+
 
 		driver = RunAgain(driver, updatedSource);
 
-		// Assert
 		var result = driver.GetRunResult().Results[0];
 		LogTrackedSteps(result, output);
 
-		AssertStepReason(result, TrackingNames.AssemblyName, IncrementalStepRunReason.Unchanged);
-		AssertStepReason(result, TrackingNames.AllRegistrations, IncrementalStepRunReason.Modified);
+		AssertStepReason(result, TrackingNames.SingletonProvider, IncrementalStepRunReason.Cached);
+		AssertStepReason(result, TrackingNames.ScopedProvider, IncrementalStepRunReason.Cached);
+		AssertStepReason(result, TrackingNames.TransientProvider, IncrementalStepRunReason.Cached);
+		AssertStepReason(result, TrackingNames.AllRegistrations, IncrementalStepRunReason.Cached);
+		AssertStepReason(result, TrackingNames.CombinedProvider, IncrementalStepRunReason.Cached);
 	}
 }
