@@ -155,6 +155,52 @@ public class ServiceRegistrationGeneratorCachingTests(NuonGeneratorFixture fixtu
 	}
 
 	[Fact]
+	public void CombinedProvider_ShouldBeCached_WhenAttributedClassBodyChanges()
+	{
+		// When the body of an attributed class changes (but not its type identity),
+		// ForAttributeWithMetadataName re-evaluates and finds the same ServiceRegistration
+		// (Unchanged). Collect sees all items Unchanged and stays Cached.
+		// Combine(Unchanged, Cached) propagates Cached to CombinedProvider.
+		const string source = """
+			using Nuons.DependencyInjection.Abstractions;
+			namespace Test;
+			[Singleton]
+			public class ServiceA : IServiceA { }
+			public interface IServiceA { }
+			[Singleton<IServiceA>]
+			public class ServiceB : IServiceA { }
+			""";
+
+		var compilation = fixture.CreateCompilation(source, AssemblyMarkers);
+		var generator = new ServiceRegistrationGenerator();
+		var driver = CSharpGeneratorDriver.Create(
+			generators: [generator.AsSourceGenerator()],
+			driverOptions: new GeneratorDriverOptions(IncrementalGeneratorOutputKind.None, trackIncrementalGeneratorSteps: true)
+		);
+
+		driver = (CSharpGeneratorDriver)driver.RunGenerators(compilation);
+
+		// Add a field — syntax changes but extracted registration is identical
+		var updatedSource = """
+			using Nuons.DependencyInjection.Abstractions;
+			namespace Test;
+			[Singleton]
+			public class ServiceA : IServiceA { private int _x; }
+			public interface IServiceA { }
+			[Singleton<IServiceA>]
+			public class ServiceB : IServiceA { }
+			""";
+		var modifiedCompilation = fixture.CreateCompilation(updatedSource, AssemblyMarkers);
+		driver = (CSharpGeneratorDriver)driver.RunGenerators(modifiedCompilation);
+
+		var result = driver.GetRunResult().Results[0];
+		LogTrackedSteps(result, output);
+
+		AssertStepReason(result, TrackingNames.AssemblyName, IncrementalStepRunReason.Unchanged);
+		AssertStepReason(result, TrackingNames.CombinedProvider, IncrementalStepRunReason.Cached);
+	}
+
+	[Fact]
 	public void NewRegistrationAdded_ShouldModifyAllRegistrations()
 	{
 		// Arrange - start with one singleton
