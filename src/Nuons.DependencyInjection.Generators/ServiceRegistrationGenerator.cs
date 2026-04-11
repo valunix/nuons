@@ -12,11 +12,13 @@ internal class ServiceRegistrationGenerator : IIncrementalGenerator
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{
 		var assemblyNameProvider = context.CompilationProvider
-			.Select((compilation, _) => compilation.AssemblyName);
+			.Select((compilation, _) => compilation.AssemblyName)
+			.WithTrackingName("AssemblyName");
 
 		var transientProvider = GetProviderFor(context, KnownDependencyInjectionTypes.TransientAttribute, Lifetime.Transient);
 		var scopedProvider = GetProviderFor(context, KnownDependencyInjectionTypes.ScopedAttribute, Lifetime.Scoped);
-		var singletonProvider = GetProviderFor(context, KnownDependencyInjectionTypes.SingletonAttribute, Lifetime.Singleton);
+		var singletonProvider = GetProviderFor(context, KnownDependencyInjectionTypes.SingletonAttribute, Lifetime.Singleton)
+			.WithTrackingName("samac");
 
 		var allRegistrations = transientProvider
 			.Combine(scopedProvider)
