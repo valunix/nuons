@@ -1,0 +1,20 @@
+<Project>
+
+	<PropertyGroup>
+		<Deterministic>true</Deterministic>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<DebugType>embedded</DebugType>
+	</PropertyGroup>
+
+	<!-- Enable ContinuousIntegrationBuild only on CI to ensure deterministic paths in PDBs -->
+	<PropertyGroup Condition="'$(CI)' == 'true'">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.201" PrivateAssets="All" />
+	</ItemGroup>
+
+</Project>
