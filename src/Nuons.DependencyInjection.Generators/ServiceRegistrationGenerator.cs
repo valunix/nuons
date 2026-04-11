@@ -13,12 +13,14 @@ internal class ServiceRegistrationGenerator : IIncrementalGenerator
 	{
 		var assemblyNameProvider = context.CompilationProvider
 			.Select((compilation, _) => compilation.AssemblyName)
-			.WithTrackingName("AssemblyName");
+			.WithTrackingName(TrackingNames.AssemblyName);
 
-		var transientProvider = GetProviderFor(context, KnownDependencyInjectionTypes.TransientAttribute, Lifetime.Transient);
-		var scopedProvider = GetProviderFor(context, KnownDependencyInjectionTypes.ScopedAttribute, Lifetime.Scoped);
+		var transientProvider = GetProviderFor(context, KnownDependencyInjectionTypes.TransientAttribute, Lifetime.Transient)
+			.WithTrackingName(TrackingNames.TransientProvider);
+		var scopedProvider = GetProviderFor(context, KnownDependencyInjectionTypes.ScopedAttribute, Lifetime.Scoped)
+			.WithTrackingName(TrackingNames.ScopedProvider);
 		var singletonProvider = GetProviderFor(context, KnownDependencyInjectionTypes.SingletonAttribute, Lifetime.Singleton)
-			.WithTrackingName("samac");
+			.WithTrackingName(TrackingNames.SingletonProvider);
 
 		var allRegistrations = transientProvider
 			.Combine(scopedProvider)
@@ -26,7 +28,8 @@ internal class ServiceRegistrationGenerator : IIncrementalGenerator
 			.Combine(singletonProvider)
 			.SelectMany(static (pair, _) => pair.Left.AddRange(pair.Right))
 			.WhereNotNull()
-			.Collect();
+			.Collect()
+			.WithTrackingName(TrackingNames.AllRegistrations);
 
 		var combinedProvider = assemblyNameProvider.Combine(allRegistrations)
 			.Select((pair, _) => new ServiceRegistrationIncrement(pair.Left, pair.Right));

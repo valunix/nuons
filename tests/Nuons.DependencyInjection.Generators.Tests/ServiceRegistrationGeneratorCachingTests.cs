@@ -4,82 +4,189 @@ using Microsoft.Extensions.Options;
 using Nuons.Core.Abstractions;
 using Nuons.Core.Tests;
 using Nuons.DependencyInjection.Abstractions;
-using Shouldly;
-using Xunit;
 
 namespace Nuons.DependencyInjection.Generators.Tests;
 
-public class ServiceRegistrationGeneratorCachingTests(NuonGeneratorFixture fixture, ITestOutputHelper output2)
+public class ServiceRegistrationGeneratorCachingTests(NuonGeneratorFixture fixture, ITestOutputHelper output)
 	: IClassFixture<NuonGeneratorFixture>
 {
-	[Fact]
-	public void AssemblyName_ShouldBeCached_WhenUnrelatedChangeOccurs()
+	private static readonly Type[] AssemblyMarkers =
+		[typeof(DIAbstractionsAssemblyMarker), typeof(Options), typeof(CoreAbstractionsAssemblyMarker)];
+
+	private (CSharpGeneratorDriver Driver, Compilation Compilation) CreateDriverAndRun(string source)
 	{
-		// 1. Setup initial compilation
-		var initialSource = @"
-using Nuons.DependencyInjection.Abstractions;
-namespace Test;
-[Singleton]
-public class MyService { }
-";
-		var assemblyMarkers = new[] { typeof(DIAbstractionsAssemblyMarker), typeof(Options), typeof(CoreAbstractionsAssemblyMarker) };
-
-		var compilation = fixture.CreateCompilation(initialSource, assemblyMarkers);
-
-		//compilation = compilation.WithAssemblyName("TestAssembly");
-
+		var compilation = fixture.CreateCompilation(source, AssemblyMarkers);
 		var generator = new ServiceRegistrationGenerator();
 		var driver = CSharpGeneratorDriver.Create(
 			generators: [generator.AsSourceGenerator()],
-			driverOptions: new GeneratorDriverOptions(IncrementalGeneratorOutputKind.None, true)
+			driverOptions: new GeneratorDriverOptions(IncrementalGeneratorOutputKind.None, trackIncrementalGeneratorSteps: true)
 		);
 
-		// 2. Initial Run
 		driver = (CSharpGeneratorDriver)driver.RunGenerators(compilation);
+		return (driver, compilation);
+	}
 
-		// 3. Modified Run (Unrelated change: adding a comment)
+	private CSharpGeneratorDriver RunAgain(CSharpGeneratorDriver driver, string updatedSource)
+	{
+		var compilation = fixture.CreateCompilation(updatedSource, AssemblyMarkers);
+		return (CSharpGeneratorDriver)driver.RunGenerators(compilation);
+	}
 
-		var updatedSource = @"
-using Nuons.DependencyInjection.Abstractions;
-namespace Test;
-[Singleton]
-public class MyService : MyServiceB { private string pero; }
-public class MyServiceB { }
-";
-
-		//var compilation = fixture.CreateCompilation(initialSource, assemblyMarkers);
-		//var modifiedCompilation = compilation.AddSyntaxTrees(CSharpSyntaxTree.ParseText("// Just a comment"));
-		var modifiedCompilation = fixture.CreateCompilation(updatedSource, assemblyMarkers);
-
-		driver = (CSharpGeneratorDriver)driver.RunGenerators(modifiedCompilation);
-
-		// 4. Verify Caching
-		var runResult = driver.GetRunResult();
-		var result = runResult.Results[0];
-
-
-		result.TrackedSteps.ShouldNotBeEmpty();
-
-		result.TrackedSteps.ShouldContainKey("AssemblyName");
-
-		var assemblyNameSteps = result.TrackedSteps["AssemblyName"];
-		foreach (var step in assemblyNameSteps)
+	private static void AssertStepReason(GeneratorRunResult result, string stepName, IncrementalStepRunReason expectedReason)
+	{
+		result.TrackedSteps.ShouldContainKey(stepName);
+		var steps = result.TrackedSteps[stepName];
+		foreach (var step in steps)
 		{
-			foreach (var output in step.Outputs)
+			foreach (var stepOutput in step.Outputs)
 			{
-				output.Reason.ShouldBe(IncrementalStepRunReason.Unchanged);
+				stepOutput.Reason.ShouldBe(expectedReason, $"Step '{stepName}' expected {expectedReason} but was {stepOutput.Reason}");
 			}
 		}
+	}
 
-		result.TrackedSteps.ShouldContainKey("samac");
-		var singeltonSteps = result.TrackedSteps["samac"];
-		foreach (var step in singeltonSteps)
+	private static void LogTrackedSteps(GeneratorRunResult result, ITestOutputHelper output)
+	{
+		foreach (var (name, steps) in result.TrackedSteps)
 		{
-			foreach (var output in step.Outputs)
+			foreach (var step in steps)
 			{
-				//output.Reason.ShouldBe(IncrementalStepRunReason.Unchanged);
-				output2.WriteLine($"samac: {output.Reason}");
+				foreach (var stepOutput in step.Outputs)
+				{
+					output.WriteLine($"{name}: {stepOutput.Reason} (value: {stepOutput.Value})");
+				}
 			}
 		}
+	}
+
+	[Fact]
+	public void UnrelatedChange_ShouldCacheAssemblyNameAndRegistrations()
+	{
+		// Arrange - initial source with a singleton service
+		const string initialSource = """
+			using Nuons.DependencyInjection.Abstractions;
+			namespace Test;
+			[Singleton]
+			public class MyService : IMyService { }
+			public interface IMyService { }
+			""";
+
+		var (driver, _) = CreateDriverAndRun(initialSource);
+
+		// Act - add an unrelated class (no attributes)
+		const string updatedSource = """
+			using Nuons.DependencyInjection.Abstractions;
+			namespace Test;
+			[Singleton]
+			public class MyService : IMyService { }
+			public interface IMyService { }
+			public class UnrelatedClass { }
+			""";
+
+		driver = RunAgain(driver, updatedSource);
+
+		// Assert
+		var result = driver.GetRunResult().Results[0];
+		LogTrackedSteps(result, output);
+
+		AssertStepReason(result, TrackingNames.AssemblyName, IncrementalStepRunReason.Unchanged);
+		AssertStepReason(result, TrackingNames.SingletonProvider, IncrementalStepRunReason.Cached);
+	}
+
+	[Fact]
+	public void ModifiedRegistration_ShouldInvalidateRegistrations()
+	{
+		// Arrange - singleton service implementing one interface
+		const string initialSource = """
+			using Nuons.DependencyInjection.Abstractions;
+			namespace Test;
+			[Singleton]
+			public class MyService : IMyService { }
+			public interface IMyService { }
+			""";
+
+		var (driver, _) = CreateDriverAndRun(initialSource);
+
+		// Act - change the service to implement a different interface
+		const string updatedSource = """
+			using Nuons.DependencyInjection.Abstractions;
+			namespace Test;
+			[Singleton]
+			public class MyService : IOtherService { }
+			public interface IMyService { }
+			public interface IOtherService { }
+			""";
+
+		driver = RunAgain(driver, updatedSource);
+
+		// Assert
+		var result = driver.GetRunResult().Results[0];
+		LogTrackedSteps(result, output);
+
+		AssertStepReason(result, TrackingNames.AssemblyName, IncrementalStepRunReason.Unchanged);
+		AssertStepReason(result, TrackingNames.SingletonProvider, IncrementalStepRunReason.Modified);
+	}
+
+	[Fact]
+	public void IdenticalRerun_ShouldCacheEverything()
+	{
+		// Arrange & Act - run the exact same source twice
+		const string source = """
+			using Nuons.DependencyInjection.Abstractions;
+			namespace Test;
+			[Singleton]
+			public class MySingleton : IMySingleton { }
+			public interface IMySingleton { }
+			[Transient]
+			public class MyTransient : IMyTransient { }
+			public interface IMyTransient { }
+			""";
+
+		var (driver, _) = CreateDriverAndRun(source);
+		driver = RunAgain(driver, source);
+
+		// Assert - everything should be cached
+		var result = driver.GetRunResult().Results[0];
+		LogTrackedSteps(result, output);
+
+		AssertStepReason(result, TrackingNames.AssemblyName, IncrementalStepRunReason.Unchanged);
+		AssertStepReason(result, TrackingNames.SingletonProvider, IncrementalStepRunReason.Cached);
+		AssertStepReason(result, TrackingNames.TransientProvider, IncrementalStepRunReason.Cached);
+	}
+
+	[Fact]
+	public void NewRegistrationAdded_ShouldModifyAllRegistrations()
+	{
+		// Arrange - start with one singleton
+		const string initialSource = """
+			using Nuons.DependencyInjection.Abstractions;
+			namespace Test;
+			[Singleton]
+			public class MyService : IMyService { }
+			public interface IMyService { }
+			""";
+
+		var (driver, _) = CreateDriverAndRun(initialSource);
+
+		// Act - add a second singleton
+		const string updatedSource = """
+			using Nuons.DependencyInjection.Abstractions;
+			namespace Test;
+			[Singleton]
+			public class MyService : IMyService { }
+			public interface IMyService { }
+			[Singleton]
+			public class AnotherService : IAnotherService { }
+			public interface IAnotherService { }
+			""";
+
+		driver = RunAgain(driver, updatedSource);
+
+		// Assert
+		var result = driver.GetRunResult().Results[0];
+		LogTrackedSteps(result, output);
+
+		AssertStepReason(result, TrackingNames.AssemblyName, IncrementalStepRunReason.Unchanged);
+		AssertStepReason(result, TrackingNames.AllRegistrations, IncrementalStepRunReason.Modified);
 	}
 }
