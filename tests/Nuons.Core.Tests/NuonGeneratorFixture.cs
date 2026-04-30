@@ -3,7 +3,6 @@ using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
-using Xunit;
 
 namespace Nuons.Core.Tests;
 
@@ -12,8 +11,9 @@ public class NuonGeneratorFixture : IDisposable
 	public string GenerateSources<TGenerator>(NuonGeneratorTestContext testContext)
 		where TGenerator : IIncrementalGenerator, new()
 	{
-		var driver = Drive<TGenerator>(testContext);
+		testContext.Increments.Length.ShouldBe(1);
 
+		var driver = Drive<TGenerator>(testContext);
 		var generatedSources = driver.GetRunResult().Results
 			.SelectMany(result => result.GeneratedSources)
 			.Select(source => source.SourceText.ToString())
@@ -29,22 +29,27 @@ public class NuonGeneratorFixture : IDisposable
 		}
 	}
 
-	private GeneratorDriver Drive<TGenerator>(NuonGeneratorTestContext testContext)
+	private GeneratorDriver Drive<TGenerator>(NuonGeneratorTestContext testContext, bool trackIncrementalSteps = false)
 		where TGenerator : IIncrementalGenerator, new()
 	{
-		Compilation? referenceCompilation = null;
-		if (testContext.ReferencesSourcePath is not null)
+		var generator = new TGenerator();
+		GeneratorDriver driver = CSharpGeneratorDriver.Create(
+			generators: [generator.AsSourceGenerator()],
+			driverOptions: new GeneratorDriverOptions(IncrementalGeneratorOutputKind.None, trackIncrementalGeneratorSteps: trackIncrementalSteps)
+		);
+
+		foreach (var increment in testContext.Increments)
 		{
-			var referencesSource = File.ReadAllText(testContext.ReferencesSourcePath);
-			referenceCompilation = CreateCompilation(referencesSource, testContext.AssemblyMarkers);
+			Compilation? referenceCompilation = null;
+			if (increment.ReferencesSource is not null)
+			{
+				referenceCompilation = CreateCompilation(increment.ReferencesSource, testContext.AssemblyMarkers);
+			}
+
+			var compilation = CreateCompilation(increment.Source, testContext.AssemblyMarkers, referenceCompilation);
+			driver = driver.RunGenerators(compilation);
 		}
 
-		var inputSource = File.ReadAllText(testContext.InputSourcePath);
-		var compilation = CreateCompilation(inputSource, testContext.AssemblyMarkers, referenceCompilation);
-
-		var generator = new TGenerator();
-		var driver = CSharpGeneratorDriver.Create(generator)
-			.RunGeneratorsAndUpdateCompilation(compilation, out var outputCompilation, out var diagnostics);
 		return driver;
 	}
 
@@ -87,43 +92,17 @@ public class NuonGeneratorFixture : IDisposable
 		return compilation;
 	}
 
+	public GeneratorRunResult RunIncrementalGenerator<TGenerator>(NuonGeneratorTestContext context)
+		where TGenerator : IIncrementalGenerator, new()
+	{
+		var driver = Drive<TGenerator>(context, trackIncrementalSteps: true);
+		return driver.GetRunResult().Results[0];
+	}
+
 	public void RunGenerator<TGenerator>(NuonGeneratorTestContext testContext, ITestOutputHelper output)
 		where TGenerator : IIncrementalGenerator, new()
 	{
-		var driver = Drive<TGenerator>(testContext);
-		var runResult = driver.GetRunResult();
-
-		LogResults(runResult, output);
-	}
-
-	private void LogResults(GeneratorDriverRunResult runResult, ITestOutputHelper output)
-	{
-		output.WriteLine("------------------------------------ START errors ------------------------------------");
-		runResult.Results
-			.Select(result => result.Exception)
-			.OfType<Exception>()
-			.Select(e => e.Message)
-			.ToList()
-			.ForEach(message =>
-			{
-				output.WriteLine(message);
-				output.WriteLine(string.Empty);
-			});
-		output.WriteLine("------------------------------------ END errors ------------------------------------");
-
-		output.WriteLine(string.Empty);
-
-		output.WriteLine("------------------------------------ START sources ------------------------------------");
-		runResult.Results
-			.SelectMany(result => result.GeneratedSources)
-			.Select(source => source.SourceText)
-			.ToList()
-			.ForEach(sourceText =>
-			{
-				output.WriteLine(sourceText.ToString());
-				output.WriteLine(string.Empty);
-			});
-		output.WriteLine("------------------------------------ END sources ------------------------------------");
+		Drive<TGenerator>(testContext).GetRunResult().Log(output);
 	}
 
 	public void Dispose()

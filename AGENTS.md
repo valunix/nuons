@@ -8,19 +8,17 @@ Nuons is a .NET source generator library that eliminates boilerplate for depende
 
 ## Build and Test Commands
 
+Tests use **Microsoft.Testing.Platform (MTP)** with xUnit v3 — not VSTest. This affects CLI flag syntax: `dotnet test` requires `--solution` or `--project` (a bare directory or path is rejected), and `--filter` is not recognized. Pass MTP/xUnit options after a `--` separator.
+
 ```bash
 # Build the main solution
 dotnet build ./Nuons.slnx
 
-# Run all unit tests (uses Microsoft.Testing.Platform runner)
+# Run all unit tests
 dotnet test --solution Nuons.slnx
 
-# Run a single test project
-dotnet test tests/Nuons.DependencyInjection.Generators.Tests
-
-# Run a single test by name
-dotnet test tests/Nuons.DependencyInjection.Generators.Tests --filter "ServiceRegistrationsAreGeneratedCorrectly"
-
+# Run a single test project (must use --project with a .csproj path; bare directory does NOT work)
+dotnet test --project tests/Nuons.DependencyInjection.Generators.Tests/Nuons.DependencyInjection.Generators.Tests.csproj
 ```
 
 Target framework: .NET 10. Source generator projects target `netstandard2.0` (Roslyn requirement).
@@ -73,6 +71,7 @@ Generator tests use **Verify** (snapshot testing) with xUnit v3:
 - File-scoped namespaces
 - Generated code goes in the `Nuons` namespace to avoid conflicts with user code
 - Generators should always produce output even if empty (easier debugging, supports chaining)
+- Private fields use camelCase with no underscore prefix: `field` not `_field`
 
 ## Documentation
 

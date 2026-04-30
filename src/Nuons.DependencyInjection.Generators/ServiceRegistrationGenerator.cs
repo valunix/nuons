@@ -12,11 +12,15 @@ internal class ServiceRegistrationGenerator : IIncrementalGenerator
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{
 		var assemblyNameProvider = context.CompilationProvider
-			.Select((compilation, _) => compilation.AssemblyName);
+			.Select((compilation, _) => compilation.AssemblyName)
+			.WithTrackingName(TrackingNames.AssemblyName);
 
-		var transientProvider = GetProviderFor(context, KnownDependencyInjectionTypes.TransientAttribute, Lifetime.Transient);
-		var scopedProvider = GetProviderFor(context, KnownDependencyInjectionTypes.ScopedAttribute, Lifetime.Scoped);
-		var singletonProvider = GetProviderFor(context, KnownDependencyInjectionTypes.SingletonAttribute, Lifetime.Singleton);
+		var transientProvider = GetProviderFor(context, KnownDependencyInjectionTypes.TransientAttribute, Lifetime.Transient)
+			.WithTrackingName(TrackingNames.TransientProvider);
+		var scopedProvider = GetProviderFor(context, KnownDependencyInjectionTypes.ScopedAttribute, Lifetime.Scoped)
+			.WithTrackingName(TrackingNames.ScopedProvider);
+		var singletonProvider = GetProviderFor(context, KnownDependencyInjectionTypes.SingletonAttribute, Lifetime.Singleton)
+			.WithTrackingName(TrackingNames.SingletonProvider);
 
 		var allRegistrations = transientProvider
 			.Combine(scopedProvider)
@@ -24,12 +28,14 @@ internal class ServiceRegistrationGenerator : IIncrementalGenerator
 			.Combine(singletonProvider)
 			.SelectMany(static (pair, _) => pair.Left.AddRange(pair.Right))
 			.WhereNotNull()
-			.Collect();
+			.Collect()
+			.WithTrackingName(TrackingNames.AllRegistrations);
 
-		var combinedProvider = assemblyNameProvider.Combine(allRegistrations)
-			.Select((pair, _) => new ServiceRegistrationIncrement(pair.Left, pair.Right));
+		var incrementProvider = assemblyNameProvider.Combine(allRegistrations)
+			.Select((pair, _) => new ServiceRegistrationIncrement(pair.Left, pair.Right))
+			.WithTrackingName(TrackingNames.IncrementProvider);
 
-		context.RegisterSourceOutput(combinedProvider, GenerateSources);
+		context.RegisterSourceOutput(incrementProvider, GenerateSources);
 	}
 
 	private IncrementalValueProvider<ImmutableArray<ServiceRegistration?>> GetProviderFor(IncrementalGeneratorInitializationContext context, string attributeFullName, Lifetime lifetime)
@@ -40,7 +46,8 @@ internal class ServiceRegistrationGenerator : IIncrementalGenerator
 			Syntax.IsClassNode,
 			(context, _) => ExtractRegistration(context, lifetime)
 		)
-			.Collect();
+			.Collect()
+			.WithTrackingName(TrackingNames.ServiceProviderNonGeneric(lifetime));
 
 		var genericProvider = context.SyntaxProvider.ForAttributeWithMetadataName
 		(
@@ -48,7 +55,8 @@ internal class ServiceRegistrationGenerator : IIncrementalGenerator
 			Syntax.IsClassNode,
 			(context, _) => ExtractGenericRegistration(context, attributeFullName, lifetime)
 		)
-			.Collect();
+			.Collect()
+			.WithTrackingName(TrackingNames.ServiceProviderGeneric(lifetime));
 
 		return provider
 			.Combine(genericProvider)
