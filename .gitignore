@@ -33,4 +33,5 @@ obj/
 
 artifacts/
 
-.claude/
+# Claude Code
+.claude/settings.local.json
