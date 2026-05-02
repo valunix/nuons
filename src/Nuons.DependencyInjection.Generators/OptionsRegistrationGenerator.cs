@@ -11,7 +11,8 @@ internal class OptionsRegistrationGenerator : IIncrementalGenerator
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{
 		var assemblyNameProvider = context.CompilationProvider
-			.Select((compilation, _) => compilation.AssemblyName);
+			.Select((compilation, _) => compilation.AssemblyName)
+			.WithTrackingName(TrackingNames.AssemblyName);
 
 		var optionsProvider = context.SyntaxProvider.ForAttributeWithMetadataName(
 			KnownDependencyInjectionTypes.OptionsAttribute,
@@ -19,10 +20,12 @@ internal class OptionsRegistrationGenerator : IIncrementalGenerator
 			ExtractOptionDefinitions
 		)
 			.WhereNotNull()
-			.Collect();
+			.Collect()
+			.WithTrackingName(TrackingNames.OptionsProvider);
 
 		var optionsIncrementProvider = assemblyNameProvider.Combine(optionsProvider)
-			.Select((combined, _) => new OptionsRegistrationIncrement(combined.Left, combined.Right));
+			.Select((combined, _) => new OptionsRegistrationIncrement(combined.Left, combined.Right))
+			.WithTrackingName(TrackingNames.OptionsIncrementProvider);
 
 		context.RegisterSourceOutput(optionsIncrementProvider, GenerateSources);
 	}

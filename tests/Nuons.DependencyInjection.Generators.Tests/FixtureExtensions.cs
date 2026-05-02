@@ -11,7 +11,7 @@ internal static class FixtureExtensions
 	private const string SamplesPath = "../../../Samples.cs";
 	private static readonly Type[] AssemblyMarkers = [typeof(DIAbstractionsAssemblyMarker), typeof(Options), typeof(CoreAbstractionsAssemblyMarker)];
 
-	private static readonly NuonGeneratorTestContext Context = new(SamplesPath, AssemblyMarkers);
+	private static readonly NuonGeneratorTestContext Context = new([NuonSourceIncrement.FromFile(SamplesPath)], AssemblyMarkers);
 
 	public static string GenerateSources<TGenerator>(this NuonGeneratorFixture fixture)
 		where TGenerator : IIncrementalGenerator, new()
@@ -23,5 +23,12 @@ internal static class FixtureExtensions
 		where TGenerator : IIncrementalGenerator, new()
 	{
 		fixture.RunGenerator<TGenerator>(Context, output);
+	}
+
+	public static GeneratorRunResult RunIncrementalGenerator<TGenerator>(this NuonGeneratorFixture fixture, params string[] sources)
+		where TGenerator : IIncrementalGenerator, new()
+	{
+		var increments = sources.Select(source => new NuonSourceIncrement(source));
+		return fixture.RunIncrementalGenerator<TGenerator>(new NuonGeneratorTestContext([..increments], AssemblyMarkers));
 	}
 }
