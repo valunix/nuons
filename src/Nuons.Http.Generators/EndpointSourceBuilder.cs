@@ -39,7 +39,8 @@ internal class EndpointSourceBuilder(ImmutableArray<EndpointIncrement> increment
 			serviceLines.Append(serviceLine);
 		}
 
-		var source = $@"using Microsoft.AspNetCore.Builder;
+		var source = $@"{Sources.GeneratedFileHeader}
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Nuons.Http.Extensions;

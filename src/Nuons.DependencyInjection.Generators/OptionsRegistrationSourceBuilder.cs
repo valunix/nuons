@@ -29,7 +29,8 @@ internal class OptionsRegistrationSourceBuilder
 			builder.Append(registration);
 		});
 
-		var source = $@"using Microsoft.Extensions.Configuration;
+		var source = $@"{Sources.GeneratedFileHeader}
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Nuons.DependencyInjection.Extensions;
