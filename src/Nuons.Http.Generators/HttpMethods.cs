@@ -6,5 +6,6 @@ internal class HttpMethods
 	public const string Post = "Post";
 	public const string Put = "Put";
 	public const string Delete = "Delete";
+	public const string Patch = "Patch";
 	public const string Head = "Head";
 }

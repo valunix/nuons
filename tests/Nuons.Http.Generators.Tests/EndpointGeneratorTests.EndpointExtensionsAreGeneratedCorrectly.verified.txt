@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Nuons.Http.Extensions;
@@ -10,24 +10,85 @@ internal static class NuonEndpointExtensions
 		services.AddScoped<global::Nuons.Http.Generators.Tests.EmptyHandler>();
 		services.AddScoped<global::Nuons.Http.Generators.Tests.ComplexHandler>();
 		services.AddScoped<global::Nuons.Http.Generators.Tests.DomainObjectHandler>();
+		services.AddScoped<global::Nuons.Http.Generators.Tests.BindingTestHandler>();
+		services.AddScoped<global::Nuons.Http.Generators.Tests.SecuredHandler>();
+		services.AddScoped<global::Nuons.Http.Generators.Tests.MixedAuthHandler>();
+		services.AddScoped<global::Nuons.Http.Generators.Tests.TaggedHandler>();
+		services.AddScoped<global::Nuons.Http.Generators.Tests.NamedEndpointsHandler>();
+		services.AddScoped<global::Nuons.Http.Generators.Tests.RateLimitedHandler>();
+		services.AddScoped<global::Nuons.Http.Generators.Tests.CorsHandler>();
+		services.AddScoped<global::Nuons.Http.Generators.Tests.AsyncHandler>();
+		services.AddScoped<global::Nuons.Http.Generators.Tests.MixedAsyncHandler>();
 		services.AddScoped<global::Nuons.Http.Generators.Tests.SubDomainObjectHandler>();
 	}
 
 	public static void MapNuonEndpoints(this global::Microsoft.AspNetCore.Routing.IEndpointRouteBuilder app)
 	{
-		app.MapGet("/", (global::Nuons.Http.Generators.Tests.EmptyHandler handler) => handler.GetEmpty());
+		var emptyHandlerGroup = app.MapGroup("/");
+		emptyHandlerGroup.MapGet("", (global::Nuons.Http.Generators.Tests.EmptyHandler handler) => handler.GetEmpty());
 
-		app.MapGet("/complex/sample/{id}", (global::Nuons.Http.Generators.Tests.ComplexHandler handler, global::System.Guid id, global::System.String name, global::Nuons.Http.Generators.Tests.GenericClass<global::System.String> generic) => handler.Get(id, name, generic));
+		var complexHandlerGroup = app.MapGroup("/complex");
+		complexHandlerGroup.MapGet("sample/{id}", (global::Nuons.Http.Generators.Tests.ComplexHandler handler, global::System.Guid id, global::System.String name, global::Nuons.Http.Generators.Tests.GenericClass<global::System.String> generic) => handler.Get(id, name, generic));
 
-		app.MapGet("/domain-object/{id}", (global::Nuons.Http.Generators.Tests.DomainObjectHandler handler, global::System.String id) => handler.Get(id));
-		app.MapPost("/domain-object", (global::Nuons.Http.Generators.Tests.DomainObjectHandler handler, global::Nuons.Http.Generators.Tests.DomainObject domainObject) => handler.Create(domainObject));
-		app.MapDelete("/domain-object/{id}", (global::Nuons.Http.Generators.Tests.DomainObjectHandler handler, global::System.Guid id) => handler.Delete(id));
-		app.MapPut("/domain-object/{id}", (global::Nuons.Http.Generators.Tests.DomainObjectHandler handler, global::System.Int32 id, global::Nuons.Http.Generators.Tests.DomainObject domainObject) => handler.Update(id, domainObject));
+		var domainObjectHandlerGroup = app.MapGroup("/domain-object");
+		domainObjectHandlerGroup.MapGet("{id}", (global::Nuons.Http.Generators.Tests.DomainObjectHandler handler, global::System.String id) => handler.Get(id));
+		domainObjectHandlerGroup.MapPost("", (global::Nuons.Http.Generators.Tests.DomainObjectHandler handler, global::Nuons.Http.Generators.Tests.DomainObject domainObject) => handler.Create(domainObject));
+		domainObjectHandlerGroup.MapDelete("{id}", (global::Nuons.Http.Generators.Tests.DomainObjectHandler handler, global::System.Guid id) => handler.Delete(id));
+		domainObjectHandlerGroup.MapPut("{id}", (global::Nuons.Http.Generators.Tests.DomainObjectHandler handler, global::System.Int32 id, global::Nuons.Http.Generators.Tests.DomainObject domainObject) => handler.Update(id, domainObject));
+		domainObjectHandlerGroup.MapPatch("{id}", (global::Nuons.Http.Generators.Tests.DomainObjectHandler handler, global::System.Guid id, global::Nuons.Http.Generators.Tests.DomainObject domainObject) => handler.Patch(id, domainObject));
 
-		app.MapGet("/sub-domain-object", (global::Nuons.Http.Generators.Tests.SubDomainObjectHandler handler) => handler.Get());
-		app.MapPost("/sub-domain-object", (global::Nuons.Http.Generators.Tests.SubDomainObjectHandler handler, global::Nuons.Http.Generators.Tests.SubDomainObject subDomainObject) => handler.Create(subDomainObject));
-		app.MapDelete("/sub-domain-object/{id}", (global::Nuons.Http.Generators.Tests.SubDomainObjectHandler handler, global::System.Guid id) => handler.Delete(id));
-		app.MapPut("/sub-domain-object/{id}", (global::Nuons.Http.Generators.Tests.SubDomainObjectHandler handler, global::System.Int32 id, global::Nuons.Http.Generators.Tests.SubDomainObject subDomainObject) => handler.Update(id, subDomainObject));
+		var bindingTestHandlerGroup = app.MapGroup("/binding-test");
+		bindingTestHandlerGroup.MapGet("{id}", (global::Nuons.Http.Generators.Tests.BindingTestHandler handler, [global::Microsoft.AspNetCore.Http.FromRouteAttribute] global::System.Guid id, [global::Microsoft.AspNetCore.Http.FromHeaderAttribute(Name = "Authorization")] global::System.String auth, [global::Microsoft.AspNetCore.Http.FromQueryAttribute] global::System.Int32 page, [global::Microsoft.AspNetCore.Http.FromQueryAttribute(Name = "page_size")] global::System.Int32 pageSize) => handler.GetWithBindings(id, auth, page, pageSize));
+		bindingTestHandlerGroup.MapPost("", (global::Nuons.Http.Generators.Tests.BindingTestHandler handler, [global::Microsoft.AspNetCore.Http.FromBodyAttribute] global::Nuons.Http.Generators.Tests.CreateRequest request, [global::Microsoft.AspNetCore.Http.FromServicesAttribute] global::Nuons.Http.Generators.Tests.ILogger logger) => handler.CreateWithBody(request, logger));
+		bindingTestHandlerGroup.MapPost("form", (global::Nuons.Http.Generators.Tests.BindingTestHandler handler, [global::Microsoft.AspNetCore.Http.FromFormAttribute] global::System.String name, [global::Microsoft.AspNetCore.Http.AsParametersAttribute] global::Nuons.Http.Generators.Tests.FormParams formParams) => handler.CreateFromForm(name, formParams));
+
+		var securedHandlerGroup = app.MapGroup("/secured");
+		securedHandlerGroup.RequireAuthorization("AdminPolicy");
+		securedHandlerGroup.MapGet("{id}", (global::Nuons.Http.Generators.Tests.SecuredHandler handler, global::System.Guid id) => handler.Get(id));
+		securedHandlerGroup.MapPost("", (global::Nuons.Http.Generators.Tests.SecuredHandler handler, global::System.String body) => handler.Create(body)).AllowAnonymous();
+
+		var mixedAuthHandlerGroup = app.MapGroup("/mixed-auth");
+		mixedAuthHandlerGroup.MapGet("{id}", (global::Nuons.Http.Generators.Tests.MixedAuthHandler handler, global::System.Guid id) => handler.Get(id)).RequireAuthorization();
+		mixedAuthHandlerGroup.MapPut("{id}", (global::Nuons.Http.Generators.Tests.MixedAuthHandler handler, global::System.Guid id, global::System.String body) => handler.Update(id, body)).RequireAuthorization("EditorPolicy");
+		mixedAuthHandlerGroup.MapGet("", (global::Nuons.Http.Generators.Tests.MixedAuthHandler handler) => handler.List());
+
+		var taggedHandlerGroup = app.MapGroup("/tagged");
+		taggedHandlerGroup.WithTags("api", "v1");
+		taggedHandlerGroup.MapGet("{id}", (global::Nuons.Http.Generators.Tests.TaggedHandler handler, global::System.Guid id) => handler.Get(id)).WithName("GetTagged").WithDescription("Gets a tagged resource");
+		taggedHandlerGroup.MapPost("", (global::Nuons.Http.Generators.Tests.TaggedHandler handler, global::System.String body) => handler.Create(body)).WithTags("write");
+
+		var namedEndpointsHandlerGroup = app.MapGroup("/named");
+		namedEndpointsHandlerGroup.MapGet("", (global::Nuons.Http.Generators.Tests.NamedEndpointsHandler handler) => handler.List()).WithName("ListItems");
+		namedEndpointsHandlerGroup.MapGet("{id}", (global::Nuons.Http.Generators.Tests.NamedEndpointsHandler handler, global::System.Guid id) => handler.Get(id)).WithName("GetItem").WithDescription("Get a single item by ID");
+
+		var rateLimitedHandlerGroup = app.MapGroup("/rate-limited");
+		rateLimitedHandlerGroup.RequireRateLimiting("fixed");
+		rateLimitedHandlerGroup.RequireCors("AllowAll");
+		rateLimitedHandlerGroup.MapGet("{id}", (global::Nuons.Http.Generators.Tests.RateLimitedHandler handler, global::System.Guid id) => handler.Get(id));
+		rateLimitedHandlerGroup.MapPost("", (global::Nuons.Http.Generators.Tests.RateLimitedHandler handler, global::System.String body) => handler.Create(body)).DisableAntiforgery();
+
+		var corsHandlerGroup = app.MapGroup("/cors-only");
+		corsHandlerGroup.MapGet("", (global::Nuons.Http.Generators.Tests.CorsHandler handler) => handler.List()).RequireCors("SpecificOrigin");
+		corsHandlerGroup.MapPost("", (global::Nuons.Http.Generators.Tests.CorsHandler handler, global::System.String body) => handler.Create(body)).RequireRateLimiting("sliding").DisableAntiforgery();
+
+		var asyncHandlerGroup = app.MapGroup("/async-ops");
+		asyncHandlerGroup.MapGet("{id}", async (global::Nuons.Http.Generators.Tests.AsyncHandler handler, global::System.Guid id) => await handler.GetAsync(id));
+		asyncHandlerGroup.MapGet("", async (global::Nuons.Http.Generators.Tests.AsyncHandler handler) => await handler.ListAsync());
+		asyncHandlerGroup.MapPost("", async (global::Nuons.Http.Generators.Tests.AsyncHandler handler, global::System.String body) => await handler.CreateAsync(body));
+		asyncHandlerGroup.MapPut("{id}", async (global::Nuons.Http.Generators.Tests.AsyncHandler handler, global::System.Guid id, global::System.String body) => await handler.UpdateAsync(id, body));
+		asyncHandlerGroup.MapDelete("{id}", async (global::Nuons.Http.Generators.Tests.AsyncHandler handler, global::System.Guid id) => await handler.DeleteAsync(id));
+
+		var mixedAsyncHandlerGroup = app.MapGroup("/mixed-async");
+		mixedAsyncHandlerGroup.MapGet("{id}", async (global::Nuons.Http.Generators.Tests.MixedAsyncHandler handler, global::System.Guid id) => await handler.GetAsync(id));
+		mixedAsyncHandlerGroup.MapGet("", (global::Nuons.Http.Generators.Tests.MixedAsyncHandler handler) => handler.List());
+		mixedAsyncHandlerGroup.MapPost("", async (global::Nuons.Http.Generators.Tests.MixedAsyncHandler handler, global::System.String body) => await handler.CreateAsync(body));
+		mixedAsyncHandlerGroup.MapDelete("{id}", (global::Nuons.Http.Generators.Tests.MixedAsyncHandler handler, global::System.Guid id) => handler.Delete(id));
+
+		var subDomainObjectHandlerGroup = app.MapGroup("/sub-domain-object");
+		subDomainObjectHandlerGroup.MapGet("", (global::Nuons.Http.Generators.Tests.SubDomainObjectHandler handler) => handler.Get());
+		subDomainObjectHandlerGroup.MapPost("", (global::Nuons.Http.Generators.Tests.SubDomainObjectHandler handler, global::Nuons.Http.Generators.Tests.SubDomainObject subDomainObject) => handler.Create(subDomainObject));
+		subDomainObjectHandlerGroup.MapDelete("{id}", (global::Nuons.Http.Generators.Tests.SubDomainObjectHandler handler, global::System.Guid id) => handler.Delete(id));
+		subDomainObjectHandlerGroup.MapPut("{id}", (global::Nuons.Http.Generators.Tests.SubDomainObjectHandler handler, global::System.Int32 id, global::Nuons.Http.Generators.Tests.SubDomainObject subDomainObject) => handler.Update(id, subDomainObject));
 
 	}
 }
