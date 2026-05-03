@@ -18,4 +18,14 @@ public class OptionsAttribute : Attribute
 	/// Corresponds to a top-level key in <c>appsettings.json</c> or another registered configuration source.
 	/// </param>
 	public OptionsAttribute(string sectionKey) { }
+
+	/// <summary>
+	/// When <c>true</c>, the generator emits a registration that runs DataAnnotations validation on the options instance the first time it is resolved. Independent from <see cref="ValidateOnStart"/>.
+	/// </summary>
+	public bool Validate { get; init; }
+
+	/// <summary>
+	/// When <c>true</c>, the generator emits a registration that forces validation at application startup via <c>Microsoft.Extensions.Hosting</c>'s <c>ValidateOnStart()</c>. Independent from <see cref="Validate"/>; requires <c>Microsoft.Extensions.Hosting</c> at runtime.
+	/// </summary>
+	public bool ValidateOnStart { get; init; }
 }

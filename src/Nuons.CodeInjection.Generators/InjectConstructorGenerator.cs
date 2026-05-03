@@ -49,7 +49,7 @@ internal class InjectConstructorGenerator : IIncrementalGenerator
 			.OfType<IFieldSymbol>()
 			.Where(field => field.GetAttributes()
 				.Any(attribute => attribute.AttributeClass is not null
-					&& attribute.AttributeClass.Name == KnownCodeInjectionTypes.InjectedAttribute))
+					&& attribute.AttributeClass.ToDisplayString() == KnownCodeInjectionTypes.InjectedAttribute))
 			.Select(field => field.ToInjectedField())
 			.ToList();
 
@@ -57,7 +57,7 @@ internal class InjectConstructorGenerator : IIncrementalGenerator
 			.OfType<IFieldSymbol>()
 			.Where(field => field.GetAttributes()
 				.Any(attribute => attribute.AttributeClass is not null
-					&& attribute.AttributeClass.Name == KnownCodeInjectionTypes.InjectedOptionsAttribute))
+					&& attribute.AttributeClass.ToDisplayString() == KnownCodeInjectionTypes.InjectedOptionsAttribute))
 			.Select(field => field.ToInjectedField(true))
 			.ToList();
 

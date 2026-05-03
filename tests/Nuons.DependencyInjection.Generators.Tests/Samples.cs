@@ -26,6 +26,15 @@ internal partial class TransientServiceGeneric : ITestService;
 [Options(nameof(SampleOptions))]
 internal class SampleOptions;
 
+[Options(nameof(SampleOptionsValidated), Validate = true)]
+internal class SampleOptionsValidated;
+
+[Options(nameof(SampleOptionsValidatedOnStart), ValidateOnStart = true)]
+internal class SampleOptionsValidatedOnStart;
+
+[Options(nameof(SampleOptionsValidatedAndValidatedOnStart), Validate = true, ValidateOnStart = true)]
+internal class SampleOptionsValidatedAndValidatedOnStart;
+
 internal interface IBase;
 internal interface ITarget : IBase;
 

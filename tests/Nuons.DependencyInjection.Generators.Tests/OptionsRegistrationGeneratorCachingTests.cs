@@ -82,4 +82,54 @@ public class OptionsRegistrationGeneratorCachingTests(NuonGeneratorFixture fixtu
 		fixture.RunIncrementalGenerator<OptionsRegistrationGenerator>(source, updatedSource)
 			.AssertAllStepsHaveReason(AllTrackedSteps, IncrementalStepRunReason.Modified);
 	}
+
+	[Fact]
+	public void AllPipelines_AreInvalidated_WhenValidateFlagChanges()
+	{
+		const string source = """
+			using Nuons.DependencyInjection.Abstractions;
+
+			namespace Nuons.DependencyInjection.Test.Samples;
+
+			[Options(nameof(MyOptions))]
+			public class MyOptions { public string? Value { get; set; } }
+			""";
+
+		const string updatedSource = """
+			using Nuons.DependencyInjection.Abstractions;
+
+			namespace Nuons.DependencyInjection.Test.Samples;
+
+			[Options(nameof(MyOptions), Validate = true)]
+			public class MyOptions { public string? Value { get; set; } }
+			""";
+
+		fixture.RunIncrementalGenerator<OptionsRegistrationGenerator>(source, updatedSource)
+			.AssertAllStepsHaveReason(AllTrackedSteps, IncrementalStepRunReason.Modified);
+	}
+
+	[Fact]
+	public void AllPipelines_AreInvalidated_WhenValidateOnStartFlagChanges()
+	{
+		const string source = """
+			using Nuons.DependencyInjection.Abstractions;
+
+			namespace Nuons.DependencyInjection.Test.Samples;
+
+			[Options(nameof(MyOptions))]
+			public class MyOptions { public string? Value { get; set; } }
+			""";
+
+		const string updatedSource = """
+			using Nuons.DependencyInjection.Abstractions;
+
+			namespace Nuons.DependencyInjection.Test.Samples;
+
+			[Options(nameof(MyOptions), ValidateOnStart = true)]
+			public class MyOptions { public string? Value { get; set; } }
+			""";
+
+		fixture.RunIncrementalGenerator<OptionsRegistrationGenerator>(source, updatedSource)
+			.AssertAllStepsHaveReason(AllTrackedSteps, IncrementalStepRunReason.Modified);
+	}
 }

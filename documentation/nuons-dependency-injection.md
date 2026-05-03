@@ -22,6 +22,8 @@ Generated code will be in the `Nuons.DependencyInjection.Extensions` namespace.
 The assembly name will be used to generate a unique class name for each assembly.
 The combined generator will generate code that calls registrations from all referenced assemblies so that clients have a single point of access.
 
+Each assembly-scoped generator always emits its registration class, even when the assembly has no marked types (per the empty-output principle in [nuons-solution-architecture.md](nuons-solution-architecture.md)). This lets the combined generator call every referenced assembly's registration unconditionally, without first discovering which assemblies actually produced output. Any change that skips empty assemblies would force the combined generator onto a discovery model.
+
 ### Service Registration Type
 
 When registering services, we provide a service type and an implementation type.

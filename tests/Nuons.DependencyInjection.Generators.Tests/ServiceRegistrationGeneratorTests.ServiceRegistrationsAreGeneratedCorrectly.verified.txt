@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Nuons.DependencyInjection.Extensions;
 
-public static class ServiceRegistrationNuonGeneratorFixtureTestAssembly
+public static class ServiceRegistrationNuonGeneratorFixtureTestAssembly_4aabeabb
 {
 	public static void AddServices(global::Microsoft.Extensions.DependencyInjection.IServiceCollection services)
 	{

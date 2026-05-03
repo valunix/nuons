@@ -20,6 +20,18 @@ public static class Syntax
 	public static AttributeData? FirstOrDefaultAttribute(this ISymbol symbol, string attributeFullName)
 		=> symbol.GetAttributes().FirstOrDefault(attribute => attribute.AttributeClass?.ToFullTypeName(false, false) == attributeFullName);
 
+	public static T GetNamedArgument<T>(this AttributeData attribute, string name, T defaultValue)
+	{
+		foreach (var namedArgument in attribute.NamedArguments)
+		{
+			if (namedArgument.Key == name && namedArgument.Value.Value is T value)
+			{
+				return value;
+			}
+		}
+		return defaultValue;
+	}
+
 	// TODO avoid trim start?
 	public static string ToNamespaceSimple(this ISymbol symbol)
 	{

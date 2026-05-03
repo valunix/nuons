@@ -6,9 +6,13 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Nuons.CodeInjection.Analyzers;
 
+/// <summary>
+/// NUCI002: reports classes that contain <c>[Injected]</c> or <c>[InjectedOptions]</c> fields but are not annotated with <c>[InjectConstructor]</c>.
+/// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-internal class MissingServiceAnalyzer : DiagnosticAnalyzer
+public sealed class MissingServiceAnalyzer : DiagnosticAnalyzer
 {
+	/// <summary>The diagnostic identifier reported by this analyzer.</summary>
 	public const string DiagnosticId = "NUCI002";
 
 	private static readonly DiagnosticDescriptor Rule = new(
@@ -18,8 +22,11 @@ internal class MissingServiceAnalyzer : DiagnosticAnalyzer
 		category: CodeInjectionAnalyzers.Category,
 		defaultSeverity: DiagnosticSeverity.Error,
 		isEnabledByDefault: true);
+
+	/// <inheritdoc />
 	public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
+	/// <inheritdoc />
 	public override void Initialize(AnalysisContext context)
 	{
 		context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);

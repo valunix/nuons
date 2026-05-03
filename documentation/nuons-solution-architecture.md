@@ -103,6 +103,9 @@ Marker attributes will be created and packed as "standard" code in "Abstractions
 Clients will get them by using a NuGet package.
 Generators will use the same marker attributes as those provided to the clients (no hardcoded strings).
 
+Some marker attributes have empty bodies: constructor parameters are not stored in properties.
+Generators read attribute arguments from the symbol's `ConstructorArguments`/`NamedArguments` at compile time, so the runtime attribute carries no state.
+
 ## Packaging
 
 To fully support the architectural goal/decision of minimizing user effort, the number of packages that clients need to use must be minimized.

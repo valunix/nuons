@@ -1,6 +1,6 @@
 namespace Nuons.DependencyInjection.Generators;
 
-public enum Lifetime
+internal enum Lifetime
 {
 	Singleton,
 	Scoped,
