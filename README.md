@@ -3,7 +3,7 @@ A lightweight open-source library for .NET that cuts down boilerplate and speeds
 
 ## Installation
 
-Add `Nuons.Startup` package to your main project where your `Program.cs` is. If you use multiple projects and want to leverage nuons add `Nuons` package to them and mark them with `[assembly: AssemblyHasNuons]`.
+Add `Nuons.Startup` package to your main project where your `Program.cs` is. If you use multiple projects and want to leverage nuons add `Nuons` package to each of them.
 
 **Note:** mark nuon packages with `PrivateAssets="all"` if you want to avoid transitive behavior.
 

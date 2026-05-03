@@ -1,6 +1,9 @@
 using System;
 using Nuons.Http.Abstractions;
 
+// TODO: Manual application is required because NuonGeneratorFixture compiles this file
+// in-memory and AssemblyMarkerGenerator does not run on that reference compilation.
+// Consider extending NuonGeneratorFixture to inject the marker so this can be removed.
 [assembly: Nuons.Core.Abstractions.AssemblyHasNuons]
 
 namespace Nuons.Http.Generators.Tests;

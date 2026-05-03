@@ -36,7 +36,8 @@ internal class InjectionSourceBuilder
 		var allParameters = parameters.Aggregate((first, second) => $"{first},{Sources.NewLine}{Sources.Tab2}{second}");
 		var allAssignments = assignments.Aggregate((first, second) => $@"{first}{Sources.NewLine}{Sources.Tab2}{second}");
 
-		var source = $@"namespace {namespaceName};
+		var source = $@"{Sources.GeneratedFileHeader}
+namespace {namespaceName};
 {accessibility} partial class {className}
 {{
 	public {className}(

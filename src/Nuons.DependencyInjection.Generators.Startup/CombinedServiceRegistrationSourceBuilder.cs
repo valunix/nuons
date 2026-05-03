@@ -31,7 +31,8 @@ internal class CombinedServiceRegistrationSourceBuilder
 			registrationsBuilder.Append(optionsLine);
 		});
 
-		var source = $@"using Microsoft.Extensions.DependencyInjection;
+		var source = $@"{Sources.GeneratedFileHeader}
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Nuons.DependencyInjection.Extensions;
 
