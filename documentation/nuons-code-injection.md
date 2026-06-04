@@ -36,3 +36,11 @@ It then generates a partial class containing a constructor that:
 
 1. Accepts all marked fields as parameters.
 2. Assigns these parameters to the corresponding fields.
+
+If a class is marked with `InjectConstructor` but has no `Injected` or `InjectedOptions` fields, an empty parameterless constructor (`public Foo() { }`) is generated. Marking the class is treated as the intent to generate a constructor, so the output stays consistent regardless of field count.
+
+### Supported class shapes
+
+- Top-level classes, including generic classes (e.g. `Foo<T>`), are supported.
+- Classes in the **global namespace** (no namespace declaration) are supported — the generated partial is emitted at the top level without a namespace.
+- **Nested classes are not supported.** A class declared inside another type is skipped — no constructor is generated for it, and the `NUCI007` analyzer reports a warning so the skip is not silent.

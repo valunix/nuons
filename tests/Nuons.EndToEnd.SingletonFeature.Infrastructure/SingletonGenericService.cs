@@ -4,7 +4,7 @@ using Nuons.EndToEnd.SingletonFeature.Domain;
 namespace Nuons.EndToEnd.SingletonFeature.Infrastructure;
 
 [Singleton<ISingletonGenericService>]
-internal partial class SingletonGenericService : ISingletonGenericService
+internal class SingletonGenericService : ISingletonGenericService
 {
 	public const string Value = "SingletonGenericValue";
 

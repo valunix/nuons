@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
@@ -27,11 +28,13 @@ internal class InjectConstructorGenerator : IIncrementalGenerator
 			return null;
 		}
 
-		var namespaceName = symbol.ToNamespaceSimple();
-		if (string.IsNullOrEmpty(namespaceName))
+		// Not supporting nested classes for now.
+		if (symbol.ContainingType is not null)
 		{
 			return null;
 		}
+
+		var namespaceName = symbol.ToNamespaceSimple();
 
 		var className = symbol.Name;
 		if (string.IsNullOrEmpty(className))
@@ -39,57 +42,52 @@ internal class InjectConstructorGenerator : IIncrementalGenerator
 			return null;
 		}
 
+		var typeParameterNames = symbol.TypeParameters
+			.Select(parameter => parameter.Name)
+			.ToImmutableArray();
+
+		var fields = GetInjectedFields(symbol);
+
+		return new InjectionIncrement(namespaceName, className, typeParameterNames, fields);
+	}
+
+	private static ImmutableArray<InjectedField> GetInjectedFields(INamedTypeSymbol symbol)
+	{
 		var members = symbol.GetMembers();
-		if (!members.Any())
+		if (members.Length == 0)
 		{
-			return null;
+			return [];
 		}
 
 		var fields = members
 			.OfType<IFieldSymbol>()
-			.Where(field => field.GetAttributes()
-				.Any(attribute => attribute.AttributeClass is not null
-					&& attribute.AttributeClass.ToDisplayString() == KnownCodeInjectionTypes.InjectedAttribute))
-			.Select(field => field.ToInjectedField())
-			.ToList();
+			.Where(field => HasAttribute(field, KnownCodeInjectionTypes.InjectedAttribute))
+			.Select(field => field.ToInjectedField());
 
 		var optionFields = members
 			.OfType<IFieldSymbol>()
-			.Where(field => field.GetAttributes()
-				.Any(attribute => attribute.AttributeClass is not null
-					&& attribute.AttributeClass.ToDisplayString() == KnownCodeInjectionTypes.InjectedOptionsAttribute))
-			.Select(field => field.ToInjectedField(true))
-			.ToList();
+			.Where(field => HasAttribute(field, KnownCodeInjectionTypes.InjectedOptionsAttribute))
+			.Select(field => field.ToInjectedField(true));
 
-		fields.AddRange(optionFields);
-		if (!fields.Any())
-		{
-			return null;
-		}
-
-		var accessibility = GetAccessibility(symbol.DeclaredAccessibility);
-
-		return new InjectionIncrement(namespaceName, className, accessibility, [.. fields]);
+		return [..fields, ..optionFields];
 	}
 
-	private static string GetAccessibility(Accessibility accessibility)
-	{
-		return accessibility switch
-		{
-			Accessibility.Internal => "internal",
-			Accessibility.Public => "public",
-			_ => string.Empty,
-		};
-	}
+	private static bool HasAttribute(IFieldSymbol field, string attributeMetadataName)
+		=> field.GetAttributes().Any(attribute => attribute.AttributeClass is not null
+			&& attribute.AttributeClass.ToDisplayString() == attributeMetadataName);
 
 	private void GenerateSources(SourceProductionContext context, InjectionIncrement increment)
 	{
-		var builder = new InjectionSourceBuilder(increment.Namespace, increment.ClassName, increment.Accessibility);
+		var builder = new InjectionSourceBuilder(increment.Namespace, increment.ClassName, increment.TypeParameterNames);
 		increment.Fields.ToList().ForEach(builder.With);
 
 		var source = builder.Build();
 		var sourceText = SourceText.From(source, Encoding.UTF8);
 
-		context.AddSource(Sources.GeneratedNameHint($"{increment.ClassName}"), sourceText);
+		// Ensuring unique hint in case of collisions within different namespaces and aritties.
+		// Namespace segment is omitted for global-namespace classes to avoid a leading dot.
+		var namespacePrefix = string.IsNullOrEmpty(increment.Namespace) ? string.Empty : $"{increment.Namespace}.";
+		var hint = $"{namespacePrefix}{increment.ClassName}.{increment.TypeParameterNames.Length}";
+		context.AddSource(Sources.GeneratedNameHint(hint), sourceText);
 	}
 }
