@@ -6,9 +6,13 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Nuons.DependencyInjection.Analyzers;
 
+/// <summary>
+/// NUDI001: reports classes annotated with more than one service-lifetime attribute.
+/// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-internal class MultipleServiceAttributesAnalyzer : DiagnosticAnalyzer
+public sealed class MultipleServiceAttributesAnalyzer : DiagnosticAnalyzer
 {
+	/// <summary>The diagnostic identifier reported by this analyzer.</summary>
 	public const string DiagnosticId = "NUDI001";
 
 	private const int MaxServiceAttributes = 1;
@@ -22,8 +26,10 @@ internal class MultipleServiceAttributesAnalyzer : DiagnosticAnalyzer
 		isEnabledByDefault: true,
 		description: "A class should be registered as service only once.");
 
+	/// <inheritdoc />
 	public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
+	/// <inheritdoc />
 	public override void Initialize(AnalysisContext context)
 	{
 		context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
@@ -50,7 +56,7 @@ internal class MultipleServiceAttributesAnalyzer : DiagnosticAnalyzer
 
 		var serviceAttributes = symbol.GetAttributes()
 			.Where(attribute => attribute.AttributeClass is not null
-				&& analyzerContext.ServiceAttributes.Contains(attribute.AttributeClass, SymbolEqualityComparer.Default))
+				&& analyzerContext.ServiceAttributes.Contains(attribute.AttributeClass.OriginalDefinition, SymbolEqualityComparer.Default))
 			.ToList();
 
 		if (serviceAttributes.Count <= MaxServiceAttributes)

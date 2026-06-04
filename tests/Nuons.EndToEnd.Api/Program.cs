@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using Nuons.DependencyInjection.Extensions;
 using Nuons.EndToEnd.Api;
 using Nuons.EndToEnd.ScopedFeature.Domain;
@@ -20,6 +21,8 @@ app.MapGet(Routes.Scoped, (IScopedService scopedService) => scopedService.GetVal
 app.MapGet(Routes.ScopedGeneric, (IScopedGenericService scopedService) => scopedService.GetValue());
 app.MapGet(Routes.Complex, (IComplexService complexService) => complexService.GetValue());
 app.MapGet(Routes.ComplexOptions, (IComplexService complexService) => complexService.GetOptionsValue());
+app.MapGet(Routes.ValidatedOptions, (IOptions<ValidatedOptions> options) => options.Value.Name);
+app.MapGet(Routes.LazyValidatedOptions, (IOptions<LazyValidatedOptions> options) => options.Value.Count.ToString());
 
 app.MapNuonEndpoints();
 

@@ -54,7 +54,10 @@ internal class OptionsRegistrationGenerator : IIncrementalGenerator
 			return null;
 		}
 
-		return new OptionsRegistration(sectionArg, symbol.ToFullTypeName());
+		var validate = attribute.GetNamedArgument(nameof(OptionsRegistration.Validate), false);
+		var validateOnStart = attribute.GetNamedArgument(nameof(OptionsRegistration.ValidateOnStart), false);
+
+		return new OptionsRegistration(sectionArg, symbol.ToFullTypeName(), validate, validateOnStart);
 	}
 
 	private void GenerateSources(SourceProductionContext context, OptionsRegistrationIncrement increment)

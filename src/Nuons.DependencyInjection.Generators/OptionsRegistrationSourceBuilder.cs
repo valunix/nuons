@@ -15,8 +15,19 @@ internal class OptionsRegistrationSourceBuilder
 
 	public void WithOptions(OptionsRegistration registration)
 	{
-		var source = $"{Sources.Tab2}services.Configure<{registration.ClassName}>(configuration.GetSection(\"{registration.SectionKey}\"));";
-		registrations.Add(source);
+		var registrationSource = new StringBuilder();
+		registrationSource.Append($"{Sources.Tab2}services.AddOptions<{registration.ClassName}>()");
+		registrationSource.Append($"{Sources.NewLine}{Sources.Tab3}.Bind(configuration.GetSection(\"{registration.SectionKey}\"))");
+		if (registration.Validate)
+		{
+			registrationSource.Append($"{Sources.NewLine}{Sources.Tab3}.ValidateDataAnnotations()");
+		}
+		if (registration.ValidateOnStart)
+		{
+			registrationSource.Append($"{Sources.NewLine}{Sources.Tab3}.ValidateOnStart()");
+		}
+		registrationSource.Append(";");
+		registrations.Add(registrationSource.ToString());
 	}
 
 	public string Build()

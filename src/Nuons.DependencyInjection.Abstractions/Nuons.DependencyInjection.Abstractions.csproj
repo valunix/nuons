@@ -11,6 +11,7 @@
 	<ItemGroup>
 		<InternalsVisibleTo Include="Nuons.DependencyInjection.Abstractions.Tests" />
 		<InternalsVisibleTo Include="Nuons.DependencyInjection.Analyzers.Tests" />
+		<InternalsVisibleTo Include="Nuons.DependencyInjection.CodeFixes.Tests" />
 		<InternalsVisibleTo Include="Nuons.DependencyInjection.Generators.Tests" />
 	</ItemGroup>
 

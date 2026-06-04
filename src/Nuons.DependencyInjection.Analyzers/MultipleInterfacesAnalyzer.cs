@@ -6,9 +6,13 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Nuons.DependencyInjection.Analyzers;
 
+/// <summary>
+/// NUDI002: warns when a parameterless lifetime attribute is applied to a class that directly implements more than one interface.
+/// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-internal class MultipleInterfacesAnalyzer : DiagnosticAnalyzer
+public sealed class MultipleInterfacesAnalyzer : DiagnosticAnalyzer
 {
+	/// <summary>The diagnostic identifier reported by this analyzer.</summary>
 	public const string DiagnosticId = "NUDI002";
 
 	private static readonly DiagnosticDescriptor Rule = new(
@@ -20,8 +24,10 @@ internal class MultipleInterfacesAnalyzer : DiagnosticAnalyzer
 		isEnabledByDefault: true,
 		description: "When a class directly implements multiple interfaces, parameterless service registration attributes are ambiguous. Use the generic attribute to specify which interface to register.");
 
+	/// <inheritdoc />
 	public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
+	/// <inheritdoc />
 	public override void Initialize(AnalysisContext context)
 	{
 		context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
@@ -48,7 +54,7 @@ internal class MultipleInterfacesAnalyzer : DiagnosticAnalyzer
 
 		var serviceAttributes = symbol.GetAttributes()
 			.Where(attribute => attribute.AttributeClass is not null
-				&& analyzerContext.ServiceAttributes.Contains(attribute.AttributeClass, SymbolEqualityComparer.Default))
+				&& analyzerContext.ServiceAttributes.Contains(attribute.AttributeClass.OriginalDefinition, SymbolEqualityComparer.Default))
 			.ToList();
 
 		// we only activate this analyzer when there is exactly one service registration attribute

@@ -6,9 +6,13 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Nuons.CodeInjection.Analyzers;
 
+/// <summary>
+/// NUCI001: reports classes annotated with <c>[InjectConstructor]</c> that are not declared <c>partial</c>.
+/// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-internal class PartialModifierAnalyzer : DiagnosticAnalyzer
+public sealed class PartialModifierAnalyzer : DiagnosticAnalyzer
 {
+	/// <summary>The diagnostic identifier reported by this analyzer.</summary>
 	public const string DiagnosticId = "NUCI001";
 
 	private static readonly DiagnosticDescriptor Rule = new(
@@ -18,8 +22,11 @@ internal class PartialModifierAnalyzer : DiagnosticAnalyzer
 		category: CodeInjectionAnalyzers.Category,
 		defaultSeverity: DiagnosticSeverity.Error,
 		isEnabledByDefault: true);
+
+	/// <inheritdoc />
 	public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
+	/// <inheritdoc />
 	public override void Initialize(AnalysisContext context)
 	{
 		context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);

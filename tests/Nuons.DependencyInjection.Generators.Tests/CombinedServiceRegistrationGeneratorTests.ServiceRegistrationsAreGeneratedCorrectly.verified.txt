@@ -12,7 +12,7 @@ public static class NuonDependencyInjectionExtensions
 {
 	public static void AddNuonDependencyInjectionServices(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection services, global::Microsoft.Extensions.Configuration.IConfiguration configuration)
 	{
-		ServiceRegistrationNuonGeneratorFixtureTestAssembly.AddServices(services);
-		OptionsRegistrationNuonGeneratorFixtureTestAssembly.ConfigureOptions(services, configuration);
+		ServiceRegistrationNuonGeneratorFixtureTestAssembly_4aabeabb.AddServices(services);
+		OptionsRegistrationNuonGeneratorFixtureTestAssembly_4aabeabb.ConfigureOptions(services, configuration);
 	}
 }
