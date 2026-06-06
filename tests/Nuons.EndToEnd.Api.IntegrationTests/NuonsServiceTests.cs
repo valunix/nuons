@@ -106,6 +106,54 @@ public class NuonsServiceTests(WebApplicationFactory<Program> webApplicationFact
 	}
 
 	[Fact]
+	public async Task GetEmptyConstructorEndpoint_ReturnsCorrectValue()
+	{
+		// Arrange
+		using var client = webApplicationFactory.CreateClient();
+
+		// Act
+		using var response = await client.GetAsync(Routes.EmptyConstructor, TestContext.Current.CancellationToken);
+
+		// Assert
+		response.StatusCode.ShouldBe(HttpStatusCode.OK);
+
+		var content = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+		content.ShouldBe("EmptyConstructorValue");
+	}
+
+	[Fact]
+	public async Task GetGenericInjectConstructorEndpoint_ReturnsCorrectValue()
+	{
+		// Arrange
+		using var client = webApplicationFactory.CreateClient();
+
+		// Act
+		using var response = await client.GetAsync(Routes.GenericInjectConstructor, TestContext.Current.CancellationToken);
+
+		// Assert
+		response.StatusCode.ShouldBe(HttpStatusCode.OK);
+
+		var content = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+		content.ShouldBe($"{nameof(String)}:{SingletonService.Value}");
+	}
+
+	[Fact]
+	public async Task GetGlobalNamespaceEndpoint_ReturnsCorrectValue()
+	{
+		// Arrange
+		using var client = webApplicationFactory.CreateClient();
+
+		// Act
+		using var response = await client.GetAsync(Routes.GlobalNamespaceConstructor, TestContext.Current.CancellationToken);
+
+		// Assert
+		response.StatusCode.ShouldBe(HttpStatusCode.OK);
+
+		var content = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+		content.ShouldBe(GlobalNamespaceService.Value);
+	}
+
+	[Fact]
 	public async Task GetComplexEndpoint_ReturnsCorrectValue()
 	{
 		// Arrange 

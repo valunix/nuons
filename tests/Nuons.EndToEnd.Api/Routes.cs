@@ -10,6 +10,9 @@ public static class Routes
 	public const string TransientGeneric = "/transient-generic";
 	public const string Scoped = "/scoped";
 	public const string ScopedGeneric = "/scoped-generic";
+	public const string EmptyConstructor = "/empty-constructor";
+	public const string GenericInjectConstructor = "/generic-inject-constructor";
+	public const string GlobalNamespaceConstructor = "/global-namespace-constructor";
 	public const string ValidatedOptions = "/options/validated";
 	public const string LazyValidatedOptions = "/options/lazy-validated";
 }

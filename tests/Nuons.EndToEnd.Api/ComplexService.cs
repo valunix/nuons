@@ -17,4 +17,6 @@ internal partial class ComplexService : IComplexService
 	public string GetValue() => singletonService.GetValue();
 
 	public string GetOptionsValue() => options.MyProperty;
+
+	public string GetGenericValue() => new GenericInjectConstructorBox<string>(singletonService).Describe();
 }
