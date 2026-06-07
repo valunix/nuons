@@ -72,6 +72,9 @@ Generator tests use **Verify** (snapshot testing) with xUnit v3:
 - Generated code goes in the `Nuons` namespace to avoid conflicts with user code
 - Generators should always produce output even if empty (easier debugging, supports chaining)
 - Private fields use camelCase with no underscore prefix: `field` not `_field`
+- Never write comments that just repeat what code does only in words
+- Add short concise comments in places that need describing why a certain approach was taken
+- When not sure if comments should be put in place errr on the side of not putting it
 
 ## Documentation
 

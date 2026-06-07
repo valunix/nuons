@@ -4,7 +4,7 @@ using Nuons.EndToEnd.ScopedFeature.Domain;
 namespace Nuons.EndToEnd.ScopedFeature.Infrastructure;
 
 [Scoped<IScopedGenericService>]
-internal partial class ScopedGenericService : IScopedGenericService
+internal class ScopedGenericService : IScopedGenericService
 {
 	public const string Value = "ScopedGenericValue";
 

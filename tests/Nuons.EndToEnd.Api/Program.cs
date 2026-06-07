@@ -19,8 +19,11 @@ app.MapGet(Routes.Transient, (ITransientService transientService) => transientSe
 app.MapGet(Routes.TransientGeneric, (ITransientGenericService transientService) => transientService.GetValue());
 app.MapGet(Routes.Scoped, (IScopedService scopedService) => scopedService.GetValue());
 app.MapGet(Routes.ScopedGeneric, (IScopedGenericService scopedService) => scopedService.GetValue());
+app.MapGet(Routes.EmptyConstructor, (IEmptyConstructorService emptyConstructorService) => emptyConstructorService.GetValue());
 app.MapGet(Routes.Complex, (IComplexService complexService) => complexService.GetValue());
 app.MapGet(Routes.ComplexOptions, (IComplexService complexService) => complexService.GetOptionsValue());
+app.MapGet(Routes.GenericInjectConstructor, (IComplexService complexService) => complexService.GetGenericValue());
+app.MapGet(Routes.GlobalNamespaceConstructor, (GlobalNamespaceService globalNamespaceService) => globalNamespaceService.GetValue());
 app.MapGet(Routes.ValidatedOptions, (IOptions<ValidatedOptions> options) => options.Value.Name);
 app.MapGet(Routes.LazyValidatedOptions, (IOptions<LazyValidatedOptions> options) => options.Value.Count.ToString());
 
