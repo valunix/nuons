@@ -3,7 +3,6 @@ using Nuons.DependencyInjection.Abstractions;
 
 namespace Nuons.DependencyInjection.Analyzers;
 
-// TODO lazy loading
 internal class DependencyInjectionAnalyzerContext(Compilation compilation)
 {
 	public INamedTypeSymbol[] ServiceAttributes { get; init; } =
@@ -15,4 +14,6 @@ internal class DependencyInjectionAnalyzerContext(Compilation compilation)
 		compilation.GetTypeByMetadataName(typeof(ScopedAttribute<>).FullName!)!,
 		compilation.GetTypeByMetadataName(typeof(TransientAttribute<>).FullName!)!,
 	];
+
+	public INamedTypeSymbol OptionsAttribute { get; init; } = compilation.GetTypeByMetadataName(typeof(OptionsAttribute).FullName)!;
 }

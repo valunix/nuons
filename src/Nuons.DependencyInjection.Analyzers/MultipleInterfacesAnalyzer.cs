@@ -1,7 +1,5 @@
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Nuons.DependencyInjection.Analyzers;
@@ -36,26 +34,18 @@ public sealed class MultipleInterfacesAnalyzer : DiagnosticAnalyzer
 		context.RegisterCompilationStartAction(startContext =>
 		{
 			var nuonAnalyzerContext = new DependencyInjectionAnalyzerContext(startContext.Compilation);
-			startContext.RegisterSyntaxNodeAction(syntaxContext => AnalyzeClass(syntaxContext, nuonAnalyzerContext), SyntaxKind.ClassDeclaration);
+			startContext.RegisterSymbolAction(symbolContext => AnalyzeClass(symbolContext, nuonAnalyzerContext), SymbolKind.NamedType);
 		});
 	}
 
-	private static void AnalyzeClass(SyntaxNodeAnalysisContext syntaxContext, DependencyInjectionAnalyzerContext analyzerContext)
+	private static void AnalyzeClass(SymbolAnalysisContext symbolContext, DependencyInjectionAnalyzerContext analyzerContext)
 	{
-		if (syntaxContext.Node is not ClassDeclarationSyntax classDeclaration)
+		if (symbolContext.Symbol is not INamedTypeSymbol { TypeKind: TypeKind.Class } symbol)
 		{
 			return;
 		}
 
-		if (syntaxContext.ContainingSymbol is not INamedTypeSymbol symbol)
-		{
-			return;
-		}
-
-		var serviceAttributes = symbol.GetAttributes()
-			.Where(attribute => attribute.AttributeClass is not null
-				&& analyzerContext.ServiceAttributes.Contains(attribute.AttributeClass.OriginalDefinition, SymbolEqualityComparer.Default))
-			.ToList();
+		var serviceAttributes = symbol.GetServiceAttributes(analyzerContext);
 
 		// we only activate this analyzer when there is exactly one service registration attribute
 		// if there are multiple we skip check as this is not valid and will trigger a different error diagnostic
@@ -75,7 +65,7 @@ public sealed class MultipleInterfacesAnalyzer : DiagnosticAnalyzer
 			return;
 		}
 
-		var diagnostic = Diagnostic.Create(Rule, classDeclaration.Identifier.GetLocation(), symbol.Name);
-		syntaxContext.ReportDiagnostic(diagnostic);
+		var diagnostic = Diagnostic.Create(Rule, symbol.Locations[0], symbol.Name);
+		symbolContext.ReportDiagnostic(diagnostic);
 	}
 }

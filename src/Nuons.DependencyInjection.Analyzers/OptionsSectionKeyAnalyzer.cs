@@ -1,28 +1,28 @@
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
+using Nuons.Core.Generators;
 
 namespace Nuons.DependencyInjection.Analyzers;
 
 /// <summary>
-/// NUDI001: reports classes annotated with more than one service-lifetime attribute.
+/// NUDI004: warns when the configuration section key passed to <c>[Options(...)]</c> is empty or whitespace,
+/// which binds the options to the configuration root rather than a named section.
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public sealed class MultipleServiceAttributesAnalyzer : DiagnosticAnalyzer
+public sealed class OptionsSectionKeyAnalyzer : DiagnosticAnalyzer
 {
 	/// <summary>The diagnostic identifier reported by this analyzer.</summary>
-	public const string DiagnosticId = "NUDI001";
-
-	private const int MaxServiceAttributes = 1;
+	public const string DiagnosticId = "NUDI004";
 
 	private static readonly DiagnosticDescriptor Rule = new(
 		id: DiagnosticId,
-		title: "Multiple service registration attributes",
-		messageFormat: "Class '{0}' has multiple service registration attributes: {1}",
+		title: "Options section key is empty",
+		messageFormat: "Class '{0}' is marked with [Options] but the section key is empty or whitespace",
 		category: DependencyInjectionAnalyzers.Category,
-		defaultSeverity: DiagnosticSeverity.Error,
+		defaultSeverity: DiagnosticSeverity.Warning,
 		isEnabledByDefault: true,
-		description: "A class should be registered as service only once.");
+		description: "An empty section key binds the options to the configuration root; provide a section key.");
 
 	/// <inheritdoc />
 	public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
@@ -47,19 +47,26 @@ public sealed class MultipleServiceAttributesAnalyzer : DiagnosticAnalyzer
 			return;
 		}
 
-		var serviceAttributes = symbol.GetServiceAttributes(analyzerContext);
-		if (serviceAttributes.Count <= MaxServiceAttributes)
+		var optionsAttribute = symbol.FirstOrDefaultAttribute(analyzerContext.OptionsAttribute);
+		if (optionsAttribute is null)
 		{
 			return;
 		}
 
-		var attributeNames = string.Join(", ", serviceAttributes.Select(attr => attr.AttributeClass!.Name));
-		var diagnostic = Diagnostic.Create(
-			Rule,
-			symbol.Locations[0],
-			symbol.Name,
-			attributeNames);
+		if (optionsAttribute.ConstructorArguments.Length != 1)
+		{
+			return;
+		}
 
+		var sectionKey = optionsAttribute.ConstructorArguments[0].Value as string;
+		if (!string.IsNullOrWhiteSpace(sectionKey))
+		{
+			return;
+		}
+
+		var location = optionsAttribute.ApplicationSyntaxReference?.GetSyntax(symbolContext.CancellationToken).GetLocation()
+			?? symbol.Locations[0];
+		var diagnostic = Diagnostic.Create(Rule, location, symbol.Name);
 		symbolContext.ReportDiagnostic(diagnostic);
 	}
 }

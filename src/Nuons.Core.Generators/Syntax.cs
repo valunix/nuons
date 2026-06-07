@@ -15,6 +15,9 @@ public static class Syntax
 	public static bool HasAttribute(this ISymbol symbol, INamedTypeSymbol attributeSymbol)
 		=> symbol.GetAttributes().Any(attribute => SymbolEqualityComparer.Default.Equals(attribute.AttributeClass, attributeSymbol));
 
+	public static bool HasAnyAttribute(this ISymbol symbol, INamedTypeSymbol[] attributeSymbols)
+		=> symbol.GetAttributes().Any(attribute => attributeSymbols.Contains(attribute.AttributeClass, SymbolEqualityComparer.Default));
+
 	public static AttributeData? FirstOrDefaultAttribute(this ISymbol symbol, INamedTypeSymbol attributeSymbol)
 		=> symbol.GetAttributes().FirstOrDefault(attribute => SymbolEqualityComparer.Default.Equals(attribute.AttributeClass, attributeSymbol));
 	public static AttributeData? FirstOrDefaultAttribute(this ISymbol symbol, string attributeFullName)

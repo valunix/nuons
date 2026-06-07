@@ -98,22 +98,24 @@ Notes:
 
 These are the analyzers that catch real-world misuses early. Each has a clear diagnostic and a clear fix where applicable.
 
-| ID | Title | Severity | Code fix |
-|---|---|---|---|
-| **NUCI003** | `[InjectedOptions]` field typed as `IOptions<T>` (would generate `IOptions<IOptions<T>>`) | Error | Replace with `T` |
-| **NUCI004** | `[InjectConstructor]` class has no `[Injected]` fields | Info | — |
-| **NUCI005** | `[InjectConstructor]` class already declares a constructor (would compile-fail on duplicate ctor) | Error | — |
-| **NUCI006** | `[Injected]` field is not `readonly` | Warning | Add `readonly` |
-| **NUDI003** | `[Singleton<TService>]` (or scoped/transient) where `TImpl` does not implement/inherit `TService` | Error | — |
-| **NUDI004** | Section key on `[Options(...)]` is empty or whitespace | Warning | — |
+| ID | Title | Severity | Code fix | Status |
+|---|---|---|---|---|
+| **NUCI003** | `[InjectedOptions]` field typed as `IOptions<T>` (would generate `IOptions<IOptions<T>>`) | Error | Replace with `T` | ✅ done — [InjectedOptionsTypeAnalyzer.cs](src/Nuons.CodeInjection.Analyzers/InjectedOptionsTypeAnalyzer.cs) + [InjectedOptionsTypeCodeFix.cs](src/Nuons.CodeInjection.CodeFixes/InjectedOptionsTypeCodeFix.cs) |
+| **NUCI004** | `[InjectConstructor]` class has no `[Injected]` fields | Info | — | ✅ done — [EmptyInjectConstructorAnalyzer.cs](src/Nuons.CodeInjection.Analyzers/EmptyInjectConstructorAnalyzer.cs) |
+| **NUCI005** | `[InjectConstructor]` class already declares a constructor (would compile-fail on duplicate ctor) | Error | — | ⏭️ skipped for now |
+| **NUCI006** | `[Injected]` field is not `readonly` | Warning | Add `readonly` | ✅ done — [ReadonlyInjectedFieldAnalyzer.cs](src/Nuons.CodeInjection.Analyzers/ReadonlyInjectedFieldAnalyzer.cs) + [ReadonlyInjectedFieldCodeFix.cs](src/Nuons.CodeInjection.CodeFixes/ReadonlyInjectedFieldCodeFix.cs) |
+| **NUDI003** | `[Singleton<TService>]` (or scoped/transient) where `TImpl` does not implement/inherit `TService` | Error | — | ✅ done — [ServiceImplementationAnalyzer.cs](src/Nuons.DependencyInjection.Analyzers/ServiceImplementationAnalyzer.cs) |
+| **NUDI004** | Section key on `[Options(...)]` is empty or whitespace | Warning | — | ✅ done — [OptionsSectionKeyAnalyzer.cs](src/Nuons.DependencyInjection.Analyzers/OptionsSectionKeyAnalyzer.cs) |
 
-- [ ] Implement analyzers above; one diagnostic per file, mirror the existing pattern.
-- [ ] Implement code fixes where listed.
-- [ ] Add test files following the existing `Nuons.DependencyInjection.Analyzers.Tests` / `Nuons.CodeInjection.Analyzers.Tests` shape.
+- [x] Implement analyzers above (NUCI005 deferred); one diagnostic per file, mirror the existing pattern.
+- [x] Implement code fixes where listed (NUCI003 → replace with `T`, NUCI006 → add `readonly`).
+- [x] Add test files following the existing `Nuons.DependencyInjection.Analyzers.Tests` / `Nuons.CodeInjection.Analyzers.Tests` shape.
+
+The new analyzers/code fixes live in the existing `*.Analyzers` / `*.CodeFixes` DLLs, so no packaging changes were needed (those DLLs are already wired into the `Nuons` package under `analyzers/dotnet/cs/`). New rule IDs were added to the `AnalyzerReleases.Unshipped.md` files.
 
 ### Symbol-action conversion (cleanup)
 
-- [ ] Convert the two existing DI analyzers from `RegisterSyntaxNodeAction(ClassDeclaration)` to `RegisterSymbolAction(SymbolKind.NamedType)`. Same behaviour, runs once per symbol regardless of partial declarations, and makes the new NUDI003 cleaner to share helpers.
+- [x] Convert the two existing DI analyzers from `RegisterSyntaxNodeAction(ClassDeclaration)` to `RegisterSymbolAction(SymbolKind.NamedType)`. Same behaviour, runs once per symbol regardless of partial declarations, and makes the new NUDI003 cleaner to share helpers (`DependencyInjectionAnalyzerContext.GetServiceAttributes`).
 
 ---
 
